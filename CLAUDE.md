@@ -144,6 +144,12 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - El texto del consentimiento se amplió con los datos nuevos. Las cuentas que aceptaron antes son solo de prueba del equipo; con usuarios reales habría que pedirles que aceptaran de nuevo.
   - Queda para más adelante: botón «Me ayudó» con contador y número de correcciones del proyecto (`scale_teams`, varias llamadas).
 
+- 2026-10-02: **repo git creado**: https://github.com/Carlos-mb/42mentors (privado de momento; hay que hacerlo **público** antes del code freeze para la peer evaluation).
+  - git y gh instalados en el PC de Carlos; `gh` autenticado como `Carlos-mb`. Identidad del repo local: `Carlos` / email noreply de GitHub.
+  - Ramas: `main` (protegida: solo vía PR con 1 aprobación, sin force push; los admins pueden saltársela) y `develop`. Trabajo en `feature/*` → PR a `develop` → PR a `main`.
+  - Colaboradores: `Floren87` (Florentin). **Falta Lucas** (pendiente su usuario de GitHub).
+  - Fuera del repo (`.gitignore`): `API-Docs/`, `.env`, `config.php`, `hosting-tests/`, `deploy/`, `datos.txt`, PDF de las bases.
+
 ### Decisiones de equipo pendientes (propuesta inicial entre paréntesis)
 Urgentes (bloquean el arranque):
 1. ~~Stack~~ → decidido: PHP sin framework + MySQL.

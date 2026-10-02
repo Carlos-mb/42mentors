@@ -1,0 +1,29 @@
+CONTEXTO: 
+
+Los alumnos de 42 van haciendo proyectos. La lista de proyectos es cada vez más complicada. 
+Los alumnos necesitan ayuda para los proyectos que no conocen
+Los alumnos que ya han hecho un proyecto, pueden ayudar a los alumnos que no conocen ese proyecto.
+
+OBJETIVO:
+
+Una web sencilla que permite a los alumnos: 
+	1 decir qué proyectos pueden mentorizar
+	2 buscar mentores para los proyectos que van a realizar
+CASOS de USO: 
+
+1- LOGIN: 
+ - Usuario de identifica como usuario usando el API de 42
+
+2- MENTOR:
+
+ - Usuario ya identificado accede a pantalla donde aparece la lista de proyectos terminados.
+ - Cada proyecto tiene una marca indicando si el usuario marcó el proyecto
+ - Puede marcar y desmarcar los proyectos que puede mentorizar
+ - Usuario puede guardar los cambios
+
+3- ESTUDIANTE:
+
+- Usuario ya identificado accede a la página para buscar mentor
+- Aparecen los proyectos en los que puede participar
+- Al pulsar en un proyecto aparece la lista de mentores: nombre, login, foto, ubicación en el cluster (si está logeado). 
+- Cada mentor es clickable para acceder a su ficha de la intranet.

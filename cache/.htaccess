@@ -1,0 +1,2 @@
+# La caché nunca debe servirse por web (por si la carpeta acabase dentro del document root)
+Require all denied

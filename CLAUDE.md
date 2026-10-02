@@ -65,7 +65,7 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
 - **Borrado** cuando los datos ya no hagan falta o se cierre la web (4.5).
 - **Secretos:** prohibido compartirlos, también con otros alumnos de 42 (3.2).
   - Cada miembro registra su propia app OAuth para desarrollo local.
-  - El secret de producción solo está en `config.php` del servidor.
+  - El secret de producción solo está en el `.env` del servidor.
   - El secret rota cada mes: vigilar la fecha de caducidad en la intra.
 - **Seguridad (4.3):**
   - HTTPS y secretos fuera de `public_html`;
@@ -92,18 +92,11 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - Las peticiones HTTPS salientes son **imprescindibles**. El único flujo documentado es el `authorization_code`, que necesita el `client_secret` en un servidor; no se mencionan ni el flujo implícito ni PKCE. Prueba: un PHP con curl a `https://api.intra.42.fr/oauth/token/info`, donde 401 = OK y 0 = bloqueado.
     - Si está bloqueado, plan B: un subdominio del dominio propio apuntado por DNS a una plataforma gratuita (Render, Railway, Vercel…).
     - Otras opciones: Cloudflare Worker como intermediario, o cambiar de hosting.
-  - **Hosting verificado el 2026-10-02 con phpinfo:**
-    - dominio `https://42.2275676.xyz` en A2 Hosting (CloudLinux, LiteSpeed), con HTTPS que funciona;
-    - PHP 8.1.34, curl activo (OpenSSL 1.1.1w), pdo_mysql, mysqli y sqlite;
-    - sin `disable_functions` ni `open_basedir`;
-    - carpeta pública en `/home/mmmkofti/42.2275676.xyz`, así que los secretos pueden ir fuera de ella, en `/home/mmmkofti/`.
-    - ✅ curl saliente hacia api.intra.42.fr funciona (prueba `hosting-tests/test42.php` → HTTP 401). **El hosting sirve: el plan PHP + MySQL queda viable.**
-    - `info.php` ya está borrado del servidor.
-    - Pendiente: borrar `test42.php` del servidor y saber si hay acceso SSH.
-  - **Por verificar en el hosting:** versión de PHP (≥ 8.1), extensión `curl`, peticiones HTTPS salientes permitidas, HTTPS en el dominio, versión de MySQL, poder guardar ficheros fuera de `public_html`, si es carpeta o subdominio, y si hay acceso SSH.
+  - **Hosting verificado el 2026-10-02:** PHP 8.1 con curl y MySQL, HTTPS en el dominio, conexión saliente a la API de 42 y posibilidad de guardar los secretos fuera de la carpeta pública. **El plan PHP + MySQL queda viable.**
+  - Los detalles internos del servidor (rutas, versiones, pendientes) están en `CLAUDE.local.md`, que no se sube al repo: @CLAUDE.local.md
 
 - 2026-10-02: **MVP escrito en PHP 8.1 sin framework + MySQL** (stack decidido).
-  - ✅ **Desplegado en https://42.2275676.xyz y funcionando** (confirmado por Carlos el 2026-10-02). Instalado en `/home/mmmkofti/42mentors/`, con document root en `42mentors/public` y `.env` en `42mentors/.env`.
+  - ✅ **Desplegado en https://42.2275676.xyz y funcionando** (confirmado por Carlos el 2026-10-02). El document root apunta a `public/` y el `.env` está fuera de él.
   - En el PC de Carlos no hay PHP: las pruebas se hacen en el servidor.
   - Aún no hay repo git. Instrucciones para el equipo (git, XAMPP, despliegue, tareas) en [INSTRUCCIONES_EQUIPO.md](INSTRUCCIONES_EQUIPO.md); README obligatorio con TODOs en [README.md](README.md).
   - Estructura:
@@ -144,14 +137,48 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
     - `schema.sql` contiene el esquema completo para instalaciones nuevas.
   - Al guardar «Mi perfil» aparece una ventana «Cambios guardados» con «Ver mi ficha pública» y «Seguir editando». También hay un aviso si se sale con cambios sin guardar.
   - El texto del consentimiento se amplió con los datos nuevos. Las cuentas que aceptaron antes son solo de prueba del equipo; con usuarios reales habría que pedirles que aceptaran de nuevo.
-  - Queda para más adelante: botón «Me ayudó» con contador y número de correcciones del proyecto (`scale_teams`, varias llamadas).
+  - Queda para más adelante: número de correcciones del proyecto (`scale_teams`, varias llamadas). «Me ayudó» ya está especificado (ver 2026-10-03).
 
 - 2026-10-02: **repo git creado**: https://github.com/Carlos-mb/42mentors (privado de momento; hay que hacerlo **público** antes del code freeze para la peer evaluation).
   - git y gh instalados en el PC de Carlos; `gh` autenticado como `Carlos-mb`. Identidad del repo local: `Carlos` / email noreply de GitHub.
-  - Ramas: `main` y `develop`, **ambas protegidas** (solo vía PR con 1 aprobación, sin force push; los admins pueden saltárselo). Trabajo en `feature/*`, `fix/*`, `docs/*` → PR a `develop` (merge commit, no squash) → PR a `main`. Guía para el equipo en la sección 1 de `INSTRUCCIONES_EQUIPO.md`; pensada para gente que nunca ha usado ramas ni PR.
+  - Ramas: `main` y `develop`, **ambas protegidas** (solo vía PR con 1 aprobación, sin force push). Trabajo en `feature/*`, `fix/*`, `docs/*` → PR a `develop` (merge commit, no squash) → PR a `main`. Guía para el equipo en la sección 1 de `INSTRUCCIONES_EQUIPO.md`; pensada para gente que nunca ha usado ramas ni PR.
   - Florentin y Lucas usarán IA para git (Florentin, Claude; Lucas, otra aún por saber). Las reglas para cualquier IA están en `AGENTS.md`, que `CLAUDE.md` importa; para IA de chat, se pega su contenido.
   - Colaboradores: `Floren87` (Florentin). **Falta Lucas** (pendiente su usuario de GitHub).
   - Fuera del repo (`.gitignore`): `API-Docs/`, `.env`, `config.php`, `hosting-tests/`, `deploy/`, `datos.txt`, PDF de las bases.
+
+- 2026-10-03: **reparto de trabajo y pruebas** (decidido con Carlos).
+  - Mejoras propuestas:
+    1. caché de perfiles de mentores (límite de peticiones);
+    2. ocultar y luego borrar a los mentores inactivos según `last_login_at`;
+    3. botón «Me ayudó» con contador;
+    4. CI en GitHub Actions con `php -l` y gitleaks;
+    5. completar el README (ideación, gestión, horas) y el tablero de GitHub Projects;
+    6. ranking de mentores.
+  - **«Me ayudó» (3)**, decidido con Carlos:
+    - Un voto de **1 a 3** por cada (estudiante, mentor, proyecto); el proyecto tiene que ser uno de los que mentoriza.
+    - Se vota desde la ficha del mentor, junto a cada proyecto. Nadie puede votarse a sí mismo y solo se vota a mentores del mismo campus.
+    - Contador del mentor = suma de puntos.
+    - El estudiante ve y modifica sus votos (página «Mis valoraciones»). Para los demás, los votos son **anónimos**: solo se muestran totales, nunca quién votó ni las fechas de cada voto.
+    - Tabla `votes (voter_id, mentor_id, project_id, value, created_at, updated_at)`, con clave primaria en las tres primeras columnas, `value` entre 1 y 3 y claves foráneas `ON DELETE CASCADE` a `users`.
+    - Para el ranking cuenta `created_at` (la fecha del primer voto), que no cambia al modificar el voto. Así no se puede mantener a un mentor en «última semana» editando el voto.
+    - Privacidad: guardar quién vota exige el **consentimiento del estudiante**.
+      - El texto de `consent.php` y `privacy.php` tiene que cubrir también a quien solo vota, no solo a los mentores.
+      - Un votante con consentimiento entra en `users`, pero no sale en el directorio porque no tiene `mentor_projects`.
+      - «Borrar mis datos» elimina los votos emitidos y los recibidos.
+  - **Ranking (6):** mentores del campus ordenados por la suma de puntos de los votos con `created_at` dentro de la franja. Las franjas son última semana, último mes, últimos 3 meses, último año y desde siempre.
+    - Empates: más votos y, después, login.
+    - Solo aparecen mentores con al menos un voto en la franja.
+    - Riesgo de anonimato: con muy pocos votos en una franja corta, un mentor podría deducir quién le votó. Es aceptable, porque solo se muestran totales.
+    - Va después de la 3, porque depende de su tabla.
+  - Reparto de tareas (cada una en su rama y con su PR):
+    - Carlos: 1, 3 y el borrado de inactivos. La 6 puede hacerla otro miembro cuando la 3 esté en `develop`: es una consulta y una página;
+    - Florentin: ideación del README y 4;
+    - Lucas: gestión del README, tablero y la parte de ocultar inactivos de la 2. Para eso antes tiene que ser colaborador del repo;
+    - todos: su registro de horas y revisar PR de los demás.
+  - Cada PR la revisa y la prueba otro miembro antes de aprobarla.
+  - **Se prueba en el servidor de la demo (https://42.2275676.xyz) hasta el lunes 5 de octubre**, porque aún no lo usa nadie fuera del equipo.
+    - Por cada PR: backup de la carpeta y de la BD (exportarla, porque las migraciones no se pueden deshacer), subir la rama y probar. Solo se aprueba si funciona; si falla, se restaura y se comenta en la PR.
+  - **A partir del lunes 5** (o antes si se registran usuarios reales), en el servidor solo se despliega lo ya probado.
 
 ### Decisiones de equipo pendientes (propuesta inicial entre paréntesis)
 Urgentes (bloquean el arranque):
@@ -179,5 +206,5 @@ Producto:
 Entrega:
 17. Demo en el dominio propio; tener la versión local como plan B.
 18. Quién hace el pitch.
-19. Reparto de la peer evaluation.
+19. Quién evalúa a qué equipos en la peer evaluation.
 20. Fecha límite interna: lunes 5 por la noche.

@@ -146,7 +146,7 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
 
 - 2026-10-02: **repo git creado**: https://github.com/Carlos-mb/42mentors (privado de momento; hay que hacerlo **público** antes del code freeze para la peer evaluation).
   - git y gh instalados en el PC de Carlos; `gh` autenticado como `Carlos-mb`. Identidad del repo local: `Carlos` / email noreply de GitHub.
-  - Ramas: `main` (protegida: solo vía PR con 1 aprobación, sin force push; los admins pueden saltársela) y `develop`. Trabajo en `feature/*` → PR a `develop` → PR a `main`.
+  - Ramas: `main` y `develop`, **ambas protegidas** (solo vía PR con 1 aprobación, sin force push; los admins pueden saltárselo). Trabajo en `feature/*`, `fix/*`, `docs/*` → PR a `develop` (merge commit, no squash) → PR a `main`. Guía para el equipo en la sección 1 de `INSTRUCCIONES_EQUIPO.md`.
   - Colaboradores: `Floren87` (Florentin). **Falta Lucas** (pendiente su usuario de GitHub).
   - Fuera del repo (`.gitignore`): `API-Docs/`, `.env`, `config.php`, `hosting-tests/`, `deploy/`, `datos.txt`, PDF de las bases.
 

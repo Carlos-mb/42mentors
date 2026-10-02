@@ -24,112 +24,173 @@ Contexto completo del proyecto, decisiones y condiciones de uso de la API: [CLAU
 ## 1. Git y GitHub: cómo trabajamos con ramas
 
 > **Por qué importa:** la mitad de la nota de la evaluación entre equipos es **«Git y ramas»**. Los evaluadores miran que haya ramas, Pull Requests y commits **de los tres**, repartidos en el tiempo. Cada uno sube su trabajo **desde su propia cuenta**.
+>
+> **Si nunca habéis usado ramas**, leed 1.1 y 1.2 con calma. El resto es seguir los pasos. **Si vais a usar una IA**, leed también 1.9.
 
-### 1.1 Preparación (una sola vez, cada uno en su equipo)
+### 1.1 Las ideas básicas en 5 minutos
+
+Pensad en el proyecto como un **documento compartido** en el que trabajamos los tres a la vez sin pisarnos.
+
+| Palabra | Qué es | Comparación |
+|---|---|---|
+| **Repositorio** (repo) | La carpeta del proyecto con todo su historial de cambios. Hay una copia en GitHub (https://github.com/Carlos-mb/42mentors) y otra en el ordenador de cada uno. | La carpeta compartida. |
+| **Commit** | Una «foto» guardada de los cambios, con un mensaje que explica qué se hizo. Se queda en vuestro ordenador hasta que hacéis *push*. | Pulsar «Guardar versión» con una nota. |
+| **Rama** (*branch*) | Una línea de trabajo paralela. Copia el proyecto en ese momento y, mientras trabajáis en ella, **no afectáis a lo de los demás**. | Una copia de borrador del documento. |
+| **Push** | Subir vuestros commits a GitHub. | Sincronizar con la nube. |
+| **Pull** | Bajar de GitHub lo que han subido los demás. | Descargar la última versión. |
+| **Pull Request (PR)** | Una **petición** en GitHub: «he terminado esta tarea en mi rama; revisadla y, si está bien, juntadla con `develop`». Muestra los cambios línea a línea y permite comentar. | Mandar el borrador a un compañero para que lo revise antes de pasarlo al documento final. |
+| **Revisión / aprobación** (*review*) | Otro miembro mira la PR y pulsa *Approve* (aprobar) o pide cambios. | El visto bueno del compañero. |
+| **Merge** (fusionar) | Juntar los cambios de una rama con otra. Se hace con un botón de la PR, cuando está aprobada. | Pegar el borrador revisado en el documento final. |
+| **Conflicto** | Dos personas cambiaron **las mismas líneas** de un fichero, y git no sabe con cuál quedarse. Hay que elegirlo a mano (ver 1.6). | Dos ediciones del mismo párrafo. |
+
+**Cómo se ve con nuestras ramas** (cada `●` es un commit):
+
+```
+main      ●───────────────────────────────●        ← lo publicado en la web
+           \                             /
+develop     ●───────────●───────────●───●          ← donde se juntan las tareas terminadas
+             \         /  \        /
+feature/a     ●───●───●    \      /                ← tarea de Florentin (PR 1)
+                            \    /
+fix/b                        ●──●                  ← tarea de Lucas (PR 2)
+```
+
+Es decir: cada tarea sale de `develop`, se trabaja en su rama y vuelve a `develop` mediante una PR revisada. De vez en cuando, `develop` pasa a `main` con otra PR, y eso es lo que se publica.
+
+### 1.2 Nuestras ramas
+
+| Rama | Para qué | ¿Se puede escribir directamente? |
+|---|---|---|
+| `main` | Lo que está **publicado** en https://42.2275676.xyz. Siempre debe funcionar. | **No.** GitHub lo bloquea. Solo cambia mediante una PR desde `develop`, aprobada por otra persona. |
+| `develop` | Donde se juntan las tareas terminadas. | **No.** GitHub lo bloquea. Solo cambia mediante una PR desde una rama de tarea, aprobada por otra persona. |
+| `feature/…` | Una funcionalidad nueva. Ej.: `feature/boton-me-ayudo` | Sí: es **vuestra** rama de trabajo. |
+| `fix/…` | Arreglar un error. Ej.: `fix/foto-mentor-vacia` | Sí. |
+| `docs/…` | README, registro de horas, instrucciones. Ej.: `docs/horas-florentin-3-oct` | Sí. |
+
+Reglas:
+- **Una rama por tarea**, con nombre corto en minúsculas y guiones, sin tildes ni espacios.
+- Las ramas de tarea **siempre salen de `develop`** y **vuelven a `develop`** mediante una PR.
+- **Ramas cortas:** mejor varias PR pequeñas al día que una enorme el lunes. Así hay menos conflictos y se ve trabajo continuo.
+
+### 1.3 Preparación (una sola vez, cada uno en su ordenador)
 
 1. **Aceptar la invitación** al repositorio: llega por email, o en https://github.com/Carlos-mb/42mentors/invitations
 2. **Instalar git**:
    - Windows: `winget install --id Git.Git -e`. Después, cerrar y abrir la terminal.
    - macOS o Linux: suele venir instalado (`git --version`).
-3. **Poner vuestra identidad.** El email debe ser uno de vuestra cuenta de GitHub; si no, los commits no salen a vuestro nombre. Recomendado: el email *noreply* que aparece en GitHub → Settings → Emails, para no publicar el vuestro.
+3. **Decirle a git quiénes sois.** Si el email no es de vuestra cuenta de GitHub, los commits **no cuentan como vuestros**. Recomendado: el email *noreply* de GitHub → Settings → Emails, que acaba en `@users.noreply.github.com`, para no publicar el vuestro.
    ```bash
    git config --global user.name "Tu Nombre"
    git config --global user.email "ID+usuario@users.noreply.github.com"
    ```
-4. **Clonar el repositorio.** Para probar con XAMPP, clonadlo directamente en `C:\xampp\htdocs` (ver sección 2):
+4. **Descargar el repositorio** (*clonar*). Para probar con XAMPP, hacedlo dentro de `C:\xampp\htdocs` (ver sección 2):
    ```bash
    git clone https://github.com/Carlos-mb/42mentors.git
    cd 42mentors
    git switch develop
    ```
-   La primera vez que hagáis `push`, git abrirá el navegador para iniciar sesión en GitHub.
+   La primera vez que hagáis `push`, se abrirá el navegador para iniciar sesión en GitHub.
+5. **Opcional:** instalar **GitHub CLI** (`gh`) para abrir PR desde la terminal o que lo haga vuestra IA. En Windows: `winget install --id GitHub.cli -e`, y después `gh auth login`.
 
-### 1.2 Las ramas
+### 1.4 Una tarea de principio a fin
 
-| Rama | Para qué | Quién escribe en ella |
-|---|---|---|
-| `main` | Lo que está **desplegado** en https://42.2275676.xyz. Siempre funciona. | Nadie directamente: **solo mediante PR desde `develop`**, con 1 aprobación (GitHub lo impide de otra forma). |
-| `develop` | Integración: aquí se juntan las tareas terminadas. | Nadie directamente: solo mediante PR desde las ramas de tarea, con 1 aprobación (también protegida). |
-| `feature/…` | Una funcionalidad nueva. Ej.: `feature/boton-me-ayudo` | Quien hace la tarea. |
-| `fix/…` | Arreglar un error. Ej.: `fix/foto-mentor-vacia` | Quien lo arregla. |
-| `docs/…` | README, registro de horas, instrucciones. Ej.: `docs/registro-horas` | Quien lo escribe. |
-
-Reglas:
-- **Una rama por tarea**, con nombre corto en minúsculas y guiones, sin tildes ni espacios.
-- Las ramas de tarea **siempre salen de `develop`** y **vuelven a `develop`** mediante PR.
-- Ramas cortas: mejor varias PR pequeñas en un día que una enorme el lunes.
-
-### 1.3 Flujo de cada tarea, paso a paso
-
-**1. Partir de `develop` actualizado y crear la rama:**
+**Paso 1. Ponerse al día y crear la rama de la tarea.**
 ```bash
-git switch develop
-git pull
-git switch -c feature/nombre-de-la-tarea
+git switch develop                  # ir a develop
+git pull                            # bajar lo último que hayan subido los demás
+git switch -c feature/mi-tarea      # crear vuestra rama y entrar en ella
 ```
+Desde aquí, todo lo que cambiéis queda en `feature/mi-tarea` y no afecta a nadie.
 
-**2. Trabajar y hacer commits pequeños.** Un commit por cada paso que tenga sentido por sí mismo:
+**Paso 2. Trabajar y guardar commits pequeños.** Cada vez que terminéis un paso que tenga sentido por sí mismo:
 ```bash
-git status
-git add public/mentor.php src/mentors.php
+git status                                          # qué ficheros habéis cambiado
+git add public/mentor.php src/mentors.php           # elegir qué entra en la foto
 git commit -m "feat(mentors): muestra la coalición en la ficha"
 ```
-Mirad siempre `git status` antes de `git add`. **Nunca** debe aparecer `.env`, `API-Docs/` ni ningún fichero con contraseñas. Evitad `git add .` si no habéis revisado qué entra.
+Mirad **siempre** `git status` antes de `git add`. **Nunca** debe aparecer `.env`, `API-Docs/` ni nada con contraseñas. No uséis `git add .` sin haber revisado la lista.
 
-**3. Subir la rama.** Se puede, y conviene, hacer varias veces al día, aunque la tarea no esté terminada:
+**Paso 3. Subir la rama a GitHub.** Conviene hacerlo varias veces al día, aunque la tarea no esté terminada: es vuestra copia de seguridad.
 ```bash
-git push -u origin feature/nombre-de-la-tarea
+git push -u origin feature/mi-tarea     # la primera vez
+git push                                # las siguientes
 ```
-Después del primer `push -u`, basta con `git push`.
 
-**4. Abrir la Pull Request.** En GitHub aparece el botón **«Compare & pull request»**:
-- **base: `develop`** ← compare: vuestra rama. **Comprobad la base**: GitHub propone `main` por defecto.
-- Título: qué hace. En la descripción: qué cambia, cómo probarlo y capturas si hay cambios visuales (sin datos de otros alumnos).
-- **Reviewers**: uno de los otros dos miembros.
+**Paso 4. Abrir la Pull Request (PR) cuando la tarea esté terminada.**
+1. Entrad en https://github.com/Carlos-mb/42mentors. Aparece un aviso amarillo con el botón **«Compare & pull request»**. Si no sale: pestaña **Pull requests** → **New pull request**.
+2. Arriba hay dos desplegables: **base** (a dónde va) y **compare** (de dónde viene). Dejadlos así: **base: `develop`** ← **compare: `feature/mi-tarea`**.
+   ⚠️ GitHub suele proponer `main` como base. **Cambiadlo a `develop`.**
+3. **Título:** qué hace, por ejemplo «Muestra la coalición en la ficha del mentor».
+4. **Descripción:** qué cambia, cómo probarlo y capturas si se ve algo nuevo (sin datos de otros alumnos).
+5. A la derecha, en **Reviewers**, elegid a uno de los otros dos miembros.
+6. Botón **Create pull request**. Avisad en el chat del equipo.
 
-**5. Revisar** (quien recibe la PR):
-- leer los cambios en la pestaña *Files changed*;
-- si se puede, probarlo en local: `git fetch`, `git switch feature/nombre-de-la-tarea`;
-- **Approve** o **Request changes** con comentarios. Si pide cambios, el autor hace más commits en la misma rama y `git push`: la PR se actualiza sola.
+**Paso 5. Si os piden cambios:** hacedlos **en la misma rama** con nuevos commits y `git push`. La PR se actualiza sola; no hay que abrir otra.
 
-**6. Fusionar** cuando esté aprobada:
-- botón **«Create a merge commit»** (no *Squash*: así se conservan todos los commits y su autor, que es lo que se evalúa);
-- después, **«Delete branch»** en GitHub, y en local:
-  ```bash
-  git switch develop
-  git pull
-  git branch -d feature/nombre-de-la-tarea
-  ```
+**Paso 6. Fusionar (merge) cuando esté aprobada.** Lo puede hacer el autor o quien revisó:
+1. En la PR, abajo, la flecha junto al botón verde: elegid **«Create a merge commit»** y confirmad. **No uséis *Squash* ni *Rebase***: juntan los commits en uno y se pierde quién hizo qué, que es justo lo que se evalúa.
+2. Pulsad **«Delete branch»**: la rama ya no hace falta en GitHub.
+3. En vuestro ordenador:
+   ```bash
+   git switch develop
+   git pull
+   git branch -d feature/mi-tarea
+   ```
+¡Listo! Para la siguiente tarea, volved al paso 1.
 
-### 1.4 Mantener vuestra rama al día
+### 1.5 Revisar la PR de un compañero
 
-Si `develop` ha cambiado mientras trabajabais (otro ha fusionado una PR), traed esos cambios a vuestra rama **antes de abrir la PR**:
+GitHub os avisa por email, o la veis en la pestaña **Pull requests**.
+1. Pestaña **Files changed**: en verde lo añadido y en rojo lo quitado. Pinchando en una línea podéis dejar un comentario.
+2. Si se puede, probadla en local:
+   ```bash
+   git fetch                            # enterarse de las ramas nuevas
+   git switch feature/su-tarea          # ponerse en su rama
+   ```
+   Al terminar, volved a la vuestra con `git switch feature/mi-tarea`.
+3. Botón **Review changes** (arriba a la derecha) y elegid:
+   - **Approve**: todo bien;
+   - **Request changes**: hay que corregir algo; explicad qué en el comentario;
+   - **Comment**: solo dudas o sugerencias.
+
+Revisad pronto: una PR esperando bloquea al compañero.
+
+### 1.6 Traer a vuestra rama lo que han hecho los demás
+
+Si alguien ha fusionado una PR en `develop` mientras trabajabais, traed esos cambios a vuestra rama **antes de abrir la PR**. GitHub también os avisa con *«This branch is out-of-date»*.
 ```bash
 git switch develop
 git pull
-git switch feature/nombre-de-la-tarea
+git switch feature/mi-tarea
 git merge develop
 ```
-**Si hay conflictos**, git marca los ficheros afectados:
-1. abridlos y buscad los bloques `<<<<<<<`, `=======` y `>>>>>>>`;
-2. dejad el código como debe quedar y borrad las marcas;
-3. guardad los cambios y terminad el merge:
+**Si sale un conflicto** (*CONFLICT*), git os dice en qué ficheros está. Dentro de cada fichero veréis:
+```
+<<<<<<< HEAD
+vuestra versión
+=======
+la versión de develop
+>>>>>>> develop
+```
+1. Dejad el código como debe quedar (una de las dos versiones, o una mezcla) y **borrad las tres líneas de marcas**.
+2. Guardad los cambios y terminad el merge:
    ```bash
    git add <fichero>
    git commit
    ```
-Si no lo veis claro, `git merge --abort` deja todo como estaba. Después, preguntad al equipo.
+Si os liais, `git merge --abort` lo deja todo como estaba antes del merge. Después, preguntad al equipo.
 
-### 1.5 Pasar a producción (`develop` → `main`)
+### 1.7 Publicar: pasar `develop` a `main`
 
-1. Probar `develop` en el servidor o en local con la lista de la sección 4.
-2. En GitHub: PR con **base: `main`** ← compare: `develop`, con un título tipo «Versión 3 oct: directorio y ficha de mentor».
-3. Otro miembro la aprueba y se fusiona.
+Se hace pocas veces, cuando `develop` tiene cosas nuevas que funcionan:
+1. Probar `develop` en local con la lista de la sección 4.
+2. Abrir una PR con **base: `main`** ← **compare: `develop`**, con un título tipo «Versión 3 oct: directorio y ficha de mentor».
+3. Otro miembro la aprueba y se fusiona con **«Create a merge commit»**. **No borréis la rama `develop`.**
 4. Desplegar `main` en el hosting (sección 3.1).
 
-### 1.6 Mensajes de commit
+### 1.8 Cómo escribir los mensajes de commit
 
-Formato `tipo(zona opcional): qué hace`, en presente y en español:
+Formato `tipo(zona opcional): qué hace`, en español y en presente:
 
 | Tipo | Cuándo | Ejemplo |
 |---|---|---|
@@ -142,35 +203,65 @@ Formato `tipo(zona opcional): qué hace`, en presente y en español:
 
 Nada de mensajes como «cambios», «arreglos» o «asdf».
 
-### 1.7 Problemas frecuentes
+### 1.9 Si usáis una IA para trabajar con git
 
-- **«He hecho commits en `develop` o `main` sin querer, aún sin `push`»**: movedlos a una rama nueva y devolved `develop` a como está en GitHub:
-  ```bash
-  git switch -c feature/lo-que-sea
-  git branch -f develop origin/develop
-  ```
-  Los commits siguen en `feature/lo-que-sea`. Si el error fue en `main`, cambiad `develop` por `main` en la segunda línea.
-- **El `push` a `main` o `develop` falla con «protected branch»**: está bien, es lo esperado. Usad una rama y una PR.
-- **«Your branch is behind»**: haced `git pull`.
-- **Nunca uséis `git push --force`** sobre `main` ni `develop`.
-- **He subido un secreto por error**: avisad en el momento. Hay que **regenerarlo en la intra** (borrarlo del repo no basta, porque queda en el historial) y avisar a security@42.fr.
+Podéis pedirle a vuestra IA que haga los comandos de git por vosotros. Para que no rompa nada, **las reglas que debe cumplir están en [AGENTS.md](AGENTS.md)**: no tocar `main` ni `develop`, no subir secretos, no fusionar PR sin una persona, no forzar `push`, etc.
 
-### 1.8 Chuleta
+**Según la IA que uséis:**
+
+| IA | Qué hacer |
+|---|---|
+| **Claude Code** (app de escritorio o terminal) | Abridlo **en la carpeta del repositorio**. Lee `CLAUDE.md` automáticamente, y este carga `AGENTS.md`. No hay que hacer nada más. Para que pueda abrir PR, instalad `gh` (1.3, paso 5). |
+| **Cursor, GitHub Copilot, Codex, Gemini CLI, Windsurf** u otras que trabajan sobre la carpeta | La mayoría lee `AGENTS.md` sola. Para asegurarse, empezad la conversación con: *«Lee AGENTS.md y CLAUDE.md y cumple sus reglas»*. |
+| **IA de chat en el navegador** (ChatGPT, Gemini, Claude.ai…) que no ve vuestros ficheros | Pegad el contenido de `AGENTS.md` al principio del chat. Ella os dirá los comandos y **vosotros los ejecutáis**: copiad y pegad la salida si algo falla. |
+
+**Ejemplos de lo que le podéis pedir:**
+- «Empiezo la tarea de añadir el botón "Me ayudó". Crea la rama desde develop actualizado.»
+- «Haz commit de lo que he cambiado, con un mensaje según las reglas, y súbelo.»
+- «Abre una Pull Request hacia develop con una descripción de los cambios y pon a Floren87 como revisor.»
+- «Trae a mi rama lo último de develop y ayúdame con los conflictos.»
+- «Explícame qué cambia la PR número 3 para revisarla.»
+
+**Lo que hacéis siempre vosotros, no la IA:**
+- **Aprobar** las PR de los compañeros: la revisión es vuestra; la IA puede ayudaros a entender el código.
+- **Fusionar** una PR, sobre todo hacia `main`.
+- Mirar lo que va a entrar en cada commit antes de subirlo.
+- **No darle nunca a la IA el contenido de `.env`**, el `client_secret` ni contraseñas.
+- Saber que **los commits salen a vuestro nombre**: sois responsables de lo que suba la IA.
+
+Si la IA propone algo que contradice `AGENTS.md` (`push --force`, `reset --hard`, commit en `develop`…), **decidle que no** y preguntad en el chat del equipo.
+
+### 1.10 Problemas frecuentes
+
+| Problema | Solución |
+|---|---|
+| El `push` falla con *protected branch* | Estáis en `main` o en `develop`. Es lo esperado. Mirad el caso siguiente. |
+| He hecho commits en `develop` o `main` sin querer (aún sin subirlos) | Pasadlos a una rama nueva y dejad `develop` como está en GitHub: `git switch -c feature/lo-que-sea` y después `git branch -f develop origin/develop`. Vuestros commits siguen en `feature/lo-que-sea`. Si fue en `main`, cambiad `develop` por `main` en el segundo comando. |
+| *Your branch is behind* | Hay cambios nuevos en GitHub: `git pull`. |
+| No sé en qué rama estoy | `git branch --show-current` |
+| Tengo cambios sin guardar y quiero cambiar de rama | Haced commit primero; o `git stash` para apartarlos y `git stash pop` para recuperarlos. |
+| He subido un secreto por error | **Avisad en el momento.** Borrarlo del repo no basta, porque queda en el historial: hay que **regenerarlo en la intra** y escribir a security@42.fr. |
+
+**Nunca:** `git push --force`, `git reset --hard` sobre `main` o `develop`, ni borrar ramas de otros.
+
+### 1.11 Chuleta
 
 ```bash
-git switch develop && git pull                 # ponerse al día
-git switch -c feature/tarea                    # nueva rama de tarea
-git status                                     # qué ha cambiado
-git add <ficheros> && git commit -m "feat: …"  # guardar un paso
-git push -u origin feature/tarea               # subir la rama (luego basta con git push)
-git merge develop                              # traer lo último de develop a mi rama
-git log --oneline --graph --all                # ver las ramas y los commits
+git switch develop                      # ir a develop
+git pull                                # bajar lo último
+git switch -c feature/tarea             # crear una rama de tarea y entrar en ella
+git branch --show-current               # en qué rama estoy
+git status                              # qué he cambiado
+git add <ficheros>                      # elegir qué entra en el commit
+git commit -m "feat: …"                 # guardar el commit
+git push -u origin feature/tarea        # subir la rama (después basta con git push)
+git merge develop                       # traer lo último de develop a mi rama
+git log --oneline --graph --all         # ver las ramas y los commits
 ```
-En PowerShell de Windows antiguo, `&&` no funciona: ejecutad los comandos por separado.
 
-### 1.9 Tablero de tareas
+### 1.12 Tablero de tareas
 
-**Projects → New project → Board**, con las columnas To do, In progress y Done. Pasad a issues las tareas de la sección 4; cada PR puede cerrar su issue si escribís `Closes #12` en la descripción.
+En GitHub: **Projects → New project → Board**, con las columnas To do, In progress y Done. Pasad a *issues* (tareas de GitHub) las de la sección 4. Si en la descripción de una PR escribís `Closes #12`, al fusionarla se cierra la tarea 12.
 
 ---
 

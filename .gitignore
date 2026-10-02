@@ -1,0 +1,27 @@
+# Secretos
+.env
+config.php
+
+# Documentación de la API de 42: material tras login con datos de ejemplo de personas.
+# NO se publica (condiciones de uso de la API).
+API-Docs/
+
+# Caché generada en tiempo de ejecución
+cache/*
+!cache/.htaccess
+
+# Pruebas temporales del hosting
+hosting-tests/
+
+# Notas internas (datos del hosting) y documento de las bases de 42
+datos.txt
+Bases Hackathon*.pdf
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Paquete de despliegue generado
+deploy/

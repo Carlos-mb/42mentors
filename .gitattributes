@@ -1,0 +1,5 @@
+# Saltos de línea LF en el repo (el servidor es Linux); los scripts de Windows en CRLF
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.pdf binary
+*.zip binary

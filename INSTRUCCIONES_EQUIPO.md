@@ -23,7 +23,7 @@ Contexto completo del proyecto, decisiones y condiciones de uso de la API: [CLAU
 
 ## 1. Git y GitHub: cómo trabajamos con ramas
 
-> **Por qué importa:** la mitad de la nota de la evaluación entre equipos es **«Git y ramas»**. Los evaluadores miran que haya ramas, Pull Requests y commits **de los tres**, repartidos en el tiempo. Cada uno sube su trabajo **desde su propia cuenta**.
+> **Por qué importa:** trabajar en ramas con Pull Requests revisadas permite que tres personas cambien el proyecto a la vez sin pisarse, y deja claro quién hizo cada cambio. Cada uno sube su propio trabajo **desde su propia cuenta**, poco a poco.
 >
 > **Si nunca habéis usado ramas**, leed 1.1 y 1.2 con calma. El resto es seguir los pasos. **Si vais a usar una IA**, leed también 1.9.
 
@@ -285,30 +285,31 @@ En GitHub: **Projects → New project → Board**, con las columnas To do, In pr
 
 ## 3. Desplegar en el hosting (https://42.2275676.xyz)
 
-Hosting comprobado: A2 Hosting, PHP 8.1, curl y MySQL, con conexión saliente a la API de 42. Detalles en [CLAUDE.md](CLAUDE.md).
+Hosting comprobado: hosting compartido con cPanel, PHP 8.1, curl y MySQL, con conexión saliente a la API de 42.
+
+En los pasos, `~/` es la carpeta personal de la cuenta del hosting, que contiene la carpeta pública del dominio.
 
 1. **cPanel → MySQL Databases**: crear la base de datos y un usuario, y asignarle **todos los privilegios** sobre ella.
 2. **cPanel → phpMyAdmin**: ejecutar `sql/schema.sql` sobre esa base de datos.
-3. Subir el proyecto, sin `.env` local, `API-Docs/` ni `hosting-tests/`, a `/home/mmmkofti/42mentors/`. Se puede hacer con `git clone` si hay SSH, o con el File Manager o FTP.
-4. **cPanel → Domains**: cambiar el **Document Root** de `42.2275676.xyz` a `/home/mmmkofti/42mentors/public`. Así solo `public/` es accesible desde la web.
-   - Si cPanel no deja cambiarlo: subid el **contenido** de `public/` a `/home/mmmkofti/42.2275676.xyz/`, y `src/`, `sql/`, `cache/` y `.env` a `/home/mmmkofti/`. Las páginas buscan `../src/`, así que sigue funcionando.
+3. Subir el proyecto, sin `.env` local, `API-Docs/` ni `hosting-tests/`, a `~/42mentors/`. Se puede hacer con `git clone` si hay SSH, o con el File Manager o FTP.
+4. **cPanel → Domains**: cambiar el **Document Root** de `42.2275676.xyz` a `~/42mentors/public`. Así solo `public/` es accesible desde la web.
+   - Si cPanel no deja cambiarlo: subid el **contenido** de `public/` a la carpeta pública del dominio, y `src/`, `sql/`, `cache/` y `.env` a `~/`. Las páginas buscan `../src/`, así que sigue funcionando.
 5. Crear el `.env` **directamente en el servidor**, nunca en git, con:
    - la app OAuth de **producción**, cuya Redirect URI es `https://42.2275676.xyz/callback.php`;
    - los datos de MySQL del paso 1;
    - `APP_DEBUG=0`.
-6. **Borrar `test42.php`** del servidor si sigue ahí.
-7. Comprobaciones:
+6. Comprobaciones:
    - https://42.2275676.xyz/ carga;
    - https://42.2275676.xyz/.env y https://42.2275676.xyz/src/bootstrap.php devuelven **404**. Si se ven o se descargan, hay ficheros privados en la carpeta pública: corregidlo antes de seguir.
 
 ### 3.1 Actualizar la instalación que ya funciona
 
-La instalación actual está en `/home/mmmkofti/42mentors/`, con el `.env` dentro de esa carpeta.
+La instalación actual está en `~/42mentors/`, con el `.env` dentro de esa carpeta.
 
 1. **Base de datos.** En phpMyAdmin, pestaña SQL, ejecutar **una sola vez** cada fichero nuevo de `sql/migrations/`, en orden. Cada fichero indica en su cabecera si se aplica **antes** de subir el código (añade columnas y no rompe la versión anterior) o **después** (quita columnas que el código anterior aún usa).
 2. Generar el paquete en local: `powershell -ExecutionPolicy Bypass -File tools\build-deploy.ps1` crea `deploy/42mentors.zip`, que contiene `public/`, `src/`, `sql/`, `cache/.htaccess` y `.env.example`, sin secretos. En macOS o Linux: `zip -r` de una carpeta `42mentors/` con esos mismos ficheros.
 3. En File Manager:
-   - subir el ZIP a `/home/mmmkofti/`;
+   - subir el ZIP a `~/`;
    - **renombrar** `42mentors` → `42mentors-old`, que queda como copia de seguridad;
    - **extraer** el ZIP, que crea un `42mentors/` limpio;
    - **mover** `.env` de `42mentors-old/` a `42mentors/` (activad *Settings → Show Hidden Files* para verlo).

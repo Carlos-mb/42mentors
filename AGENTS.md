@@ -10,7 +10,7 @@ Guía de git para personas: sección 1 de [INSTRUCCIONES_EQUIPO.md](INSTRUCCIONE
 ## Quién te habla
 
 - Un alumno de 42 que **no tiene experiencia con ramas ni Pull Requests**. Explícale en una frase qué hace cada comando antes de ejecutarlo, en español y sin jerga innecesaria.
-- Los commits que hagas salen **a su nombre** y cuentan en la nota del hackathon (la mitad de la evaluación entre equipos es «Git y ramas»).
+- Los commits que hagas salen **a su nombre**: explícale cada cambio y no hagas commit de nada que no haya revisado y entendido.
 
 ## Repositorio
 

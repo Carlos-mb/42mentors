@@ -143,7 +143,7 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - git y gh instalados en el PC de Carlos; `gh` autenticado como `Carlos-mb`. Identidad del repo local: `Carlos` / email noreply de GitHub.
   - Ramas: `main` y `develop`, **ambas protegidas** (solo vía PR con 1 aprobación, sin force push). Trabajo en `feature/*`, `fix/*`, `docs/*` → PR a `develop` (merge commit, no squash) → PR a `main`. Guía para el equipo en la sección 1 de `INSTRUCCIONES_EQUIPO.md`; pensada para gente que nunca ha usado ramas ni PR.
   - Florentin y Lucas usarán IA para git (Florentin, Claude; Lucas, otra aún por saber). Las reglas para cualquier IA están en `AGENTS.md`, que `CLAUDE.md` importa; para IA de chat, se pega su contenido.
-  - Colaboradores: `Floren87` (Florentin). **Falta Lucas** (pendiente su usuario de GitHub).
+  - Colaboradores: `Floren87` (Florentin) y `lucas-rcv` (Lucas, desde el 2026-10-03).
   - Fuera del repo (`.gitignore`): `API-Docs/`, `.env`, `config.php`, `hosting-tests/`, `deploy/`, `datos.txt`, PDF de las bases.
 
 - 2026-10-03: **reparto de trabajo y pruebas** (decidido con Carlos).
@@ -179,6 +179,13 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - **Se prueba en el servidor de la demo (https://42.2275676.xyz) hasta el lunes 5 de octubre**, porque aún no lo usa nadie fuera del equipo.
     - Por cada PR: backup de la carpeta y de la BD (exportarla, porque las migraciones no se pueden deshacer), subir la rama y probar. Solo se aprueba si funciona; si falla, se restaura y se comenta en la PR.
   - **A partir del lunes 5** (o antes si se registran usuarios reales), en el servidor solo se despliega lo ya probado.
+
+- 2026-10-03: **las tareas se coordinan con issues de GitHub, y la IA de cada miembro hace de coordinadora** (decidido por Carlos tras la reunión).
+  - **Carlos es el coordinador del proyecto:** las asignaciones de tareas y los cambios de criterio los aprueba él. Las demás IA lo proponen en la issue mencionando a `@Carlos-mb`; las tareas sin asignar puede cogerlas cualquiera.
+  - GitHub es el único nexo común del equipo. Cada tarea es una issue con responsable, etiquetas (`prioridad alta`, `en curso`, `bloqueada` y tipo) y el hito «Code freeze (6 oct, 18:00)».
+  - Issues iniciales #4–#22, asignadas según el reparto anterior. Las pruebas, las capturas, el pitch y algunas mejoras quedan sin asignar, para quien las coja.
+  - El procedimiento de la IA («¿qué hago?», empezar, comentar al parar, `Closes #n`) está en `AGENTS.md`; para personas, en la sección 1.12 de `INSTRUCCIONES_EQUIPO.md`. La lista de la sección 4 de ese fichero queda solo como histórico.
+  - Para un tablero visual (GitHub Projects) desde `gh` hace falta `gh auth refresh -s project`. Es opcional y está en la issue #8.
 
 ### Decisiones de equipo pendientes (propuesta inicial entre paréntesis)
 Urgentes (bloquean el arranque):

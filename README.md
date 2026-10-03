@@ -61,6 +61,7 @@ _TODO: describir cómo surgió la idea, qué alternativas se descartaron, boceto
 
 _TODO: tablero (GitHub Projects), reparto de tareas, dailies, modelo de ramas y Pull Requests._
 
+- Tareas: [issues de GitHub](https://github.com/Carlos-mb/42mentors/issues), cada una con responsable y criterio de terminado. La IA de cada miembro las consulta para proponerle qué hacer y deja en ellas el avance (ver [AGENTS.md](AGENTS.md)).
 - Modelo de ramas: `main` (lo desplegado) ← `develop` ← `feature/<tarea>`, integrando siempre con Pull Request revisada por otro miembro.
 - Commits: [Conventional Commits](https://www.conventionalcommits.org/es/) (`feat:`, `fix:`, `docs:`…).
 

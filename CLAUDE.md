@@ -179,6 +179,11 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - **Se prueba en el servidor de la demo (https://42.2275676.xyz) hasta el lunes 5 de octubre**, porque aún no lo usa nadie fuera del equipo.
     - Por cada PR: backup de la carpeta y de la BD (exportarla, porque las migraciones no se pueden deshacer), subir la rama y probar. Solo se aprueba si funciona; si falla, se restaura y se comenta en la PR.
   - **A partir del lunes 5** (o antes si se registran usuarios reales), en el servidor solo se despliega lo ya probado.
+  - **Paso de `develop` a `main`** (decidido con Carlos, que es el responsable de producción). El objetivo es que el equipo vea sus cambios publicados:
+    - hasta el lunes 5, al final de cada día, o antes si entra en `develop` un bloque ya probado en el servidor;
+    - desde el lunes 5, en el servidor solo se despliega `main`: primero el merge a `main` y después el despliegue;
+    - último paso a `main` el 6 de octubre hacia las 15:00, antes del code freeze.
+    - Procedimiento en la sección 1.7 de `INSTRUCCIONES_EQUIPO.md`.
 
 - 2026-10-03: **las tareas se coordinan con issues de GitHub, y la IA de cada miembro hace de coordinadora** (decidido por Carlos tras la reunión).
   - **Carlos es el coordinador del proyecto:** las asignaciones de tareas y los cambios de criterio los aprueba él. Las demás IA lo proponen en la issue mencionando a `@Carlos-mb`; las tareas sin asignar puede cogerlas cualquiera.

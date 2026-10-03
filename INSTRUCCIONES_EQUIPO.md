@@ -182,8 +182,15 @@ Si os liais, `git merge --abort` lo deja todo como estaba antes del merge. Despu
 
 ### 1.7 Publicar: pasar `develop` a `main`
 
-Se hace pocas veces, cuando `develop` tiene cosas nuevas que funcionan:
-1. Probar `develop` en local con la lista de la sección 4.
+Lo hace Carlos, que es el responsable de producción. Así todo el equipo ve publicados sus cambios.
+
+**Cuándo:**
+- **Hasta el lunes 5:** al final de cada día, o antes si entra en `develop` un bloque que ya se ha probado en el servidor.
+- **A partir del lunes 5:** en el servidor solo se despliega `main`. Primero se fusiona la PR a `main` y después se sube al servidor.
+- **Último paso a `main`:** el 6 de octubre hacia las 15:00, con margen antes del code freeze (18:00).
+
+**Cómo:**
+1. Comprobar que lo que entra en `develop` se ha probado (en el servidor hasta el lunes 5; ver la lista de la sección 4).
 2. Abrir una PR con **base: `main`** ← **compare: `develop`**, con un título tipo «Versión 3 oct: directorio y ficha de mentor».
 3. Otro miembro la aprueba y se fusiona con **«Create a merge commit»**. **No borréis la rama `develop`.**
 4. Desplegar `main` en el hosting (sección 3.1).

@@ -60,5 +60,6 @@ require ROOT_DIR . '/src/db.php';
 require ROOT_DIR . '/src/ft_api.php';
 require ROOT_DIR . '/src/auth.php';
 require ROOT_DIR . '/src/locations.php';
+require ROOT_DIR . '/src/profiles.php';
 require ROOT_DIR . '/src/mentors.php';
 require ROOT_DIR . '/src/view.php';

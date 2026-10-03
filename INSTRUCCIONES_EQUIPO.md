@@ -273,7 +273,7 @@ Las tareas son las **issues** de GitHub: https://github.com/Carlos-mb/42mentors/
 3. al parar, deja en la issue un comentario con lo hecho y lo que falta, para que cualquiera pueda retomarla;
 4. al abrir la PR escribe `Closes #17`, y al fusionarla se cierra la tarea.
 
-Si encontráis un fallo o una tarea nueva, pedidle que cree una issue. **El reparto lo decidís las personas**: la IA no reasigna tareas de otros.
+Si encontráis un fallo o una tarea nueva, pedidle que cree una issue. **Carlos coordina el proyecto:** los cambios de asignación o de criterio los aprueba él. Para pedirlos, se comenta en la issue mencionando a `@Carlos-mb`. Las tareas sin asignar puede cogerlas cualquiera.
 
 ---
 

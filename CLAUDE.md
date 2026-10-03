@@ -181,6 +181,7 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - **A partir del lunes 5** (o antes si se registran usuarios reales), en el servidor solo se despliega lo ya probado.
 
 - 2026-10-03: **las tareas se coordinan con issues de GitHub, y la IA de cada miembro hace de coordinadora** (decidido por Carlos tras la reunión).
+  - **Carlos es el coordinador del proyecto:** las asignaciones de tareas y los cambios de criterio los aprueba él. Las demás IA lo proponen en la issue mencionando a `@Carlos-mb`; las tareas sin asignar puede cogerlas cualquiera.
   - GitHub es el único nexo común del equipo. Cada tarea es una issue con responsable, etiquetas (`prioridad alta`, `en curso`, `bloqueada` y tipo) y el hito «Code freeze (6 oct, 18:00)».
   - Issues iniciales #4–#22, asignadas según el reparto anterior. Las pruebas, las capturas, el pitch y algunas mejoras quedan sin asignar, para quien las coja.
   - El procedimiento de la IA («¿qué hago?», empezar, comentar al parar, `Closes #n`) está en `AGENTS.md`; para personas, en la sección 1.12 de `INSTRUCCIONES_EQUIPO.md`. La lista de la sección 4 de ese fichero queda solo como histórico.

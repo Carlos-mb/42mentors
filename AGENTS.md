@@ -53,15 +53,22 @@ Las tareas del equipo son las **issues de GitHub**; es lo único que comparten l
 ### Mientras trabajas y al parar
 
 - **Al terminar la sesión, aunque la tarea no esté acabada**, deja un comentario corto en la issue: qué se hizo, qué falta y en qué rama. Es lo que leerá la IA de quien la retome.
-- Si aparece un fallo o una tarea nueva que no es la actual, **no la mezcles**: crea una issue nueva (`gh issue create`), con etiqueta, hito y un «Terminado cuando». Pregunta al usuario a quién asignarla; si no lo sabe, déjala sin asignar.
+- Si aparece un fallo o una tarea nueva que no es la actual, **no la mezcles**: crea una issue nueva (`gh issue create`), con etiqueta, hito y un «Terminado cuando». Déjala sin asignar, o asignada a tu usuario si la va a hacer quien te habla; si debe hacerla otra persona, menciona a `@Carlos-mb` para que la asigne.
 - Si la tarea depende de otra, pon `bloqueada` y menciona la issue de la que depende (`#n`).
 - Al abrir la PR, escribe `Closes #<n>` en la descripción: al fusionarla, la issue se cierra sola. Quita `en curso`.
 - Recuérdale apuntar **sus horas reales** del día en el README; las pone la persona, no tú.
 
+### Quién decide: Carlos coordina
+
+**Carlos (`Carlos-mb`) es el coordinador del proyecto.** Las asignaciones de tareas y los cambios de criterio (prioridades, alcance o «Terminado cuando» de una issue, decisiones de `CLAUDE.md`) los **aprueba él**.
+- Una issue **sin asignar** puede cogerla cualquiera: asígnasela a tu usuario y deja un comentario avisando de que la empieza.
+- Para **cambiar** una asignación, crear una tarea que alguien tenga que hacer, o cambiar el criterio de una tarea o del proyecto: proponlo en un comentario de la issue mencionando a `@Carlos-mb`, y no lo apliques hasta que él lo apruebe en GitHub.
+- Si Carlos usa esta IA, sus decisiones se aplican directamente; anótalas en la issue o en `CLAUDE.md` para que las vean los demás.
+
 ### Lo que no haces
 
-- No te asignes ni reasignes issues **de otros miembros**, ni las cierres. Si crees que hay que cambiar algo, propónlo en un comentario.
-- No cambies el reparto ni las prioridades por tu cuenta: lo decide el equipo. Las decisiones están en `CLAUDE.md` y en los comentarios de las issues.
+- No te asignes ni reasignes issues **de otros miembros**, ni las cierres.
+- No cambies el reparto, las prioridades ni los criterios sin la aprobación de Carlos. Las decisiones están en `CLAUDE.md` y en los comentarios de las issues.
 
 ## Reglas de git (obligatorias)
 

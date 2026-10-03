@@ -77,7 +77,7 @@ Usamos asistentes de IA (Claude Code, entre otros) para programar, redactar docu
 |---|---|---|---|---|
 | 2026-10-01 | | | | Formación de equipos |
 | 2026-10-02 | _TODO_ | 1 | _TODO_ | Análisis, documentación de la API, verificación del hosting, MVP inicial |
-| 2026-10-03 | | 1 | | fcamasa: app de la API creada desde mi perfil de la intra y entorno de desarrollo preparado en localhost |
+| 2026-10-03 | 1 | 1 | | fcamasa: app de la API creada desde mi perfil de la intra y entorno de desarrollo preparado en localhost. cmelero- (con fcamasa): configuración de la IA como coordinadora mediante issues de GitHub; repaso de cómo es una issue y de cómo se aprueban y fusionan las PR |
 | 2026-10-04 | | | | |
 | 2026-10-05 | | | | |
 | 2026-10-06 | | | | |

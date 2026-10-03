@@ -16,6 +16,7 @@ hosting-tests/
 # Notas internas (datos del hosting) y documento de las bases de 42
 datos.txt
 Bases Hackathon*.pdf
+CLAUDE.local.md
 
 # Sistema / editores
 .DS_Store

@@ -64,6 +64,12 @@ _TODO: tablero (GitHub Projects), reparto de tareas, dailies, modelo de ramas y 
 - Modelo de ramas: `main` (lo desplegado) ← `develop` ← `feature/<tarea>`, integrando siempre con Pull Request revisada por otro miembro.
 - Commits: [Conventional Commits](https://www.conventionalcommits.org/es/) (`feat:`, `fix:`, `docs:`…).
 
+### Uso de IA
+Usamos asistentes de IA (Claude Code, entre otros) para programar, redactar documentación y trabajar con git.
+- **Lo decide el equipo:** qué se construye, el diseño de cada funcionalidad, el reparto de tareas y qué se fusiona.
+- **Lo hace la IA:** propone y escribe código y textos, y ejecuta comandos de git siguiendo las reglas de [AGENTS.md](AGENTS.md). Entre esas reglas: no subir secretos, no tocar `main` ni `develop` directamente y no fusionar PR.
+- **Cómo se controla:** cada cambio va en su rama y con su Pull Request, y otro miembro lo revisa y lo prueba antes de aprobarlo. Los commits en los que ha participado la IA lo indican con `Co-Authored-By`.
+
 ## Registro de horas
 
 | Fecha | cmelero- | fcamasa | lucaroma | Qué se hizo |

@@ -24,6 +24,45 @@ Guía de git para personas: sección 1 de [INSTRUCCIONES_EQUIPO.md](INSTRUCCIONE
   - `docs/nombre-corto` (documentación).
   - Nombre en minúsculas, con guiones, sin tildes ni espacios.
 
+## Coordinación de tareas: eres el coordinador de tu usuario
+
+Las tareas del equipo son las **issues de GitHub**; es lo único que comparten las IA de los tres miembros. Lo que no esté en GitHub, las demás IA no lo ven.
+
+- **Responsable** = la persona asignada (*assignee*). Sin asignar = libre para quien la coja.
+- **Etiquetas:** `prioridad alta`, `en curso`, `bloqueada`, y el tipo (`código`, `docs`, `pruebas`, `gestión`, `entrega`, `mejora`).
+- **Hito:** «Code freeze (6 oct, 18:00)».
+
+### Cuando el usuario pregunte «¿qué hago?» (o empiece la sesión sin una tarea clara)
+
+1. Ponte al día: `git fetch` y `gh api user --jq .login` para saber quién es.
+2. Revisa, en este orden de prioridad:
+   1. PR que esperan **su revisión**: `gh pr list --search "review-requested:@me"`. Revisar pronto desbloquea a los demás;
+   2. **sus PR** con cambios pedidos o conflictos: `gh pr list --author @me`;
+   3. **sus issues** abiertas: `gh issue list --assignee @me`. Primero `en curso`, luego `prioridad alta`, luego el resto. Salta las `bloqueada`;
+   4. si no tiene ninguna, issues **sin asignar**: `gh issue list --search "no:assignee -label:bloqueada"`.
+3. Resúmele en pocas líneas qué tiene pendiente y **recomiéndale una** tarea. Si hay algo de otro miembro que lleva tiempo parado o bloquea su tarea, díselo.
+4. Si no tiene `gh`, dale el enlace https://github.com/Carlos-mb/42mentors/issues/assigned/@me y trabaja con lo que te pegue.
+
+### Al empezar una tarea
+
+1. Lee la issue entera, con sus comentarios (`gh issue view <n> --comments`): ahí está lo que dejaron los demás.
+2. Si no estaba asignada, asígnasela a tu usuario (`gh issue edit <n> --add-assignee @me`). Pon la etiqueta `en curso`.
+3. Crea la rama desde `develop` actualizado con el número de la issue: `feature/<n>-nombre-corto`, `fix/<n>-…` o `docs/<n>-…`.
+4. Ayúdale a hacerla siguiendo el «Terminado cuando» de la issue y las reglas de este fichero.
+
+### Mientras trabajas y al parar
+
+- **Al terminar la sesión, aunque la tarea no esté acabada**, deja un comentario corto en la issue: qué se hizo, qué falta y en qué rama. Es lo que leerá la IA de quien la retome.
+- Si aparece un fallo o una tarea nueva que no es la actual, **no la mezcles**: crea una issue nueva (`gh issue create`), con etiqueta, hito y un «Terminado cuando». Pregunta al usuario a quién asignarla; si no lo sabe, déjala sin asignar.
+- Si la tarea depende de otra, pon `bloqueada` y menciona la issue de la que depende (`#n`).
+- Al abrir la PR, escribe `Closes #<n>` en la descripción: al fusionarla, la issue se cierra sola. Quita `en curso`.
+- Recuérdale apuntar **sus horas reales** del día en el README; las pone la persona, no tú.
+
+### Lo que no haces
+
+- No te asignes ni reasignes issues **de otros miembros**, ni las cierres. Si crees que hay que cambiar algo, propónlo en un comentario.
+- No cambies el reparto ni las prioridades por tu cuenta: lo decide el equipo. Las decisiones están en `CLAUDE.md` y en los comentarios de las issues.
+
 ## Reglas de git (obligatorias)
 
 1. **Nunca hagas commit ni push en `main` ni en `develop`.** Antes de cualquier commit, comprueba la rama con `git branch --show-current`. Si es `main` o `develop`, crea primero una rama de trabajo.

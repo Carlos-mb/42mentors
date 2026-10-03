@@ -216,6 +216,7 @@ Podéis pedirle a vuestra IA que haga los comandos de git por vosotros. Para que
 | **IA de chat en el navegador** (ChatGPT, Gemini, Claude.ai…) que no ve vuestros ficheros | Pegad el contenido de `AGENTS.md` al principio del chat. Ella os dirá los comandos y **vosotros los ejecutáis**: copiad y pegad la salida si algo falla. |
 
 **Ejemplos de lo que le podéis pedir:**
+- **«¿Qué hago ahora?»**: mira en GitHub vuestras PR por revisar y vuestras tareas, y os recomienda una (ver 1.12).
 - «Empiezo la tarea de añadir el botón "Me ayudó". Crea la rama desde develop actualizado.»
 - «Haz commit de lo que he cambiado, con un mensaje según las reglas, y súbelo.»
 - «Abre una Pull Request hacia develop con una descripción de los cambios y pon a Floren87 como revisor.»
@@ -261,7 +262,18 @@ git log --oneline --graph --all         # ver las ramas y los commits
 
 ### 1.12 Tablero de tareas
 
-En GitHub: **Projects → New project → Board**, con las columnas To do, In progress y Done. Pasad a *issues* (tareas de GitHub) las de la sección 4. Si en la descripción de una PR escribís `Closes #12`, al fusionarla se cierra la tarea 12.
+Las tareas son las **issues** de GitHub: https://github.com/Carlos-mb/42mentors/issues
+- Cada una tiene un **responsable** (*assignee*) y un «Terminado cuando». Las que no tienen responsable están libres.
+- Las vuestras: https://github.com/Carlos-mb/42mentors/issues/assigned/@me
+- Etiquetas: `prioridad alta`, `en curso`, `bloqueada` y el tipo de tarea.
+
+**Vuestra IA hace de coordinadora.** Abridla en la carpeta del repo y preguntadle **«¿qué hago ahora?»**. Siguiendo [AGENTS.md](AGENTS.md):
+1. mira en GitHub las PR que esperan vuestra revisión, vuestras PR y vuestras issues;
+2. os recomienda una tarea, crea la rama con su número (`feature/17-me-ayudo`) y os ayuda a hacerla;
+3. al parar, deja en la issue un comentario con lo hecho y lo que falta, para que cualquiera pueda retomarla;
+4. al abrir la PR escribe `Closes #17`, y al fusionarla se cierra la tarea.
+
+Si encontráis un fallo o una tarea nueva, pedidle que cree una issue. **El reparto lo decidís las personas**: la IA no reasigna tareas de otros.
 
 ---
 
@@ -320,7 +332,9 @@ La instalación actual está en `~/42mentors/`, con el `.env` dentro de esa carp
 
 ---
 
-## 4. Tareas pendientes (pasarlas al tablero y repartirlas)
+## 4. Tareas pendientes
+
+> **Desde el 3 de octubre, las tareas están en las [issues de GitHub](https://github.com/Carlos-mb/42mentors/issues)** (ver 1.12). Esta lista queda como referencia de cómo se planteó; no la actualicéis.
 
 ### Bloqueantes
 - [ ] Decidir el reparto de roles y quién es dueño del repositorio y de la app de producción (ver «Decisiones pendientes» en CLAUDE.md).

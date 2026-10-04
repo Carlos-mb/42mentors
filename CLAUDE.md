@@ -194,6 +194,11 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
 
 - 2026-10-04: **Lucas (`lucaroma`) propone encargarse también de la UI** (interfaz limpia y atractiva: CSS y vistas). No cambia el reparto hasta que Carlos lo apruebe en GitHub. Tareas ya suyas: gestión del README (#8), tablero y ocultar inactivos (#19).
 
+- 2026-10-04: **cierre de desarrollos el lunes 5 a las 14:00** (decidido por Carlos con el equipo: no hay más tiempo, porque tienen otras tareas).
+  - A las 14:00, el código y las pruebas tienen que estar fusionados en `develop`. Hito «Cierre de desarrollos (5 oct, 14:00)» en GitHub; calendario completo en la issue #38.
+  - Después, sin código nuevo: documentación (README, capturas), pitch y paso a `main`. Solo se arreglan fallos graves, y con la aprobación de Carlos.
+  - Lo que no esté terminado a las 14:00 se anota en el README como mejora futura y su issue se cierra como «not planned».
+
 ### Decisiones de equipo pendientes (propuesta inicial entre paréntesis)
 Urgentes (bloquean el arranque):
 1. ~~Stack~~ → decidido: PHP sin framework + MySQL.
@@ -221,4 +226,4 @@ Entrega:
 17. Demo en el dominio propio; tener la versión local como plan B.
 18. Quién hace el pitch.
 19. Quién evalúa a qué equipos en la peer evaluation.
-20. Fecha límite interna: lunes 5 por la noche.
+20. ~~Fecha límite interna~~ → decidido: desarrollos cerrados el lunes 5 a las 14:00.

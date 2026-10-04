@@ -111,7 +111,7 @@ Usamos asistentes de IA (Claude Code, entre otros) para programar, redactar docu
 | Fecha | cmelero- | fcamasa | lucaroma | Qué se hizo |
 |---|---|---|---|---|
 | 2026-10-01 | | | | Formación de equipos |
-| 2026-10-02 | _TODO_ | 1 | 1 | Análisis, documentación de la API, verificación del hosting, MVP inicial. lucaroma: reunión de equipo y lectura del enunciado |
+| 2026-10-02 | 4 | 1 | 1 | Análisis, documentación de la API, verificación del hosting, MVP inicial. lucaroma: reunión de equipo y lectura del enunciado |
 | 2026-10-03 | 1 | 1 | 1 | fcamasa: app de la API creada desde mi perfil de la intra y entorno de desarrollo preparado en localhost. cmelero- (con fcamasa): configuración de la IA como coordinadora mediante issues de GitHub; repaso de cómo es una issue y de cómo se aprueban y fusionan las PR. lucaroma: reunión de coordinación (issues y PRs) |
 | 2026-10-04 | 1 | | | cmelero-: revisión y aprobación de las PR del equipo (CI, ideación, gestión y horas); asignación de la UI a lucaroma; botón «Me ayudó» con votos de 1 a 3 y página «Mis valoraciones» (PR #34, pendiente de probar) |
 | 2026-10-05 | | | | |

@@ -170,6 +170,21 @@ ul.checklist, ul.projects, ul.mentors, ul.mentored { list-style: none; padding: 
 .mentored li { padding: 10px 0; border-bottom: 1px solid var(--border); }
 .mentored .note-text { margin: 4px 0 0; }
 
+/* «Me ayudó» */
+.vote-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 6px; }
+.vote { display: inline-flex; flex-wrap: wrap; gap: 6px; margin: 0; }
+.vote-btn {
+    font: inherit; font-size: .85rem; padding: 3px 12px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--bg); color: var(--text);
+}
+.vote-btn:hover { border-color: var(--accent); }
+.vote-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+ul.ratings { list-style: none; padding: 0; margin: 16px 0 0; }
+.ratings li {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px;
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+
 /* Confirmación de guardado */
 .saved-dialog {
     border: 0; border-radius: 16px; padding: 32px; max-width: 420px; width: calc(100% - 32px);

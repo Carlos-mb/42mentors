@@ -8,9 +8,9 @@ Proyecto del **Hackathon 42442** (42 Madrid, octubre de 2026).
 
 | Login 42 | Nombre | Responsabilidades |
 |---|---|---|
-| `cmelero-` | Carlos | _TODO_ |
-| `fcamasa` | Florentin | _TODO_ |
-| `lucaroma` | Lucas | _TODO_ |
+| `cmelero-` | Carlos | Coordinación del proyecto, caché de perfiles, «Me ayudó» y borrado de inactivos |
+| `fcamasa` | Florentin | Metodología de ideación del README y CI |
+| `lucaroma` | Lucas | Gestión del README, tablero de tareas, ocultar mentores inactivos y **UI** (interfaz; pendiente de confirmación de Carlos) |
 
 ## El problema ("dolor")
 
@@ -59,11 +59,23 @@ _TODO: describir cómo surgió la idea, qué alternativas se descartaron, boceto
 
 ## Gestión del proyecto
 
-_TODO: tablero (GitHub Projects), reparto de tareas, dailies, modelo de ramas y Pull Requests._
+Nos organizamos en [issues de GitHub](https://github.com/Carlos-mb/42mentors/issues). Esa lista es el tablero: cada tarea tiene un responsable (*assignee*), etiquetas (`prioridad alta`, `en curso`, `bloqueada` y el tipo) y un «Terminado cuando». Las issues sin asignar puede cogerlas cualquiera.
 
-- Tareas: [issues de GitHub](https://github.com/Carlos-mb/42mentors/issues), cada una con responsable y criterio de terminado. La IA de cada miembro las consulta para proponerle qué hacer y deja en ellas el avance (ver [AGENTS.md](AGENTS.md)).
-- Modelo de ramas: `main` (lo desplegado) ← `develop` ← `feature/<tarea>`, integrando siempre con Pull Request revisada por otro miembro.
-- Commits: [Conventional Commits](https://www.conventionalcommits.org/es/) (`feat:`, `fix:`, `docs:`…).
+**Quién decide.** Carlos (`Carlos-mb`) coordina el proyecto: aprueba asignaciones y cambios de criterio. Para proponer uno se comenta en la issue mencionando a `@Carlos-mb`.
+
+**Cómo se reparte el día a día.** La IA de cada miembro hace de coordinadora personal (reglas en [AGENTS.md](AGENTS.md)): mira las PR por revisar, las issues asignadas y recomienda la siguiente tarea. El avance se deja en un comentario de la issue al parar, para que otro pueda retomarla.
+
+**Reuniones.** Daily corta cuando hace falta (el 3 de octubre repasamos issues y cómo se aprueban las PR). El resto del tiempo la coordinación es por las issues, para que las tres IA vean lo mismo.
+
+**Ramas y Pull Requests.**
+- `main`: lo publicado en https://42.2275676.xyz
+- `develop`: donde se juntan las tareas terminadas
+- Una rama por tarea, siempre desde `develop` (`feature/<n>-…`, `fix/<n>-…`, `docs/<n>-…`), y vuelve a `develop` con una Pull Request
+- Otro miembro revisa y prueba antes de aprobar. Nadie hace commit directo en `main` ni `develop`, ni fusiona su propia PR
+- Al abrir la PR se escribe `Closes #<n>` para cerrar la issue al fusionarla
+- Commits: [Conventional Commits](https://www.conventionalcommits.org/es/) (`feat:`, `fix:`, `docs:`…)
+
+**Tablero.** Las issues son la fuente de verdad. Vista del equipo: https://github.com/Carlos-mb/42mentors/issues. Un tablero visual de GitHub Projects es opcional y no sustituye a las issues.
 
 ### Uso de IA
 Usamos asistentes de IA (Claude Code, entre otros) para programar, redactar documentación y trabajar con git.

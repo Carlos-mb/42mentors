@@ -192,6 +192,8 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - El procedimiento de la IA («¿qué hago?», empezar, comentar al parar, `Closes #n`) está en `AGENTS.md`; para personas, en la sección 1.12 de `INSTRUCCIONES_EQUIPO.md`. La lista de la sección 4 de ese fichero queda solo como histórico.
   - Para un tablero visual (GitHub Projects) desde `gh` hace falta `gh auth refresh -s project`. Es opcional y está en la issue #8.
 
+- 2026-10-04: **Lucas (`lucaroma`) propone encargarse también de la UI** (interfaz limpia y atractiva: CSS y vistas). No cambia el reparto hasta que Carlos lo apruebe en GitHub. Tareas ya suyas: gestión del README (#8), tablero y ocultar inactivos (#19).
+
 ### Decisiones de equipo pendientes (propuesta inicial entre paréntesis)
 Urgentes (bloquean el arranque):
 1. ~~Stack~~ → decidido: PHP sin framework + MySQL.

@@ -95,7 +95,7 @@ Nos organizamos en [issues de GitHub](https://github.com/Carlos-mb/42mentors/iss
 - `develop`: donde se juntan las tareas terminadas
 - Una rama por tarea, siempre desde `develop` (`feature/<n>-…`, `fix/<n>-…`, `docs/<n>-…`), y vuelve a `develop` con una Pull Request
 - Otro miembro revisa y prueba antes de aprobar. Nadie hace commit directo en `main` ni `develop`, ni fusiona su propia PR
-- Al abrir la PR se escribe `Closes #<n>` para cerrar la issue al fusionarla
+- La PR menciona su issue (`Issue: #<n>`). Cuando la PR se fusiona en `develop`, la issue se cierra a mano con un comentario que enlaza la PR (`Closes #<n>` solo funciona en PR a `main`, la rama por defecto)
 - Commits: [Conventional Commits](https://www.conventionalcommits.org/es/) (`feat:`, `fix:`, `docs:`…)
 
 **Tablero.** Las issues son la fuente de verdad. Vista del equipo: https://github.com/Carlos-mb/42mentors/issues. Un tablero visual de GitHub Projects es opcional y no sustituye a las issues.

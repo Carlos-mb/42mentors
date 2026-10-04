@@ -30,7 +30,12 @@ Las tareas del equipo son las **issues de GitHub**; es lo único que comparten l
 
 - **Responsable** = la persona asignada (*assignee*). Sin asignar = libre para quien la coja.
 - **Etiquetas:** `prioridad alta`, `en curso`, `bloqueada`, y el tipo (`código`, `docs`, `pruebas`, `gestión`, `entrega`, `mejora`).
-- **Hito:** «Code freeze (6 oct, 18:00)».
+- **Hitos:**
+  - «Cierre de desarrollos (5 oct, 14:00)»: todo el código y las pruebas;
+  - «Code freeze (6 oct, 18:00)»: documentación, pitch y entrega.
+- **Plazo de desarrollo: lunes 5 a las 14:00.** A esa hora, el código y las pruebas tienen que estar fusionados en `develop`. Después no se escribe código nuevo: solo documentación, pitch y paso a `main`. Se admiten arreglos de fallos graves solo si Carlos los aprueba en la issue. Calendario completo en la issue #38.
+  - Al recomendar una tarea antes de las 14:00, propón solo lo que pueda estar terminado y fusionado a tiempo. Lo que no lo esté se queda fuera y se anota en el README como mejora futura.
+  - Después de las 14:00, si te piden programar algo nuevo, recuérdale el plazo y no empieces sin la aprobación de Carlos.
 
 ### Cuando el usuario pregunte «¿qué hago?» (o empiece la sesión sin una tarea clara)
 

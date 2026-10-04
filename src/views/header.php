@@ -17,6 +17,7 @@
             <a href="projects.php" class="<?= $active === 'projects' ? 'active' : '' ?>">Proyectos</a>
             <a href="mentors.php" class="<?= $active === 'mentors' ? 'active' : '' ?>">Mentores</a>
             <a href="profile.php" class="<?= $active === 'profile' ? 'active' : '' ?>">Mi perfil</a>
+            <a href="ratings.php" class="<?= $active === 'ratings' ? 'active' : '' ?>">Mis valoraciones</a>
         </nav>
         <div class="me">
             <?php if ($user['image_url']): ?>

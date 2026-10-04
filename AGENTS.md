@@ -37,7 +37,7 @@ Las tareas del equipo son las **issues de GitHub**; es lo único que comparten l
 1. Ponte al día: `git fetch` y `gh api user --jq .login` para saber quién es.
 2. Revisa, en este orden de prioridad:
    1. PR que esperan **su revisión**: `gh pr list --search "review-requested:@me"`. Revisar pronto desbloquea a los demás;
-   2. **sus PR** con cambios pedidos o conflictos: `gh pr list --author @me`;
+   2. **sus PR** con cambios pedidos o conflictos: `gh pr list --author @me`. Mira también sus PR ya fusionadas (`gh pr list --author @me --state merged`): si su issue sigue abierta, ciérrala (ver «Mientras trabajas y al parar»);
    3. **sus issues** abiertas: `gh issue list --assignee @me`. Primero `en curso`, luego `prioridad alta`, luego el resto. Salta las `bloqueada`;
    4. si no tiene ninguna, issues **sin asignar**: `gh issue list --search "no:assignee -label:bloqueada"`.
 3. Resúmele en pocas líneas qué tiene pendiente y **recomiéndale una** tarea. Si hay algo de otro miembro que lleva tiempo parado o bloquea su tarea, díselo.
@@ -55,7 +55,9 @@ Las tareas del equipo son las **issues de GitHub**; es lo único que comparten l
 - **Al terminar la sesión, aunque la tarea no esté acabada**, deja un comentario corto en la issue: qué se hizo, qué falta y en qué rama. Es lo que leerá la IA de quien la retome.
 - Si aparece un fallo o una tarea nueva que no es la actual, **no la mezcles**: crea una issue nueva (`gh issue create`), con etiqueta, hito y un «Terminado cuando». Déjala sin asignar, o asignada a tu usuario si la va a hacer quien te habla; si debe hacerla otra persona, menciona a `@Carlos-mb` para que la asigne.
 - Si la tarea depende de otra, pon `bloqueada` y menciona la issue de la que depende (`#n`).
-- Al abrir la PR, escribe `Closes #<n>` en la descripción: al fusionarla, la issue se cierra sola. Quita `en curso`.
+- Al abrir la PR, menciona la issue en la descripción (`Issue: #<n>`), para que la PR aparezca en ella, y quita `en curso`.
+- **La issue no se cierra sola.** `Closes #<n>` solo actúa en las PR a la rama por defecto del repo (`main`), y las nuestras van a `develop`.
+- **Cuando la PR se fusione en `develop`, cierra la issue a mano** con un comentario: `gh issue close <n> --comment "Hecho en #<PR>, ya en develop."`. Lo hace la IA de quien hizo la PR, porque la issue es suya, o la persona que fusiona la PR.
 - Recuérdale apuntar **sus horas reales** del día en el README; las pone la persona, no tú.
 
 ### Quién decide: Carlos coordina

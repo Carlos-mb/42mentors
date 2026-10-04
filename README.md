@@ -55,7 +55,30 @@ Límite de la API: 2 peticiones por segundo y 1200 por hora por app. Por eso se 
 
 ## Metodología de ideación y prototipado
 
-_TODO: describir cómo surgió la idea, qué alternativas se descartaron, bocetos o prototipos, y cómo se validó con otros estudiantes._
+### Cómo surgió la idea
+La idea nació de juntar tres necesidades reales de los miembros del equipo:
+
+- **Florentin** quería conectar a las personas de la comunidad de 42 y hacerla crecer. Además, tenía una necesidad concreta: buscar apoyo para el examen 02 del common core, que lleva más de 10 intentos.
+- **Carlos** necesitaba encontrar compañeros para sus proyectos. En su experiencia, Slack no es un canal productivo para eso: los mensajes se pierden y no se sabe quién está dispuesto a ayudar.
+- **Lucas** propuso animar a la gente a participar en la comunidad con algún incentivo, de forma que ayudar sirva también para conocer a otros estudiantes.
+
+Al ponerlas en común vimos que las tres tenían una raíz común: **la ayuda existe en el campus, pero no hay forma de encontrarla**. De ahí salió la idea: una web donde quien ya ha validado un proyecto puede ofrecerse a ayudar con él, y quien está atascado puede ver quién se ha ofrecido y dónde está sentado en ese momento.
+
+### Alternativas descartadas
+| Alternativa | Por qué se descartó |
+|---|---|
+| Premios o recompensas por participar (idea de Lucas) | Requiere implicar al staff de 42 y no cabía en el plazo del hackathon. Se deja como evolución futura; como primer paso se planteó el botón «Me ayudó» y un ranking de mentores. |
+| Seguir usando Slack | Es el problema de partida: los mensajes se pierden y no indican quién ha validado el proyecto ni quién quiere ayudar. |
+| Flask (Python) | El hosting compartido no admite Python. Se cambió a PHP sin framework con MySQL. |
+| Mostrar los proyectos a los que el estudiante puede inscribirse (`/projects_users/registration`) | Se priorizaron los proyectos no validados que **ya tienen mentores**, porque un proyecto sin mentores no le sirve al estudiante. Queda como mejora. |
+
+### Prototipado
+1. **Análisis (1-2 oct):** lectura del enunciado, las bases y las condiciones de uso de la API de 42, que marcaron el diseño de privacidad (consentimiento, datos mínimos, borrado).
+2. **MVP desplegado el 2 oct** en el dominio del proyecto: login con 42, «Mi perfil» para marcar proyectos y búsqueda de mentores por proyecto.
+3. **Iteración sobre el MVP:** directorio de mentores con buscador, ficha del mentor con datos de la intra, y caché para no superar el límite de la API.
+
+### Validación
+Antes de desarrollarla, contamos la idea a **más de 20 estudiantes de 42 Madrid**, y a todos les pareció muy buena idea. Confirmaron lo que habíamos visto en el equipo: cuando alguien se atasca en un proyecto, no tiene una forma rápida de saber quién del campus lo ha validado y quiere ayudar.
 
 ## Gestión del proyecto
 

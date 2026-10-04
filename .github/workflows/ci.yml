@@ -1,0 +1,47 @@
+# Comprobaciones automáticas en cada Pull Request y en cada push a main o develop.
+# Si alguna falla, la PR muestra una ❌ y no conviene fusionarla.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, develop]
+
+jobs:
+  # Comprueba que ningún fichero PHP tiene errores de sintaxis.
+  php-lint:
+    name: Sintaxis PHP (php -l)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # La misma versión que el hosting (PHP 8.1), para detectar código que allí no funcionaría.
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: none
+
+      - name: php -l en todos los ficheros .php
+        run: |
+          status=0
+          while IFS= read -r -d '' f; do
+            # Solo muestra la salida si hay error (qué fichero y en qué línea)
+            if ! out=$(php -l "$f" 2>&1); then
+              echo "$out"
+              status=1
+            fi
+          done < <(find . -name '*.php' -not -path './.git/*' -print0)
+          exit $status
+
+  # Busca secretos subidos por error (client_secret, contraseñas, tokens...).
+  gitleaks:
+    name: Secretos (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # todo el historial, para revisar también los commits anteriores
+
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

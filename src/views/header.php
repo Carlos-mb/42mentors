@@ -8,8 +8,11 @@
     <meta name="robots" content="noindex, nofollow">
     <title><?= e($title) ?> · 42 Mentors</title>
     <link rel="stylesheet" href="assets/style.css">
+    <?php if ($user): ?>
+        <link rel="stylesheet" href="assets/session.css">
+    <?php endif; ?>
 </head>
-<body>
+<body<?= $user ? ' class="session"' : '' ?>>
 <header class="topbar">
     <a class="brand" href="index.php">42<span>Mentors</span></a>
     <?php if ($user): ?>

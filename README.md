@@ -162,7 +162,7 @@ Usamos asistentes de IA (Claude Code, entre otros) para programar, redactar docu
 | 2026-10-02 | 4 | 1 | 1 | Análisis, documentación de la API, verificación del hosting, MVP inicial. lucaroma: reunión de equipo y lectura del enunciado |
 | 2026-10-03 | 1 | 3 | 1 | fcamasa: app de la API creada desde mi perfil de la intra y entorno de desarrollo preparado en localhost; por la tarde, revisión de la PR #2, issue #25 y apartado de ideación del README. cmelero- (con fcamasa): configuración de la IA como coordinadora mediante issues de GitHub; repaso de cómo es una issue y de cómo se aprueban y fusionan las PR. lucaroma: reunión de coordinación (issues y PRs) |
 | 2026-10-04 | 1 | 2 | | cmelero-: revisión y aprobación de las PR del equipo (CI, ideación, gestión y horas); asignación de la UI a lucaroma; botón «Me ayudó» con votos de 1 a 3 y página «Mis valoraciones» (PR #34). fcamasa: CI con GitHub Actions (#21), pruebas de login, consentimiento y perfil (#14, #15) e issue de mejora #33 |
-| 2026-10-05 | | | | cmelero-: revisión, prueba en el servidor y fusión de las PR del día (piscina, texto de la caché, «Me ayudó», inactivos e interfaz); paso a `main`; reglas de entrega según el correo de la organización, respuesta al correo y README frente a los requisitos mínimos |
+| 2026-10-05 | 3 | | | cmelero-: revisión, prueba en el servidor y fusión de las PR del día (piscina, texto de la caché, «Me ayudó», inactivos e interfaz); PR de paso a `main` (#49); reglas de entrega según el correo de la organización, respuesta al correo y README frente a los requisitos mínimos |
 | 2026-10-06 | | | | |
 | **Total** | | | | |
 

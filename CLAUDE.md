@@ -32,6 +32,17 @@ Detalle original en [proyecto.txt](proyecto.txt). Equipo en [datos.txt](datos.tx
   - 50% peer evaluation, con 0/1 por criterio: Git y ramas (50%), ideación (25%), gestión (25%);
   - 25% funcionalidad e impacto (desempate);
   - 25% pitch.
+- **Requisitos mínimos de la organización** (correo de Liga Nexus del 5 oct por la noche; **prioridad absoluta**):
+  - **Problema y solución:** a quién ayudamos, cómo y qué decisiones nos llevaron al prototipo.
+  - **Trabajo en equipo:** logins, responsabilidades, organización y aportaciones de cada integrante.
+  - **Código y Git:** repositorio organizado, código comprensible e historial de desarrollo progresivo.
+  - **API de 42:** integración y uso de sus datos en una funcionalidad.
+  - **Ejecución:** instrucciones para instalar, configurar y ejecutar.
+  - **Dificultades:** problemas y cómo se abordaron; si no hubo, decirlo.
+  - Revisión del README frente a estos puntos: issue #53.
+- **Respuesta al correo antes del 6 oct a las 13:00** (una por equipo, la envía Carlos; issue #52): nombre del equipo, logins, URL del repo y URL de la carpeta de la presentación.
+  - **La URL del repo no se puede cambiar una vez comunicada.** Se pueden añadir commits hasta el 6 oct a las 18:00.
+  - **Presentación:** primera versión en la carpeta antes del 6 oct a las 18:00; retoques hasta el 7 oct a las 13:00. **Versión en PDF obligatoria** y los vídeos descargados en la carpeta. La carpeta va fuera del repo, porque el repo se congela antes.
 
 ## Documentación de la API (copia local)
 - La web `https://api.intra.42.fr/apidoc` requiere login y se anunció que dejaría de estar disponible. **Se descargó completa el 2026-10-02** en [API-Docs/](API-Docs/README.md):
@@ -139,7 +150,7 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - El texto del consentimiento se amplió con los datos nuevos. Las cuentas que aceptaron antes son solo de prueba del equipo; con usuarios reales habría que pedirles que aceptaran de nuevo.
   - Queda para más adelante: número de correcciones del proyecto (`scale_teams`, varias llamadas). «Me ayudó» ya está especificado (ver 2026-10-03).
 
-- 2026-10-02: **repo git creado**: https://github.com/Carlos-mb/42mentors (privado de momento; hay que hacerlo **público** antes del code freeze para la peer evaluation).
+- 2026-10-02: **repo git creado**: https://github.com/Carlos-mb/42mentors (**público** desde el 5 oct; su URL se comunica a la organización y ya no se puede cambiar).
   - git y gh instalados en el PC de Carlos; `gh` autenticado como `Carlos-mb`. Identidad del repo local: `Carlos` / email noreply de GitHub.
   - Ramas: `main` y `develop`, **ambas protegidas** (solo vía PR con 1 aprobación, sin force push). Trabajo en `feature/*`, `fix/*`, `docs/*` → PR a `develop` (merge commit, no squash) → PR a `main`. Guía para el equipo en la sección 1 de `INSTRUCCIONES_EQUIPO.md`; pensada para gente que nunca ha usado ramas ni PR.
   - Florentin y Lucas usarán IA para git (Florentin, Claude; Lucas, otra aún por saber). Las reglas para cualquier IA están en `AGENTS.md`, que `CLAUDE.md` importa; para IA de chat, se pega su contenido.
@@ -207,6 +218,13 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - A las 14:00, el código y las pruebas tienen que estar fusionados en `develop`. Hito «Cierre de desarrollos (5 oct, 14:00)» en GitHub; calendario completo en la issue #38.
   - Después, sin código nuevo: documentación (README, capturas), pitch y paso a `main`. Solo se arreglan fallos graves, y con la aprobación de Carlos.
   - Lo que no esté terminado a las 14:00 se anota en el README como mejora futura y su issue se cierra como «not planned».
+
+- 2026-10-05, noche: **correo de la organización con los requisitos mínimos y la respuesta antes del 6 oct a las 13:00** (ver «Bases del hackathon»). Prioridad absoluta hasta el final.
+  - Issues: #52 (responder al correo, Carlos), #53 (README frente a los requisitos) y #11 (presentación: carpeta, PDF, vídeos).
+  - El repo ya es **público** (#12 cerrada). Su URL no se cambia: no se renombra, no se transfiere, no se borra y no se vuelve a hacer privado.
+  - Los evaluadores ven `main`: todo tiene que estar en `main` antes del code freeze. Último paso a `main`, el 6 a las 15:00.
+  - **Desde el 6 oct a las 18:00 no se hace ningún commit, push ni merge en el repo**, en ninguna rama. Solo se retoca la presentación, en su carpeta, hasta el 7 a las 13:00.
+  - Reglas para las IA en `AGENTS.md`, sección «Entrega».
 
 ### Decisiones de equipo pendientes (propuesta inicial entre paréntesis)
 Urgentes (bloquean el arranque):

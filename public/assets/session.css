@@ -24,22 +24,25 @@
 
 .choices { margin-top: 0; gap: 18px; }
 .choice { position: relative; overflow: hidden; border-width: 2px; padding: 24px 22px 26px; box-shadow: var(--shadow); }
+.choice > * { position: relative; z-index: 1; }
 .choice::after {
     content: "";
     position: absolute;
-    right: -28px;
-    bottom: -34px;
-    width: 110px;
-    height: 110px;
+    z-index: 0;
+    right: -48px;
+    bottom: -56px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     pointer-events: none;
+    opacity: .45;
 }
 .choice-a { background: var(--card); }
-.choice-a::after { background: color-mix(in srgb, var(--accent) 22%, white); }
+.choice-a::after { background: color-mix(in srgb, var(--accent) 35%, white); }
 .choice-b { background: color-mix(in srgb, var(--accent) 10%, white); }
-.choice-b::after { background: color-mix(in srgb, var(--accent) 32%, white); }
-.choice-c { background: color-mix(in srgb, var(--accent) 18%, white); }
-.choice-c::after { background: color-mix(in srgb, var(--accent) 40%, white); }
+.choice-b::after { background: color-mix(in srgb, var(--accent) 40%, white); }
+.choice-c { background: color-mix(in srgb, var(--accent) 14%, white); }
+.choice-c::after { background: color-mix(in srgb, var(--accent) 45%, white); }
 .choice:hover { transform: translateY(-4px) rotate(-.3deg); box-shadow: var(--shadow-lg); }
 .choice-tag {
     display: inline-block;

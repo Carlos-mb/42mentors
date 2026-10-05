@@ -42,8 +42,9 @@ render_header('Antes de empezar', 'profile');
         <li>Tu nombre, tu foto, tu nivel, tu coalición, tu puesto en el cluster si estás conectado y la nota
             y la fecha de validación de los proyectos que mentorizas.</li>
     </ul>
-    <p>Esos datos se consultan a la intra y no se guardan en la base de datos: solo se mantienen como mucho
-        una hora en una caché temporal del servidor, que se borra si borras tus datos.</p>
+    <p>Esos datos se consultan a la intra y no se guardan en la base de datos. Para no saturar la API, se guarda
+        una copia en una caché temporal del servidor, que se actualiza con la intra como mucho una vez por hora
+        cuando alguien los consulta, y que se borra si borras tus datos.</p>
     <p>Puedes ponerte «en pausa», o retirar tu consentimiento y borrar tus datos cuando quieras, desde la
         <a href="privacy.php">página de privacidad</a>.</p>
     <form method="post" class="actions">

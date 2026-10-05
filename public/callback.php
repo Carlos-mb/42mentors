@@ -35,6 +35,14 @@ if ($campusId === null && isset($me['campus'][0]['id'])) {
     $campusId = (int) $me['campus'][0]['id'];
 }
 
+// Cursus de piscina del usuario (C Piscine, C-Piscine-Reloaded…): su slug contiene «piscine»
+$piscineCursus = [];
+foreach ($me['cursus_users'] ?? [] as $cursusUser) {
+    if (str_contains((string) ($cursusUser['cursus']['slug'] ?? ''), 'piscine')) {
+        $piscineCursus[(int) $cursusUser['cursus']['id']] = true;
+    }
+}
+
 // Proyectos del usuario (solo proyectos principales, sin subproyectos)
 $projects = [];
 foreach ($me['projects_users'] ?? [] as $projectUser) {
@@ -42,12 +50,16 @@ foreach ($me['projects_users'] ?? [] as $projectUser) {
     if (!$project || !empty($project['parent_id'])) {
         continue;
     }
+    // De piscina = todos sus cursus son de piscina (después de la piscina no tiene sentido mentorizarlos)
+    $cursusIds = array_map('intval', $projectUser['cursus_ids'] ?? []);
+    $piscine = $cursusIds && !array_diff_key(array_flip($cursusIds), $piscineCursus);
     $projects[(int) $project['id']] = [
         'id'        => (int) $project['id'],
         'name'      => (string) $project['name'],
         'slug'      => (string) $project['slug'],
         'status'    => (string) ($projectUser['status'] ?? ''),
         'validated' => ($projectUser['validated?'] ?? null) === true,
+        'piscine'   => $piscine,
     ];
 }
 

@@ -5,11 +5,11 @@ require __DIR__ . '/../src/bootstrap.php';
 
 $user = require_login();
 
-// Mentores de mi campus (yo incluido) con al menos un proyecto y que no están en pausa
+// Mentores de mi campus (yo incluido) con al menos un proyecto, no en pausa ni inactivos
 $stmt = db()->prepare(
     "SELECT u.id, u.login, u.availability, u.bio
        FROM users u
-      WHERE u.campus_id <=> ? AND u.availability <> 'paused'
+      WHERE u.campus_id <=> ? AND " . sql_mentor_visible() . "
         AND EXISTS (SELECT 1 FROM mentor_projects mp WHERE mp.user_id = u.id)"
 );
 $stmt->execute([$user['campus_id']]);
@@ -24,7 +24,7 @@ if ($mentors) {
            FROM mentor_projects mp
            JOIN projects p ON p.id = mp.project_id
            JOIN users u    ON u.id = mp.user_id
-          WHERE u.campus_id <=> ? AND u.availability <> 'paused'
+          WHERE u.campus_id <=> ? AND " . sql_mentor_visible() . "
           ORDER BY p.name"
     );
     $stmt->execute([$user['campus_id']]);

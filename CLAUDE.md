@@ -165,6 +165,12 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
       - El texto de `consent.php` y `privacy.php` tiene que cubrir también a quien solo vota, no solo a los mentores.
       - Un votante con consentimiento entra en `users`, pero no sale en el directorio porque no tiene `mentor_projects`.
       - «Borrar mis datos» elimina los votos emitidos y los recibidos.
+    - 2026-10-04, implementado en `feature/17-me-ayudo` (pendiente de probar en el servidor):
+      - migración `003_votos.sql`, que se aplica **antes** de subir el código;
+      - botones «Un poco» (1), «Bastante» (2) y «Mucho» (3); `vote.php` guarda y `ratings.php` es «Mis valoraciones» (en el menú);
+      - el voto se puede cambiar, pero **no quitar** (si se quitara y se volviera a votar, cambiaría `created_at` y se haría trampa en el ranking). Solo «Borrar mis datos» los elimina;
+      - si el estudiante no ha dado su consentimiento, el voto lo manda a `consent.php?next=…` y después vuelve a la ficha;
+      - la ficha (`mentor.php`) solo existe para usuarios con algún proyecto (o uno mismo), y la caché de ubicaciones solo guarda mentores con proyectos. Así quien solo vota no se ve en ningún sitio.
   - **Ranking (6):** mentores del campus ordenados por la suma de puntos de los votos con `created_at` dentro de la franja. Las franjas son última semana, último mes, últimos 3 meses, último año y desde siempre.
     - Empates: más votos y, después, login.
     - Solo aparecen mentores con al menos un voto en la franja.
@@ -193,7 +199,7 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - Para un tablero visual (GitHub Projects) desde `gh` hace falta `gh auth refresh -s project`. Es opcional y está en la issue #8.
   - 2026-10-04: **las issues se cierran a mano** al fusionar su PR en `develop`. `Closes #n` solo actúa en PR a la rama por defecto (`main`). Carlos prefiere, de momento, no cambiar la rama por defecto a `develop`. Procedimiento en `AGENTS.md`.
 
-- 2026-10-04: **Lucas (`lucaroma`) propone encargarse también de la UI** (interfaz limpia y atractiva: CSS y vistas). Aprobado por Carlos en la issue #30.
+- 2026-10-04: **Lucas (`lucaroma`) se encarga también de la UI** (interfaz limpia y atractiva: CSS y vistas, también en móvil). Lo propuso él y Carlos lo aprobó en la issue #30, que ya tiene asignada. Otras tareas suyas: gestión del README (#8, hecha), tablero y ocultar inactivos (#19).
 
 - 2026-10-05: **ocultar inactivos (#19), plazo propuesto: 30 días** sin `last_login_at`. Igual que «en pausa»: no salen en Proyectos ni Mentores; la ficha por enlace sigue accesible. El borrado lo hace Carlos (#20).
 

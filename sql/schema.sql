@@ -35,3 +35,21 @@ CREATE TABLE IF NOT EXISTS mentor_projects (
     CONSTRAINT fk_mp_user    FOREIGN KEY (user_id)    REFERENCES users (id)    ON DELETE CASCADE,
     CONSTRAINT fk_mp_project FOREIGN KEY (project_id) REFERENCES projects (id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- «Me ayudó»: un voto de 1 a 3 por (estudiante, mentor, proyecto). Anónimos: fuera de «Mis valoraciones»
+-- solo se muestran totales. created_at no cambia al modificar el voto (el ranking cuenta por esa fecha).
+CREATE TABLE IF NOT EXISTS votes (
+    voter_id   INT UNSIGNED     NOT NULL,
+    mentor_id  INT UNSIGNED     NOT NULL,
+    project_id INT UNSIGNED     NOT NULL,
+    value      TINYINT UNSIGNED NOT NULL,
+    created_at DATETIME         NOT NULL,                -- fecha del primer voto
+    updated_at DATETIME         NOT NULL,
+    PRIMARY KEY (voter_id, mentor_id, project_id),
+    KEY idx_mentor (mentor_id, created_at),
+    KEY idx_project (project_id),
+    CONSTRAINT chk_votes_value CHECK (value BETWEEN 1 AND 3),
+    CONSTRAINT fk_votes_voter   FOREIGN KEY (voter_id)   REFERENCES users (id)    ON DELETE CASCADE,
+    CONSTRAINT fk_votes_mentor  FOREIGN KEY (mentor_id)  REFERENCES users (id)    ON DELETE CASCADE,
+    CONSTRAINT fk_votes_project FOREIGN KEY (project_id) REFERENCES projects (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

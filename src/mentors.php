@@ -24,6 +24,19 @@ const LANGUAGE_LABELS = [
     'ca' => 'Català',
 ];
 
+/** Días sin entrar (last_login_at) para dejar de aparecer en Proyectos y Mentores. La ficha sigue accesible. */
+const MENTOR_INACTIVE_DAYS = 30;
+
+/**
+ * Condición SQL: mentor visible en las búsquedas (no en pausa y ha iniciado sesión en los últimos N días).
+ * $alias es el alias de la tabla users (por defecto u). El número de días es una constante entera.
+ */
+function sql_mentor_visible(string $alias = 'u'): string
+{
+    $days = MENTOR_INACTIVE_DAYS;
+    return "$alias.availability <> 'paused' AND $alias.last_login_at >= (NOW() - INTERVAL $days DAY)";
+}
+
 /** Idiomas guardados ("es,en") → códigos válidos, en el orden de LANGUAGE_LABELS. */
 function parse_languages(?string $value): array
 {

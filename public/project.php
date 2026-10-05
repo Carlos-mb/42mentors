@@ -16,7 +16,7 @@ $stmt = db()->prepare(
     "SELECT u.id, u.login, u.availability, mp.note
        FROM mentor_projects mp
        JOIN users u ON u.id = mp.user_id
-      WHERE mp.project_id = ? AND u.id <> ? AND u.campus_id <=> ? AND u.availability <> 'paused'"
+      WHERE mp.project_id = ? AND u.id <> ? AND u.campus_id <=> ? AND " . sql_mentor_visible()
 );
 $stmt->execute([$projectId, $user['id'], $user['campus_id']]);
 $mentors = $stmt->fetchAll();

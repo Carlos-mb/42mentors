@@ -11,7 +11,7 @@ $stmt = db()->prepare(
        FROM mentor_projects mp
        JOIN projects p ON p.id = mp.project_id
        JOIN users u    ON u.id = mp.user_id
-      WHERE u.id <> ? AND u.campus_id <=> ? AND u.availability <> 'paused'
+      WHERE u.id <> ? AND u.campus_id <=> ? AND " . sql_mentor_visible() . "
       GROUP BY p.id, p.name"
 );
 $stmt->execute([$user['id'], $user['campus_id']]);
@@ -21,6 +21,9 @@ foreach ($stmt->fetchAll() as $row) {
     $mine = $myProjects[(int) $row['id']] ?? null;
     if ($mine && $mine['validated']) {
         continue; // ya lo tengo validado: no necesito mentor
+    }
+    if ($mine && !empty($mine['piscine'])) {
+        continue; // proyecto de la piscina: ya no se hace después de ella
     }
     $row['in_progress'] = $mine && $mine['status'] === 'in_progress';
     $projects[] = $row;

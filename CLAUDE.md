@@ -195,10 +195,18 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - **Carlos es el coordinador del proyecto:** las asignaciones de tareas y los cambios de criterio los aprueba él. Las demás IA lo proponen en la issue mencionando a `@Carlos-mb`; las tareas sin asignar puede cogerlas cualquiera.
   - GitHub es el único nexo común del equipo. Cada tarea es una issue con responsable, etiquetas (`prioridad alta`, `en curso`, `bloqueada` y tipo) y el hito «Code freeze (6 oct, 18:00)».
   - Issues iniciales #4–#22, asignadas según el reparto anterior. Las pruebas, las capturas, el pitch y algunas mejoras quedan sin asignar, para quien las coja.
-  - El procedimiento de la IA («¿qué hago?», empezar, comentar al parar, `Closes #n`) está en `AGENTS.md`; para personas, en la sección 1.12 de `INSTRUCCIONES_EQUIPO.md`. La lista de la sección 4 de ese fichero queda solo como histórico.
+  - El procedimiento de la IA («¿qué hago?», empezar, comentar al parar, cerrar la issue) está en `AGENTS.md`; para personas, en la sección 1.12 de `INSTRUCCIONES_EQUIPO.md`. La lista de la sección 4 de ese fichero queda solo como histórico.
   - Para un tablero visual (GitHub Projects) desde `gh` hace falta `gh auth refresh -s project`. Es opcional y está en la issue #8.
+  - 2026-10-04: **las issues se cierran a mano** al fusionar su PR en `develop`. `Closes #n` solo actúa en PR a la rama por defecto (`main`). Carlos prefiere, de momento, no cambiar la rama por defecto a `develop`. Procedimiento en `AGENTS.md`.
 
 - 2026-10-04: **Lucas (`lucaroma`) se encarga también de la UI** (interfaz limpia y atractiva: CSS y vistas, también en móvil). Lo propuso él y Carlos lo aprobó en la issue #30, que ya tiene asignada. Otras tareas suyas: gestión del README (#8, hecha), tablero y ocultar inactivos (#19).
+
+- 2026-10-05: **ocultar inactivos (#19), plazo propuesto: 30 días** sin `last_login_at`. Igual que «en pausa»: no salen en Proyectos ni Mentores; la ficha por enlace sigue accesible. El borrado lo hace Carlos (#20).
+
+- 2026-10-04: **cierre de desarrollos el lunes 5 a las 14:00** (decidido por Carlos con el equipo: no hay más tiempo, porque tienen otras tareas).
+  - A las 14:00, el código y las pruebas tienen que estar fusionados en `develop`. Hito «Cierre de desarrollos (5 oct, 14:00)» en GitHub; calendario completo en la issue #38.
+  - Después, sin código nuevo: documentación (README, capturas), pitch y paso a `main`. Solo se arreglan fallos graves, y con la aprobación de Carlos.
+  - Lo que no esté terminado a las 14:00 se anota en el README como mejora futura y su issue se cierra como «not planned».
 
 ### Decisiones de equipo pendientes (propuesta inicial entre paréntesis)
 Urgentes (bloquean el arranque):
@@ -227,4 +235,4 @@ Entrega:
 17. Demo en el dominio propio; tener la versión local como plan B.
 18. Quién hace el pitch.
 19. Quién evalúa a qué equipos en la peer evaluation.
-20. Fecha límite interna: lunes 5 por la noche.
+20. ~~Fecha límite interna~~ → decidido: desarrollos cerrados el lunes 5 a las 14:00.

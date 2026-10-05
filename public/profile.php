@@ -4,10 +4,10 @@ require __DIR__ . '/../src/bootstrap.php';
 
 $user = require_consent();
 
-// Proyectos terminados y validados (datos de /v2/me tomados al iniciar sesión)
+// Proyectos terminados y validados, sin los de la piscina (datos de /v2/me tomados al iniciar sesión)
 $finished = array_filter(
     user_projects(),
-    fn(array $p): bool => $p['validated'] && $p['status'] === 'finished'
+    fn(array $p): bool => $p['validated'] && $p['status'] === 'finished' && empty($p['piscine'])
 );
 uasort($finished, fn(array $a, array $b): int => strcasecmp($a['name'], $b['name']));
 

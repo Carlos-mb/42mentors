@@ -56,8 +56,9 @@ render_header('Antes de empezar', $next === 'profile.php' ? 'profile' : '');
             y la fecha de validación de los proyectos que mentorizas.</li>
         <li>Los puntos «Me ayudó» que hayas recibido.</li>
     </ul>
-    <p>Esos datos de la intra se consultan a la API de 42 y no se guardan en la base de datos: solo se mantienen
-        como mucho una hora en una caché temporal del servidor, que se borra si borras tus datos.</p>
+    <p>Esos datos de la intra se consultan a la API de 42 y no se guardan en la base de datos. Para no saturar
+        la API, se guarda una copia en una caché temporal del servidor, que se actualiza con la intra como mucho
+        una vez por hora cuando alguien los consulta, y que se borra si borras tus datos.</p>
     <p>Puedes ponerte «en pausa», o retirar tu consentimiento y borrar tus datos cuando quieras, desde la
         <a href="privacy.php">página de privacidad</a>. Se borran también las valoraciones que hayas hecho y las
         que hayas recibido.</p>

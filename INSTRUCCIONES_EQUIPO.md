@@ -278,7 +278,7 @@ Las tareas son las **issues** de GitHub: https://github.com/Carlos-mb/42mentors/
 1. mira en GitHub las PR que esperan vuestra revisión, vuestras PR y vuestras issues;
 2. os recomienda una tarea, crea la rama con su número (`feature/17-me-ayudo`) y os ayuda a hacerla;
 3. al parar, deja en la issue un comentario con lo hecho y lo que falta, para que cualquiera pueda retomarla;
-4. al abrir la PR escribe `Closes #17`, y al fusionarla se cierra la tarea.
+4. al abrir la PR escribe `Issue: #17` en la descripción. La issue **no se cierra sola** (nuestras PR van a `develop`, no a `main`): cuando la PR se fusione, la cierra vuestra IA o quien la fusione.
 
 Si encontráis un fallo o una tarea nueva, pedidle que cree una issue. **Carlos coordina el proyecto:** los cambios de asignación o de criterio los aprueba él. Para pedirlos, se comenta en la issue mencionando a `@Carlos-mb`. Las tareas sin asignar puede cogerlas cualquiera.
 

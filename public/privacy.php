@@ -35,8 +35,9 @@ render_header('Privacidad');
     </ul>
     <p>El nombre, la foto, el nivel, la coalición, el puesto en el cluster y las notas de los proyectos de la intra
         no se guardan en la base de datos: se consultan a la API de 42. Para no saturarla, se mantienen en una caché
-        temporal del servidor, solo los de los mentores: los puestos, unos minutos; el resto, como mucho una hora.
-        Al borrar tus datos se borra también tu caché. El token de acceso de 42 solo vive en tu sesión
+        temporal del servidor, solo los de los mentores: los puestos se renuevan cada pocos minutos, y el resto,
+        como mucho una vez por hora cuando alguien los consulta. Mientras nadie los consulte, la copia se conserva
+        hasta que borres tus datos: al borrarlos se borra también tu caché. El token de acceso de 42 solo vive en tu sesión
         y desaparece al salir.</p>
 
     <h2>Para qué</h2>

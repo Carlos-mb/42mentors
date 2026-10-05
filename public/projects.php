@@ -22,6 +22,9 @@ foreach ($stmt->fetchAll() as $row) {
     if ($mine && $mine['validated']) {
         continue; // ya lo tengo validado: no necesito mentor
     }
+    if ($mine && !empty($mine['piscine'])) {
+        continue; // proyecto de la piscina: ya no se hace después de ella
+    }
     $row['in_progress'] = $mine && $mine['status'] === 'in_progress';
     $projects[] = $row;
 }

@@ -193,7 +193,9 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - Para un tablero visual (GitHub Projects) desde `gh` hace falta `gh auth refresh -s project`. Es opcional y está en la issue #8.
   - 2026-10-04: **las issues se cierran a mano** al fusionar su PR en `develop`. `Closes #n` solo actúa en PR a la rama por defecto (`main`). Carlos prefiere, de momento, no cambiar la rama por defecto a `develop`. Procedimiento en `AGENTS.md`.
 
-- 2026-10-04: **Lucas (`lucaroma`) propone encargarse también de la UI** (interfaz limpia y atractiva: CSS y vistas). No cambia el reparto hasta que Carlos lo apruebe en GitHub. Tareas ya suyas: gestión del README (#8), tablero y ocultar inactivos (#19).
+- 2026-10-04: **Lucas (`lucaroma`) propone encargarse también de la UI** (interfaz limpia y atractiva: CSS y vistas). Aprobado por Carlos en la issue #30.
+
+- 2026-10-05: **ocultar inactivos (#19), plazo propuesto: 30 días** sin `last_login_at`. Igual que «en pausa»: no salen en Proyectos ni Mentores; la ficha por enlace sigue accesible. El borrado lo hace Carlos (#20).
 
 - 2026-10-04: **cierre de desarrollos el lunes 5 a las 14:00** (decidido por Carlos con el equipo: no hay más tiempo, porque tienen otras tareas).
   - A las 14:00, el código y las pruebas tienen que estar fusionados en `develop`. Hito «Cierre de desarrollos (5 oct, 14:00)» en GitHub; calendario completo en la issue #38.

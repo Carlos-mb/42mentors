@@ -10,7 +10,7 @@ Proyecto del **Hackathon 42442** (42 Madrid, octubre de 2026).
 |---|---|---|
 | `cmelero-` | Carlos | Coordinación del proyecto, caché de perfiles, «Me ayudó» y borrado de inactivos |
 | `fcamasa` | Florentin | Metodología de ideación del README y CI |
-| `lucaroma` | Lucas | Gestión del README, tablero de tareas, ocultar mentores inactivos y **UI** (interfaz; pendiente de confirmación de Carlos) |
+| `lucaroma` | Lucas | Gestión del README, tablero de tareas, ocultar mentores inactivos y **UI** (interfaz) |
 
 ## El problema ("dolor")
 
@@ -111,9 +111,9 @@ Usamos asistentes de IA (Claude Code, entre otros) para programar, redactar docu
 | Fecha | cmelero- | fcamasa | lucaroma | Qué se hizo |
 |---|---|---|---|---|
 | 2026-10-01 | | | | Formación de equipos |
-| 2026-10-02 | _TODO_ | 1 | 1 | Análisis, documentación de la API, verificación del hosting, MVP inicial. lucaroma: reunión de equipo y lectura del enunciado |
+| 2026-10-02 | 4 | 1 | 1 | Análisis, documentación de la API, verificación del hosting, MVP inicial. lucaroma: reunión de equipo y lectura del enunciado |
 | 2026-10-03 | 1 | 3 | 1 | fcamasa: app de la API creada desde mi perfil de la intra y entorno de desarrollo preparado en localhost; por la tarde, revisión de la PR #2, issue #25 y apartado de ideación del README. cmelero- (con fcamasa): configuración de la IA como coordinadora mediante issues de GitHub; repaso de cómo es una issue y de cómo se aprueban y fusionan las PR. lucaroma: reunión de coordinación (issues y PRs) |
-| 2026-10-04 | | 2 | | fcamasa: CI con GitHub Actions (#21), pruebas de login, consentimiento y perfil (#14, #15) e issue de mejora #33 |
+| 2026-10-04 | 1 | 2 | | cmelero-: revisión y aprobación de las PR del equipo (CI, ideación, gestión y horas); asignación de la UI a lucaroma; botón «Me ayudó» con votos de 1 a 3 y página «Mis valoraciones» (PR #34). fcamasa: CI con GitHub Actions (#21), pruebas de login, consentimiento y perfil (#14, #15) e issue de mejora #33 |
 | 2026-10-05 | | | | |
 | 2026-10-06 | | | | |
 | **Total** | | | | |

@@ -1,5 +1,5 @@
 <?php
-// Ficha pública de un mentor: lo que escribe el mentor (BD) + datos de la intra (API, en el momento, no se guardan).
+// Ficha pública de un mentor: lo que escribe el mentor (BD) + datos de la intra (caché de perfiles, fuera de la BD).
 require __DIR__ . '/../src/bootstrap.php';
 
 $user = require_login();
@@ -10,7 +10,7 @@ $validLogin = preg_match('/^[a-z0-9_-]{1,64}$/i', $login) === 1;
 $mentor = false;
 if ($validLogin) {
     $stmt = db()->prepare(
-        'SELECT id, login, bio, availability, contact_pref, languages, consented_at
+        'SELECT id, login, campus_id, bio, availability, contact_pref, languages, consented_at
            FROM users
           WHERE login = ? AND (campus_id <=> ? OR id = ?)'
     );
@@ -50,13 +50,15 @@ $stmt = db()->prepare(
 $stmt->execute([$mentorId]);
 $projects = $stmt->fetchAll();
 
-// Datos de la intra: 2 peticiones (perfil + coalición)
+// Datos de la intra: caché de perfiles (2 peticiones si ha caducado) + puesto (caché de ubicaciones del campus)
 $profile = [];
-$coalitions = [];
+$host = null;
 $apiOk = true;
 try {
-    $profile = ft_get('/v2/users/' . $mentorId, user_token());
-    $coalitions = ft_get('/v2/users/' . $mentorId . '/coalitions', user_token());
+    $profile = cached_mentor_detail($mentorId, user_token());
+    if ($mentor['campus_id'] !== null) {
+        $host = active_locations((int) $mentor['campus_id'], user_token())[$mentorId] ?? null;
+    }
 } catch (FtApiException $ex) {
     if ($ex->getCode() === 401) {
         relogin();
@@ -66,14 +68,10 @@ try {
 
 $name = ($profile['displayname'] ?? '') ?: $mentor['login'];
 $image = profile_image($profile, 'large');
-$cursus = main_cursus($profile);
-$host = $profile['location'] ?? null;
-
+$cursus = $profile['cursus'] ?? null;
+$coalitions = $profile['coalitions'] ?? [];
 // Nota y fecha de validación de cada proyecto (según la intra)
-$projectStats = [];
-foreach ($profile['projects_users'] ?? [] as $projectUser) {
-    $projectStats[(int) ($projectUser['project']['id'] ?? 0)] = $projectUser;
-}
+$projectStats = $profile['projects'] ?? [];
 
 $languages = array_map(fn(string $code): string => LANGUAGE_LABELS[$code], parse_languages($mentor['languages']));
 // El usuario de Slack de 42 es siempre el login de la intra
@@ -132,7 +130,7 @@ render_header($name, 'mentors');
     <dl class="facts">
         <?php if ($cursus): ?>
             <dt>Nivel</dt>
-            <dd><?= e(format_level($cursus['level'] ?? 0)) ?> · <?= e($cursus['cursus']['name'] ?? '') ?></dd>
+            <dd><?= e(format_level($cursus['level'])) ?> · <?= e($cursus['name']) ?></dd>
         <?php endif; ?>
         <dt>Contacto</dt>
         <dd>

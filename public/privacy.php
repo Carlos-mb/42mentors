@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $user) {
     foreach (glob(ROOT_DIR . '/cache/locations_*.json') ?: [] as $file) {
         unlink($file);
     }
+    forget_profile($user['id']);
     $_SESSION['user']['consented'] = false;
     flash('Tus datos se han borrado. Ya no apareces como mentor.');
     redirect('privacy.php');
@@ -32,9 +33,10 @@ render_header('Privacidad');
             preferida e idiomas.</li>
         <li>Fecha del consentimiento («mentor desde») y del último acceso.</li>
     </ul>
-    <p>No se guardan el nombre, la foto, el nivel, la coalición, el puesto en el cluster ni las notas de los proyectos
-        de la intra. Se consultan a la API de 42 al mostrar la página. Los puestos se mantienen como mucho unos minutos
-        en una caché temporal del servidor, y solo los de los mentores. El token de acceso de 42 solo vive en tu sesión
+    <p>El nombre, la foto, el nivel, la coalición, el puesto en el cluster y las notas de los proyectos de la intra
+        no se guardan en la base de datos: se consultan a la API de 42. Para no saturarla, se mantienen en una caché
+        temporal del servidor, solo los de los mentores: los puestos, unos minutos; el resto, como mucho una hora.
+        Al borrar tus datos se borra también tu caché. El token de acceso de 42 solo vive en tu sesión
         y desaparece al salir.</p>
 
     <h2>Para qué</h2>

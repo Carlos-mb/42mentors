@@ -8,9 +8,9 @@ Proyecto del **Hackathon 42442** (42 Madrid, octubre de 2026).
 
 | Login 42 | Nombre | Responsabilidades |
 |---|---|---|
-| `cmelero-` | Carlos | _TODO_ |
-| `fcamasa` | Florentin | _TODO_ |
-| `lucaroma` | Lucas | _TODO_ |
+| `cmelero-` | Carlos | Coordinación del proyecto, caché de perfiles, «Me ayudó» y borrado de inactivos |
+| `fcamasa` | Florentin | Metodología de ideación del README y CI |
+| `lucaroma` | Lucas | Gestión del README, tablero de tareas, ocultar mentores inactivos y **UI** (interfaz; pendiente de confirmación de Carlos) |
 
 ## El problema ("dolor")
 
@@ -55,22 +55,64 @@ Límite de la API: 2 peticiones por segundo y 1200 por hora por app. Por eso se 
 
 ## Metodología de ideación y prototipado
 
-_TODO: describir cómo surgió la idea, qué alternativas se descartaron, bocetos o prototipos, y cómo se validó con otros estudiantes._
+### Cómo surgió la idea
+La idea nació de juntar tres necesidades reales de los miembros del equipo:
+
+- **Florentin** quería conectar a las personas de la comunidad de 42 y hacerla crecer. Además, tenía una necesidad concreta: buscar apoyo para el examen 02 del common core, que lleva más de 10 intentos.
+- **Carlos** necesitaba encontrar compañeros para sus proyectos. En su experiencia, Slack no es un canal productivo para eso: los mensajes se pierden y no se sabe quién está dispuesto a ayudar.
+- **Lucas** propuso animar a la gente a participar en la comunidad con algún incentivo, de forma que ayudar sirva también para conocer a otros estudiantes.
+
+Al ponerlas en común vimos que las tres tenían una raíz común: **la ayuda existe en el campus, pero no hay forma de encontrarla**. De ahí salió la idea: una web donde quien ya ha validado un proyecto puede ofrecerse a ayudar con él, y quien está atascado puede ver quién se ha ofrecido y dónde está sentado en ese momento.
+
+### Alternativas descartadas
+| Alternativa | Por qué se descartó |
+|---|---|
+| Premios o recompensas por participar (idea de Lucas) | Requiere implicar al staff de 42 y no cabía en el plazo del hackathon. Se deja como evolución futura; como primer paso se planteó el botón «Me ayudó» y un ranking de mentores. |
+| Seguir usando Slack | Es el problema de partida: los mensajes se pierden y no indican quién ha validado el proyecto ni quién quiere ayudar. |
+| Flask (Python) | El hosting compartido no admite Python. Se cambió a PHP sin framework con MySQL. |
+| Mostrar los proyectos a los que el estudiante puede inscribirse (`/projects_users/registration`) | Se priorizaron los proyectos no validados que **ya tienen mentores**, porque un proyecto sin mentores no le sirve al estudiante. Queda como mejora. |
+
+### Prototipado
+1. **Análisis (1-2 oct):** lectura del enunciado, las bases y las condiciones de uso de la API de 42, que marcaron el diseño de privacidad (consentimiento, datos mínimos, borrado).
+2. **MVP desplegado el 2 oct** en el dominio del proyecto: login con 42, «Mi perfil» para marcar proyectos y búsqueda de mentores por proyecto.
+3. **Iteración sobre el MVP:** directorio de mentores con buscador, ficha del mentor con datos de la intra, y caché para no superar el límite de la API.
+
+### Validación
+Antes de desarrollarla, contamos la idea a **más de 20 estudiantes de 42 Madrid**, y a todos les pareció muy buena idea. Confirmaron lo que habíamos visto en el equipo: cuando alguien se atasca en un proyecto, no tiene una forma rápida de saber quién del campus lo ha validado y quiere ayudar.
 
 ## Gestión del proyecto
 
-_TODO: tablero (GitHub Projects), reparto de tareas, dailies, modelo de ramas y Pull Requests._
+Nos organizamos en [issues de GitHub](https://github.com/Carlos-mb/42mentors/issues). Esa lista es el tablero: cada tarea tiene un responsable (*assignee*), etiquetas (`prioridad alta`, `en curso`, `bloqueada` y el tipo) y un «Terminado cuando». Las issues sin asignar puede cogerlas cualquiera.
 
-- Modelo de ramas: `main` (lo desplegado) ← `develop` ← `feature/<tarea>`, integrando siempre con Pull Request revisada por otro miembro.
-- Commits: [Conventional Commits](https://www.conventionalcommits.org/es/) (`feat:`, `fix:`, `docs:`…).
+**Quién decide.** Carlos (`Carlos-mb`) coordina el proyecto: aprueba asignaciones y cambios de criterio. Para proponer uno se comenta en la issue mencionando a `@Carlos-mb`.
+
+**Cómo se reparte el día a día.** La IA de cada miembro hace de coordinadora personal (reglas en [AGENTS.md](AGENTS.md)): mira las PR por revisar, las issues asignadas y recomienda la siguiente tarea. El avance se deja en un comentario de la issue al parar, para que otro pueda retomarla.
+
+**Reuniones.** Daily corta cuando hace falta (el 3 de octubre repasamos issues y cómo se aprueban las PR). El resto del tiempo la coordinación es por las issues, para que las tres IA vean lo mismo.
+
+**Ramas y Pull Requests.**
+- `main`: lo publicado en https://42.2275676.xyz
+- `develop`: donde se juntan las tareas terminadas
+- Una rama por tarea, siempre desde `develop` (`feature/<n>-…`, `fix/<n>-…`, `docs/<n>-…`), y vuelve a `develop` con una Pull Request
+- Otro miembro revisa y prueba antes de aprobar. Nadie hace commit directo en `main` ni `develop`, ni fusiona su propia PR
+- La PR menciona su issue (`Issue: #<n>`). Cuando la PR se fusiona en `develop`, la issue se cierra a mano con un comentario que enlaza la PR (`Closes #<n>` solo funciona en PR a `main`, la rama por defecto)
+- Commits: [Conventional Commits](https://www.conventionalcommits.org/es/) (`feat:`, `fix:`, `docs:`…)
+
+**Tablero.** Las issues son la fuente de verdad. Vista del equipo: https://github.com/Carlos-mb/42mentors/issues. Un tablero visual de GitHub Projects es opcional y no sustituye a las issues.
+
+### Uso de IA
+Usamos asistentes de IA (Claude Code, entre otros) para programar, redactar documentación y trabajar con git.
+- **Lo decide el equipo:** qué se construye, el diseño de cada funcionalidad, el reparto de tareas y qué se fusiona.
+- **Lo hace la IA:** propone y escribe código y textos, y ejecuta comandos de git siguiendo las reglas de [AGENTS.md](AGENTS.md). Entre esas reglas: no subir secretos, no tocar `main` ni `develop` directamente y no fusionar PR.
+- **Cómo se controla:** cada cambio va en su rama y con su Pull Request, y otro miembro lo revisa y lo prueba antes de aprobarlo. Los commits en los que ha participado la IA lo indican con `Co-Authored-By`.
 
 ## Registro de horas
 
 | Fecha | cmelero- | fcamasa | lucaroma | Qué se hizo |
 |---|---|---|---|---|
 | 2026-10-01 | | | | Formación de equipos |
-| 2026-10-02 | _TODO_ | _TODO_ | _TODO_ | Análisis, documentación de la API, verificación del hosting, MVP inicial |
-| 2026-10-03 | | | | |
+| 2026-10-02 | _TODO_ | 1 | 1 | Análisis, documentación de la API, verificación del hosting, MVP inicial. lucaroma: reunión de equipo y lectura del enunciado |
+| 2026-10-03 | 1 | 1 | 1 | fcamasa: app de la API creada desde mi perfil de la intra y entorno de desarrollo preparado en localhost. cmelero- (con fcamasa): configuración de la IA como coordinadora mediante issues de GitHub; repaso de cómo es una issue y de cómo se aprueban y fusionan las PR. lucaroma: reunión de coordinación (issues y PRs) |
 | 2026-10-04 | | | | |
 | 2026-10-05 | | | | |
 | 2026-10-06 | | | | |

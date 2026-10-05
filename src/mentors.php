@@ -24,6 +24,19 @@ const LANGUAGE_LABELS = [
     'ca' => 'Català',
 ];
 
+/** Días sin entrar (last_login_at) para dejar de aparecer en Proyectos y Mentores. La ficha sigue accesible. */
+const MENTOR_INACTIVE_DAYS = 30;
+
+/**
+ * Condición SQL: mentor visible en las búsquedas (no en pausa y ha iniciado sesión en los últimos N días).
+ * $alias es el alias de la tabla users (por defecto u). El número de días es una constante entera.
+ */
+function sql_mentor_visible(string $alias = 'u'): string
+{
+    $days = MENTOR_INACTIVE_DAYS;
+    return "$alias.availability <> 'paused' AND $alias.last_login_at >= (NOW() - INTERVAL $days DAY)";
+}
+
 /** Idiomas guardados ("es,en") → códigos válidos, en el orden de LANGUAGE_LABELS. */
 function parse_languages(?string $value): array
 {
@@ -44,9 +57,9 @@ function profile_image(array $profile, string $size = 'medium'): ?string
 }
 
 /**
- * Completa filas de mentores de la BD con nombre y foto (API, una petición por cada 100 mentores)
+ * Completa filas de mentores de la BD con nombre y foto (caché de perfiles; a la API solo los caducados)
  * y su puesto en el cluster (caché por campus). Nada de esto se guarda en la BD.
- * Devuelve false si la API falló (se muestran sin foto ni ubicación). Si el token caducó, vuelve al login.
+ * Devuelve false si la API falló (faltan fotos o ubicaciones). Si el token caducó, vuelve al login.
  */
 function enrich_mentors(array &$mentors, ?int $campusId): bool
 {
@@ -55,7 +68,7 @@ function enrich_mentors(array &$mentors, ?int $campusId): bool
     $ok = true;
     if ($mentors) {
         try {
-            $profiles = ft_users_by_ids(array_column($mentors, 'id'), user_token());
+            $profiles = cached_profiles(array_column($mentors, 'id'), user_token(), $ok);
             if ($campusId !== null) {
                 $locations = active_locations($campusId, user_token());
             }

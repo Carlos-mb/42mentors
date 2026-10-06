@@ -226,31 +226,31 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - **Desde el 6 oct a las 18:00 no se hace ningún commit, push ni merge en el repo**, en ninguna rama. Solo se retoca la presentación, en su carpeta, hasta el 7 a las 13:00.
   - Reglas para las IA en `AGENTS.md`, sección «Entrega».
 
-### Decisiones de equipo pendientes (propuesta inicial entre paréntesis)
+### Decisiones de equipo iniciales (todas tomadas; detalle en las secciones de arriba)
 Urgentes (bloquean el arranque):
 1. ~~Stack~~ → decidido: PHP sin framework + MySQL.
-2. Reparto de roles.
-3. Dueño del repo GitHub.
-4. Dueño de la app OAuth.
-5. Nombre del proyecto.
+2. ~~Reparto de roles~~ → decidido: columna «Responsabilidades» del README (#6).
+3. ~~Dueño del repo GitHub~~ → decidido: Carlos (`Carlos-mb/42mentors`).
+4. ~~Dueño de la app OAuth~~ → decidido: la de producción es de Carlos y su secret solo está en el servidor; cada miembro tiene la suya para local.
+5. ~~Nombre del proyecto~~ → decidido: 42mentors.
 
 Forma de trabajar:
-6. Modelo de ramas (`main` protegida, `develop`, `feature/*` con PR revisada).
-7. Commits (Conventional Commits).
-8. Tablero de tareas (GitHub Projects).
-9. Registro de horas (tabla diaria, obligatorio).
-10. Daily de 10 min.
+6. ~~Modelo de ramas~~ → decidido: `main` y `develop` protegidas; `feature/*`, `fix/*` y `docs/*` con PR revisada (ver `AGENTS.md`).
+7. ~~Commits~~ → decidido: `tipo(zona): qué hace`, en español (ver `AGENTS.md`).
+8. ~~Tablero de tareas~~ → decidido: issues de GitHub; GitHub Projects es opcional.
+9. ~~Registro de horas~~ → decidido: tabla diaria en el README; cada uno pone las suyas.
+10. ~~Daily de 10 min~~ → decidido: daily corta cuando hace falta; el resto, por las issues.
 
 Producto:
-11. Proyecto terminado = `validated? == true`.
-12. Proyectos que puede hacer el estudiante (`/projects_users/registration`, si no los del cursus no validados).
-13. Solo mentores de 42 Madrid.
-14. Conectados primero.
-15. Ubicaciones cacheadas unos minutos.
-16. Extras solo tras el MVP.
+11. ~~Proyecto terminado~~ → decidido: `validated? == true`.
+12. ~~Proyectos que puede hacer el estudiante~~ → decidido: los no validados que tienen mentores en su campus; `/projects_users/registration` queda como mejora futura.
+13. ~~Solo mentores de 42 Madrid~~ → decidido: solo mentores del mismo campus.
+14. ~~Conectados primero~~ → decidido: sí.
+15. ~~Ubicaciones cacheadas~~ → decidido: 120 s por campus.
+16. ~~Extras solo tras el MVP~~ → decidido: sí.
 
 Entrega:
-17. Demo en el dominio propio; tener la versión local como plan B.
-18. Quién hace el pitch.
-19. Quién evalúa a qué equipos en la peer evaluation.
+17. ~~Demo~~ → decidido: en https://42.2275676.xyz (`main`).
+18. ~~Quién hace el pitch~~ → decidido: los tres juntos; Carlos solo puede estar hasta las 17:00 del 7 oct. Si toca después, lo presentan Florentin y Lucas (#6, #11).
+19. ~~Quién evalúa a qué equipos~~ → decidido: los equipos los asigna la organización; el reparto interno, cuando llegue la lista (6 oct, desde las 18:01), en la #6.
 20. ~~Fecha límite interna~~ → decidido: desarrollos cerrados el lunes 5 a las 14:00.

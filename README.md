@@ -86,6 +86,30 @@ Límite de la API: 2 peticiones por segundo y 1200 por hora por app. Por eso se 
 - Toda la información está detrás del login con 42, con `noindex` y `robots.txt`.
 - Página de privacidad con botón **"Borrar mis datos"**, que borra también las valoraciones hechas y recibidas.
 
+## Así se ve
+
+Capturas de https://42.2275676.xyz con cuentas del equipo (`cmelero-`, `fcamasa`, `lucaroma`). No aparecen nombres, logins ni fotos de otros alumnos.
+
+**Proyectos** — los que aún no has validado y que tienen mentores en tu campus:
+
+![Lista de proyectos con mentores](docs/img/proyectos.png)
+
+**Mentores** — directorio del campus (en la captura, solo Carlos y Florentin):
+
+![Directorio de mentores del equipo](docs/img/mentores.png)
+
+**Ficha del mentor** — ejemplo con `fcamasa`:
+
+![Ficha pública de Florentin](docs/img/ficha-mentor.png)
+
+**Mi perfil** — dónde el mentor elige disponibilidad, contacto, idiomas y proyectos:
+
+![Formulario de Mi perfil](docs/img/mi-perfil.png)
+
+Inicio, con sesión iniciada:
+
+![Página de inicio](docs/img/inicio.png)
+
 ## Metodología de ideación y prototipado
 
 ### Cómo surgió la idea

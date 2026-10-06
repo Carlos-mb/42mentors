@@ -1,0 +1,60 @@
+/* Extra de la home con sesión. Colores = los de style.css (toda la web). */
+
+.dash { padding: 8px 0 4px; }
+.dash-kicker {
+    display: inline-block;
+    margin: 0 0 12px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--card);
+    border: 2px solid var(--accent);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    box-shadow: 0 3px 0 var(--accent-soft), 0 8px 16px rgba(0, 186, 188, .16);
+}
+.dash h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.9rem, 5vw, 2.6rem);
+    color: var(--text);
+}
+.dash > .muted { margin: 0 0 28px; font-size: 1.08rem; color: var(--muted); font-weight: 600; }
+
+.choices { margin-top: 0; gap: 18px; }
+.choice { position: relative; overflow: hidden; border-width: 2px; padding: 24px 22px 26px; box-shadow: var(--shadow); }
+.choice > * { position: relative; z-index: 1; }
+.choice::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    right: -48px;
+    bottom: -56px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: .45;
+}
+.choice-a { background: var(--card); }
+.choice-a::after { background: color-mix(in srgb, var(--accent) 35%, white); }
+.choice-b { background: color-mix(in srgb, var(--accent) 10%, white); }
+.choice-b::after { background: color-mix(in srgb, var(--accent) 40%, white); }
+.choice-c { background: color-mix(in srgb, var(--accent) 14%, white); }
+.choice-c::after { background: color-mix(in srgb, var(--accent) 45%, white); }
+.choice:hover { transform: translateY(-4px) rotate(-.3deg); box-shadow: var(--shadow-lg); }
+.choice-tag {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+.choice strong { color: var(--text); font-size: 1.2rem; }
+.choice span { color: var(--muted); font-weight: 600; }

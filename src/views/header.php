@@ -8,8 +8,11 @@
     <meta name="robots" content="noindex, nofollow">
     <title><?= e($title) ?> · 42 Mentors</title>
     <link rel="stylesheet" href="assets/style.css">
+    <?php if ($user): ?>
+        <link rel="stylesheet" href="assets/session.css">
+    <?php endif; ?>
 </head>
-<body>
+<body<?= $user ? ' class="session"' : '' ?>>
 <header class="topbar">
     <a class="brand" href="index.php">42<span>Mentors</span></a>
     <?php if ($user): ?>
@@ -17,6 +20,7 @@
             <a href="projects.php" class="<?= $active === 'projects' ? 'active' : '' ?>">Proyectos</a>
             <a href="mentors.php" class="<?= $active === 'mentors' ? 'active' : '' ?>">Mentores</a>
             <a href="profile.php" class="<?= $active === 'profile' ? 'active' : '' ?>">Mi perfil</a>
+            <a href="ratings.php" class="<?= $active === 'ratings' ? 'active' : '' ?>">Mis valoraciones</a>
         </nav>
         <div class="me">
             <?php if ($user['image_url']): ?>

@@ -10,7 +10,7 @@ Proyecto del **Hackathon 42442** (42 Madrid, octubre de 2026).
 |---|---|---|
 | `cmelero-` | Carlos | Coordinación del proyecto, caché de perfiles, «Me ayudó» y borrado de inactivos |
 | `fcamasa` | Florentin | Metodología de ideación del README y CI |
-| `lucaroma` | Lucas | Gestión del README, tablero de tareas, ocultar mentores inactivos y **UI** (interfaz; pendiente de confirmación de Carlos) |
+| `lucaroma` | Lucas | Gestión del README, tablero de tareas, ocultar mentores inactivos y **UI** (interfaz) |
 
 ## El problema ("dolor")
 
@@ -111,9 +111,9 @@ Usamos asistentes de IA (Claude Code, entre otros) para programar, redactar docu
 | Fecha | cmelero- | fcamasa | lucaroma | Qué se hizo |
 |---|---|---|---|---|
 | 2026-10-01 | | | | Formación de equipos |
-| 2026-10-02 | _TODO_ | 1 | 1 | Análisis, documentación de la API, verificación del hosting, MVP inicial. lucaroma: reunión de equipo y lectura del enunciado |
-| 2026-10-03 | 1 | 1 | 1 | fcamasa: app de la API creada desde mi perfil de la intra y entorno de desarrollo preparado en localhost. cmelero- (con fcamasa): configuración de la IA como coordinadora mediante issues de GitHub; repaso de cómo es una issue y de cómo se aprueban y fusionan las PR. lucaroma: reunión de coordinación (issues y PRs) |
-| 2026-10-04 | | | | |
+| 2026-10-02 | 4 | 1 | 1 | Análisis, documentación de la API, verificación del hosting, MVP inicial. lucaroma: reunión de equipo y lectura del enunciado |
+| 2026-10-03 | 1 | 3 | 1 | fcamasa: app de la API creada desde mi perfil de la intra y entorno de desarrollo preparado en localhost; por la tarde, revisión de la PR #2, issue #25 y apartado de ideación del README. cmelero- (con fcamasa): configuración de la IA como coordinadora mediante issues de GitHub; repaso de cómo es una issue y de cómo se aprueban y fusionan las PR. lucaroma: reunión de coordinación (issues y PRs) |
+| 2026-10-04 | 1 | 2 | | cmelero-: revisión y aprobación de las PR del equipo (CI, ideación, gestión y horas); asignación de la UI a lucaroma; botón «Me ayudó» con votos de 1 a 3 y página «Mis valoraciones» (PR #34). fcamasa: CI con GitHub Actions (#21), pruebas de login, consentimiento y perfil (#14, #15) e issue de mejora #33 |
 | 2026-10-05 | | | | |
 | 2026-10-06 | | | | |
 | **Total** | | | | |
@@ -152,4 +152,10 @@ cache/           Caché temporal de ubicaciones (no se versiona)
 | Duda de si el hosting permitía peticiones HTTPS salientes, imprescindibles para el OAuth. | Prueba con `curl` hacia `api.intra.42.fr`: respondió 401, así que la conexión funciona. |
 | Límite de 1200 peticiones por hora. | Una sola llamada a `/v2/me` al entrar. Ubicaciones pedidas una vez por campus y cacheadas. Perfiles de mentores en una sola llamada. |
 | Las condiciones de la API exigen consentimiento y datos mínimos. | Pantalla de consentimiento, esquema mínimo, borrado de datos y `noindex`. |
+| En el PC de desarrollo (Linux) no había PHP ni MySQL. | Se instalaron `php-cli`, `php-curl`, `php-mysql` y `mariadb-server` con `apt`, y se arranca la web con el servidor integrado de PHP: `php -S localhost:8000 -t public`. No hace falta XAMPP. |
+| Al crear la base de datos local salió `ERROR 1007: Can't create database 'mentors42'; database exists`. | El comando se había ejecutado dos veces. Se comprobó que la base de datos y el usuario ya existían y estaban vacíos, y se cargó `sql/schema.sql` directamente. |
+| Login con 42 en local: cada miembro necesita su propia app OAuth, porque las condiciones de 42 prohíben compartir el secret. | App propia en la intra con Redirect URI `http://localhost:8000/callback.php` y un `.env` local (fuera de git) con su UID y su secret. |
+| Los commits no contaban como del autor en GitHub: el email configurado en git no estaba asociado a su cuenta. | Usar el email *noreply* de GitHub (`ID+usuario@users.noreply.github.com`) con `git config --global user.email`. Además, no publica el email real. |
+| `Closes #n` no cerraba las issues al fusionar la PR. | Solo funciona en las PR a la rama por defecto (`main`), y las nuestras van a `develop`. Las issues se cierran a mano al fusionar la PR (decisión de Carlos). |
+| En las pruebas parecía que, tras «Borrar mis datos», no se volvía a pedir el consentimiento. | Es el diseño: entrar con 42 no guarda nada, y el consentimiento solo se pide al ir a «Mi perfil». Se comprobó en el registro del servidor y en la base de datos que el borrado y el rechazo funcionan. Para que no confunda, se propuso una mejora (#33). |
 | _TODO: añadir los que vayan surgiendo_ | |

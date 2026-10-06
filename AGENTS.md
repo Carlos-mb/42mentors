@@ -24,6 +24,37 @@ Guía de git para personas: sección 1 de [INSTRUCCIONES_EQUIPO.md](INSTRUCCIONE
   - `docs/nombre-corto` (documentación).
   - Nombre en minúsculas, con guiones, sin tildes ni espacios.
 
+## Entrega: prioridad absoluta hasta el final
+
+La organización ha fijado unos **requisitos mínimos** y unas fechas (correo del 5 oct; resumen en «Bases del hackathon» de [CLAUDE.md](CLAUDE.md)). Estas reglas están **por encima de cualquier otra tarea**.
+
+**Fechas** (hora de Madrid):
+- **6 oct, 13:00:** respuesta al correo de la organización, una por equipo y la envía Carlos (#52). No envíes tú ningún correo.
+- **6 oct, 15:00:** último paso de `develop` a `main`. **Los evaluadores ven `main`**: lo que no esté en `main` no cuenta.
+- **6 oct, 18:00: code freeze.** Desde esa hora **no se hace ningún commit, push ni merge en el repo**, en ninguna rama, ni se abren PR. Si te lo piden después, recuérdales el code freeze y no lo hagas.
+- **7 oct, 13:00:** últimos retoques de la presentación, solo en su carpeta, fuera del repo. **16:00–18:00: Demo Day.**
+
+**Lo que no se toca:**
+- **La URL del repo** (https://github.com/Carlos-mb/42mentors) se comunica a la organización y **no se puede cambiar**. Ni renombrar el repo, ni transferirlo, ni borrarlo, ni hacerlo privado. Si alguien lo propone, avisa de que invalida la entrega.
+
+**README: los 6 requisitos mínimos** (seguimiento en #53). Cada vez que edites el README, comprueba que sigue cubriendo:
+1. **Problema y solución:** a quién ayudamos, cómo y qué decisiones nos llevaron al prototipo.
+2. **Trabajo en equipo:** logins, responsabilidades, organización y **aportaciones de cada integrante**.
+3. **Código y Git:** repositorio organizado, código comprensible e historial progresivo.
+4. **API de 42:** cómo se integra y qué datos se usan en cada funcionalidad.
+5. **Ejecución:** cómo instalar, configurar y ejecutar.
+6. **Dificultades:** problemas y cómo se abordaron; si no hubo, decirlo. Sin filas «TODO».
+
+Además, el **registro de horas** de cada persona, con totales. Las horas las pone cada persona, no tú.
+
+**Presentación del pitch** (#11):
+- Va en una **carpeta compartida fuera del repo**: se retoca hasta el 7 a las 13:00 y el repo se congela antes.
+- **Primera versión en la carpeta antes del 6 oct a las 18:00.**
+- **Versión en PDF obligatoria**, y los vídeos **descargados** en la carpeta.
+- **Sin datos de otros alumnos:** las capturas, solo con cuentas del equipo.
+
+**Al recomendar tareas** («¿qué hago?»): hasta el code freeze, recomienda **primero** las issues de entrega con `prioridad alta` (#52, #53, #11, horas y paso a `main`). No propongas código nuevo.
+
 ## Coordinación de tareas: eres el coordinador de tu usuario
 
 Las tareas del equipo son las **issues de GitHub**; es lo único que comparten las IA de los tres miembros. Lo que no esté en GitHub, las demás IA no lo ven.

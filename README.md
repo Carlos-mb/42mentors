@@ -247,4 +247,5 @@ Lo que quedó fuera en el cierre de desarrollos (5 oct, 14:00), por orden de int
 - **Borrar automáticamente los datos de los mentores inactivos** ([#20](https://github.com/Carlos-mb/42mentors/issues/20)). Hoy se ocultan a los 30 días, y sus datos se borran con «Borrar mis datos» o al cerrar el servicio.
 - **Proyectos a los que el estudiante puede inscribirse**, con `/v2/users/:id/projects_users/registration` ([#22](https://github.com/Carlos-mb/42mentors/issues/22)).
 - **Dejar más claro dónde se activa el perfil de mentor:** hoy el consentimiento solo se pide al ir a «Mi perfil» o al votar ([#33](https://github.com/Carlos-mb/42mentors/issues/33)).
+- **Menú «hamburguesa» en el móvil:** en pantallas estrechas, las opciones del menú no caben y se cortan ([#48](https://github.com/Carlos-mb/42mentors/issues/48)).
 - **Número de correcciones** que ha hecho el mentor de cada proyecto (`scale_teams`). Necesita varias llamadas a la API por mentor.

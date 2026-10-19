@@ -114,7 +114,7 @@ Para desarrollo en local con XAMPP y despliegue en el hosting, ver [DESARROLLO.m
 public/          Lo único accesible por web (páginas, CSS, JS, robots.txt)
 src/             Lógica: configuración, BD, cliente de la API, sesión, cachés, votos, vistas
 sql/schema.sql   Esquema completo de la base de datos (instalaciones nuevas)
-sql/migrations/  Cambios para bases de datos ya creadas (001–004)
+sql/migrations/  Cambios para bases de datos ya creadas (001–005)
 cache/           Caché temporal de ubicaciones y perfiles de mentores (no se versiona)
 tools/           Script que genera el paquete de despliegue (sin secretos)
 .github/         CI: sintaxis PHP y búsqueda de secretos

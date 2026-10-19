@@ -103,6 +103,7 @@ h2 { margin-top: 28px; }
 .btn-danger { background: var(--danger); box-shadow: 0 4px 0 #7f1d1d, 0 10px 22px rgba(185, 28, 28, .28); }
 .btn-danger:hover { background: var(--danger); filter: brightness(.9); }
 .actions { display: flex; align-items: center; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+.actions .check { flex: 1 1 100%; align-items: flex-start; margin: 0; }
 button.link { background: none; border: 0; color: var(--accent-dark); cursor: pointer; font: inherit; font-weight: 700; text-decoration: underline; }
 
 /* Portada con sesión */

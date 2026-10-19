@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
     languages     VARCHAR(64)  NULL,                    -- códigos separados por comas, p. ej. "es,en"
     available_until DATETIME   NULL,                    -- mentor oficial: disponible hasta esta hora (caduca sola)
     consented_at  DATETIME     NOT NULL,                -- prueba del consentimiento («mentor desde»)
+    consent_version SMALLINT UNSIGNED NOT NULL DEFAULT 1,  -- versión de la política aceptada (PRIVACY_VERSION en src/auth.php)
     last_login_at DATETIME     NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

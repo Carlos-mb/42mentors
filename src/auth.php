@@ -18,11 +18,21 @@ function require_login(): array
     return $user;
 }
 
-/** ¿Ha aceptado el usuario que guardemos sus datos? (tabla users = solo usuarios que aceptaron) */
+/** Versión de la política de privacidad y condiciones de uso (privacy.php). Súbela cuando el texto cambie. */
+const PRIVACY_VERSION = 2;
+/** Última fecha de cambio de la política, tal como se muestra en privacy.php. */
+const PRIVACY_UPDATED = '19 de octubre de 2026';
+/**
+ * Versión mínima aceptada: quien aceptó una anterior tiene que volver a aceptar en consent.php.
+ * Súbela solo si el cambio afecta a lo que se guarda o a cómo se usa (no por añadir explicaciones).
+ */
+const CONSENT_MIN_VERSION = 1;
+
+/** ¿Ha aceptado el usuario que guardemos sus datos? (tabla users = solo usuarios que aceptaron una versión vigente) */
 function user_has_consented(int $userId): bool
 {
-    $stmt = db()->prepare('SELECT 1 FROM users WHERE id = ?');
-    $stmt->execute([$userId]);
+    $stmt = db()->prepare('SELECT 1 FROM users WHERE id = ? AND consent_version >= ?');
+    $stmt->execute([$userId, CONSENT_MIN_VERSION]);
     return (bool) $stmt->fetchColumn();
 }
 

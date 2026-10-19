@@ -89,7 +89,13 @@ $user = [
 // Si ya dio su consentimiento, actualizar sus datos mínimos. Si no, NO se guarda nada.
 $stmt = db()->prepare('UPDATE users SET login = ?, campus_id = ?, last_login_at = NOW() WHERE id = ?');
 $stmt->execute([$user['login'], $user['campus_id'], $user['id']]);
-$user['consented'] = $stmt->rowCount() > 0 || user_has_consented($user['id']);
+$user['consented'] = user_has_consented($user['id']);
+// Borra de la BD a quien lleva más de USER_RETENTION_MONTHS sin entrar (como mucho una vez al día)
+try {
+    purge_inactive_users();
+} catch (Throwable $e) {
+    error_log('purge_inactive_users: ' . $e->getMessage());
+}
 // Rol en la lista del administrador (mentor oficial, manguito o ninguno): solo en la sesión
 $user['role'] = user_role($user['login']);
 

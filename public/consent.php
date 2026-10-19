@@ -14,12 +14,19 @@ if (!is_string($next) || !preg_match('/^(profile\.php|ratings\.php|available\.ph
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
     if (($_POST['accept'] ?? '') === '1') {
+        // La casilla es obligatoria también en el servidor
+        if (($_POST['agree'] ?? '') !== '1') {
+            flash('Marca la casilla para confirmar que has leído la política de privacidad y que aceptas.');
+            redirect('consent.php?next=' . rawurlencode($next));
+        }
+        // consented_at («mentor desde») no cambia si ya existía: solo se actualiza la versión aceptada
         $stmt = db()->prepare(
-            'INSERT INTO users (id, login, campus_id, consented_at, last_login_at)
-             VALUES (?, ?, ?, NOW(), NOW())
-             ON DUPLICATE KEY UPDATE login = VALUES(login), campus_id = VALUES(campus_id), last_login_at = NOW()'
+            'INSERT INTO users (id, login, campus_id, consented_at, consent_version, last_login_at)
+             VALUES (?, ?, ?, NOW(), ?, NOW())
+             ON DUPLICATE KEY UPDATE login = VALUES(login), campus_id = VALUES(campus_id),
+                                     consent_version = VALUES(consent_version), last_login_at = NOW()'
         );
-        $stmt->execute([$user['id'], $user['login'], $user['campus_id']]);
+        $stmt->execute([$user['id'], $user['login'], $user['campus_id'], PRIVACY_VERSION]);
         $_SESSION['user']['consented'] = true;
         flash(match ($next) {
             'profile.php'   => 'Gracias. Ya puedes completar tu perfil y elegir qué proyectos mentorizas.',
@@ -72,11 +79,17 @@ render_header('Antes de empezar', $next === 'profile.php' ? 'profile' : ($next =
         la API, se guarda una copia en una caché temporal del servidor, que se actualiza con la intra como mucho
         una vez por hora cuando alguien los consulta, y que se borra si borras tus datos.</p>
     <p>Puedes ponerte «en pausa», o retirar tu consentimiento y borrar tus datos cuando quieras, desde la
-        <a href="privacy.php">página de privacidad</a>. Se borran también las valoraciones que hayas hecho y las
-        que hayas recibido.</p>
+        <a href="privacy.php" target="_blank" rel="noopener">página de privacidad</a>. Se borran también las
+        valoraciones que hayas hecho y las que hayas recibido. Si pasas <?= USER_RETENTION_MONTHS ?> meses sin
+        entrar, se borran solos.</p>
     <form method="post" class="actions">
         <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
         <input type="hidden" name="next" value="<?= e($next) ?>">
+        <label class="check">
+            <input type="checkbox" name="agree" value="1" required>
+            He leído la <a href="privacy.php" target="_blank" rel="noopener">política de privacidad y las condiciones
+            de uso</a> y acepto que se guarden estos datos.
+        </label>
         <button type="submit" name="accept" value="1" class="btn">Acepto</button>
         <button type="submit" name="accept" value="0" class="link">No, gracias</button>
     </form>

@@ -38,7 +38,7 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - Nada en buscadores: `robots.txt` + `noindex`.
   - Nada en el repo, el README ni capturas con datos de otros alumnos.
 - **Consentimiento previo y por escrito** para guardar o cachear datos (3.1, 4.1, 4.2).
-  - Pantalla de aceptación en el primer login; guardar la fecha en la BD como prueba.
+  - Pantalla de aceptación (`consent.php`) justo antes de guardar nada, con casilla obligatoria («he leído la política y acepto»); se guarda la fecha y la versión aceptada en la BD como prueba.
   - No guardar nada antes de aceptar.
   - Solo se muestran los mentores que han aceptado (foto y ubicación incluidas).
 - **Política de privacidad** (qué datos, para qué, derechos, cómo retirar el consentimiento) y **botón "borrar mis datos"** (4.2, 4.4).
@@ -86,7 +86,9 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - Datos que escribe el mentor (BD): `bio` (160), `availability` (available, busy o paused), `contact_pref` (cluster, slack o both), `languages` y `mentor_projects.note` (160). «Mentor desde» = `consented_at`.
   - «En pausa» oculta al mentor de Proyectos y Mentores, pero su ficha sigue accesible. El usuario de Slack de 42 es siempre el login de la intra: no se guarda.
 - **Directorio:** se carga la lista entera con nombres y fotos (`ft_users_by_ids`, una petición por cada 100) y se filtra en el navegador (`assets/mentors.js`) por texto (sin tildes), proyecto y «conectados ahora». Incluye al propio usuario («· tú»).
-- **Mentores inactivos:** se ocultan de Proyectos y Mentores tras 30 días sin `last_login_at` (`MENTOR_INACTIVE_DAYS`); la ficha por enlace sigue accesible. **Pendiente:** borrado definitivo de los inactivos (art. 4.5 de las condiciones de la API).
+- **Mentores inactivos:** se ocultan de Proyectos y Mentores tras 30 días sin `last_login_at` (`MENTOR_INACTIVE_DAYS`); la ficha por enlace sigue accesible. **Borrado definitivo tras 12 meses sin entrar** (`USER_RETENTION_MONTHS`, `purge_inactive_users()` en `src/retention.php`; art. 4.5 de la API): no hay cron en el hosting, así que se ejecuta al iniciar sesión, como mucho una vez al día (marca `cache/purge.stamp`). No toca `roster`.
+- **Política y consentimiento (2026-10-19):** `privacy.php` es «Privacidad y condiciones de uso»: responsable (Carlos Melero), contacto (42mentors@carlosmelero.com), base jurídica (consentimiento, art. 6.1.a RGPD), condiciones de uso, plazos de conservación y derechos. Versionada: `PRIVACY_VERSION` y `PRIVACY_UPDATED` en `src/auth.php` (**subirlas al cambiar el texto**). `users.consent_version` guarda qué versión aceptó cada persona (migración 005; quien ya había aceptado queda en la 1). Solo se pide aceptar de nuevo si la versión guardada es menor que `CONSENT_MIN_VERSION` (hoy 1: nadie): súbela solo si cambia lo que se guarda o cómo se usa. Idea tomada de otras apps de 42 con política de privacidad: contacto, base jurídica, condiciones de uso, plazos y versión.
+  - **Pendiente (de la comparación con otras políticas):** descarga de mis datos (portabilidad), terceros (CDN de 42 para las fotos, hosting), sección de seguridad y cookies, quién puede usar la web, aviso de brecha, selector de idioma ES/EN.
 - **«Me ayudó»:**
   - **interruptor `VOTES_ENABLED`** en el `.env` (por defecto activo; `False`, `0`, `no` u `off` lo apagan, `votes_enabled()` en `src/votes.php`): apagado, se oculta todo (botones, puntos de las fichas, «Mis valoraciones»), `vote.php` y `ratings.php` redirigen con un aviso y los votos guardados se conservan en `votes`;
   - un voto de **1 a 3** por cada (estudiante, mentor, proyecto), que tiene que ser uno de los que mentoriza; nadie se vota a sí mismo y solo se vota a mentores del mismo campus;

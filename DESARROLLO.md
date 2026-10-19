@@ -52,7 +52,7 @@ En los pasos, `~/` es la carpeta personal de la cuenta del hosting, que contiene
 Cada dominio tiene su instalación (en producción, `~/42mentors.com/42mentors/`), con el `.env` dentro de esa carpeta. En los pasos, `42mentors` es esa carpeta.
 
 1. **Base de datos.** En phpMyAdmin, pestaña SQL, ejecutar **una sola vez** cada fichero nuevo de `sql/migrations/`, en orden. Cada fichero indica en su cabecera si se aplica **antes** de subir el código (añade columnas y no rompe la versión anterior) o **después** (quita columnas que el código anterior aún usa).
-   La migración 004 (mentores oficiales) se aplica antes de subir el código. Además, hay que añadir `ADMIN_LOGINS=login1,login2` al `.env` del servidor (mira `.env.example`) para que esos logins vean `admin.php`.
+   La migración 004 (mentores oficiales) y la 005 (versión del consentimiento) se aplican antes de subir el código. Además, para la 004 hay que añadir `ADMIN_LOGINS=login1,login2` al `.env` del servidor (mira `.env.example`) para que esos logins vean `admin.php`.
 2. Generar el paquete en local: `powershell -ExecutionPolicy Bypass -File tools\build-deploy.ps1` crea `deploy/42mentors.zip`, que contiene `public/`, `src/`, `sql/`, `cache/.htaccess` y `.env.example`, sin secretos. En macOS o Linux: `zip -r` de una carpeta `42mentors/` con esos mismos ficheros.
 3. En File Manager:
    - subir el ZIP a `~/`;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 define('ROOT_DIR', dirname(__DIR__));
 // Versión del código desplegado (se ve en el pie): subir el número en cada despliegue, para saber qué código usa cada entorno
-define('APP_VERSION', '2026-10-19.6');
+define('APP_VERSION', '2026-10-19.7');
 
 /** Carga ROOT_DIR/.env en $_ENV (formato CLAVE=valor, # para comentarios). */
 function load_env(string $file): void
@@ -69,4 +69,5 @@ require ROOT_DIR . '/src/locations.php';
 require ROOT_DIR . '/src/profiles.php';
 require ROOT_DIR . '/src/mentors.php';
 require ROOT_DIR . '/src/votes.php';
+require ROOT_DIR . '/src/retention.php';
 require ROOT_DIR . '/src/view.php';

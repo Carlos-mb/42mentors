@@ -31,6 +31,13 @@ render_header('Inicio');
                 <strong>Mi perfil de mentor</strong>
                 <span>Elige con qué proyectos ayudas y cuenta cómo encontrarte.</span>
             </a>
+            <?php if (can_see_available($user)): ?>
+                <a class="choice choice-d" href="available.php">
+                    <span class="choice-tag">Manguito</span>
+                    <strong>Mentores disponibles ahora</strong>
+                    <span>Mira qué mentores oficiales de tu campus pueden ayudarte ahora mismo.</span>
+                </a>
+            <?php endif; ?>
         </div>
     </section>
 <?php endif; ?>

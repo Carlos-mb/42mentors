@@ -43,6 +43,9 @@
 .choice-b::after { background: color-mix(in srgb, var(--accent) 40%, white); }
 .choice-c { background: color-mix(in srgb, var(--accent) 14%, white); }
 .choice-c::after { background: color-mix(in srgb, var(--accent) 45%, white); }
+.choice-d { background: color-mix(in srgb, var(--pink) 8%, white); }
+.choice-d::after { background: color-mix(in srgb, var(--pink) 35%, white); }
+.choice-d .choice-tag { background: var(--pink); color: #fff; }
 .choice:hover { transform: translateY(-4px) rotate(-.3deg); box-shadow: var(--shadow-lg); }
 .choice-tag {
     display: inline-block;

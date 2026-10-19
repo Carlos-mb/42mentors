@@ -79,7 +79,7 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - la caché de ubicaciones (por campus, 120 s) y la de perfiles solo guardan mentores con consentimiento y proyectos;
   - `privacy.php` incluye «Borrar mis datos» (elimina también los votos emitidos y recibidos);
   - hay `noindex` (meta + cabecera `X-Robots-Tag`) y `robots.txt`.
-- **Menú:** Proyectos (`projects.php`), Mentores (`mentors.php`, directorio), Mi perfil (`profile.php`, edición) y Mis valoraciones (`ratings.php`).
+- **Menú:** Proyectos (`projects.php`), Mentores (`mentors.php`, directorio), Mi perfil (`profile.php`, edición), Mis valoraciones (`ratings.php`, si `VOTES_ENABLED`) y Manguito (`available.php`, «Disponibles ahora»; solo para quien `can_see_available()`). La home tiene una caja por cada una de Proyectos, Mentores, Mi perfil y, con el mismo permiso, Manguito.
 - **Ficha pública** en `mentor.php?login=…`: igual para todos; el propio mentor ve además «Editar mi perfil». Solo mentores del mismo campus (o uno mismo); un login desconocido muestra «Esta persona no es mentor» y enlaza a la intra.
   - Datos que vienen de la intra (en el momento, **no se guardan**): `GET /v2/users/:id` (nombre, foto, puesto, nivel, nota/fecha de validación de los proyectos; si la API no devuelve `marked_at`, la fecha no aparece) y `GET /v2/users/:id/coalitions`.
   - Datos que escribe el mentor (BD): `bio` (160), `availability` (available, busy o paused), `contact_pref` (cluster, slack o both), `languages` y `mentor_projects.note` (160). «Mentor desde» = `consented_at`.

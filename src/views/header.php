@@ -24,7 +24,7 @@
                 <a href="ratings.php" class="<?= $active === 'ratings' ? 'active' : '' ?>">Mis valoraciones</a>
             <?php endif; ?>
             <?php if (can_see_available($user)): ?>
-                <a href="available.php" class="<?= $active === 'available' ? 'active' : '' ?>">Disponibles ahora</a>
+                <a href="available.php" class="<?= $active === 'available' ? 'active' : '' ?>">Manguito</a>
             <?php endif; ?>
             <?php if (is_admin($user['login'])): ?>
                 <a href="admin.php" class="<?= $active === 'admin' ? 'active' : '' ?>">Administración</a>

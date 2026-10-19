@@ -58,16 +58,21 @@ $retention = USER_RETENTION_MONTHS;
         su foto y su puesto en el cluster. Quien es manguito solo lo ven esa persona y el responsable. Esta marca no
         la ha pedido ni la gestiona 42 Madrid. Puedes quitártela cuando quieras desde esa misma página, y el
         responsable puede quitársela a quien haga un uso indebido.</p>
-    <p>El nombre, la foto, el nivel, la coalición, el puesto en el cluster y las notas de los proyectos de la intra
-        no se guardan en la base de datos: se consultan a la API de 42. Para no saturarla, se mantienen en una caché
-        temporal del servidor, solo los de los mentores: los puestos se renuevan cada pocos minutos, y el resto,
-        como mucho una vez por hora cuando alguien los consulta. El token de acceso de 42 solo vive en tu sesión
-        y desaparece al salir.</p>
-
     <?php if (!votes_enabled()): ?>
         <p>Las valoraciones «Me ayudó» están desactivadas ahora. Las que ya estaban guardadas se conservan sin mostrarse
             y se borran con «Borrar mis datos».</p>
     <?php endif; ?>
+
+    <h2>Qué datos leemos de la API de 42</h2>
+    <p>Al iniciar sesión, la intra nos da, de ti, tu login, tu nombre, tu foto, tu campus y su zona horaria, y tus
+        proyectos con su estado y si están validados. Es lo que usamos para saber quién eres, qué proyectos has
+        terminado y a qué campus perteneces. Todo eso vive solo en tu sesión y no se guarda en la base de datos.</p>
+    <p>De los mentores que han aceptado consultamos, cuando alguien abre su ficha o una lista, su nombre, su foto, su
+        nivel, su coalición, su puesto en el cluster y la nota y la fecha de validación de los proyectos que mentorizan.
+        No se guardan en la base de datos.</p>
+    <p>Para no saturar la API, esos datos de los mentores se mantienen en una caché temporal del servidor: los
+        puestos se renuevan cada pocos minutos, y el resto, como mucho una vez por hora cuando alguien los consulta.
+        El token de acceso de 42 solo vive en tu sesión y desaparece al salir.</p>
 
     <h2>Base jurídica</h2>
     <p>Tu consentimiento (art. 6.1.a del RGPD). Lo das en la pantalla «Antes de guardar tus datos», marcando la
@@ -140,11 +145,24 @@ $retention = USER_RETENTION_MONTHS;
     </ul>
 
     <h2>Tus derechos</h2>
-    <p>Desde <a href="profile.php">Mi perfil</a> puedes cambiar lo que escribiste, ponerte «en pausa» para no
-        aparecer en las búsquedas o desmarcar todos los proyectos. En <a href="ratings.php">Mis valoraciones</a>
-        puedes ver y cambiar las tuyas. Con el botón de abajo se borran todos tus datos, también las valoraciones
-        que hayas hecho y las que hayas recibido. Para saber qué datos tuyos tenemos, pedir una copia, oponerte a
-        un tratamiento o cualquier otra cuestión del RGPD, escribe al contacto de arriba.</p>
+    <p>Puedes ejercer los derechos de los arts. 15 a 22 del RGPD escribiendo al contacto de arriba, y varios los tienes
+        a mano en la web:</p>
+    <ul>
+        <li><strong>Acceso:</strong> saber qué datos tuyos tenemos y pedir una copia, en un formato legible, por
+            correo.</li>
+        <li><strong>Rectificación:</strong> lo que escribiste lo cambias en <a href="profile.php">Mi perfil</a>; los
+            datos que vienen de la intra se corrigen allí. Tus valoraciones las ves y cambias en
+            <a href="ratings.php">Mis valoraciones</a>.</li>
+        <li><strong>Supresión:</strong> con el botón de abajo se borran todos tus datos, también las valoraciones que
+            hayas hecho y las que hayas recibido.</li>
+        <li><strong>Limitación y oposición:</strong> puedes ponerte «en pausa» para no aparecer en las búsquedas, o
+            desmarcar todos los proyectos. Si quieres algo más, escríbenos.</li>
+        <li><strong>Portabilidad:</strong> te damos tus datos, por correo, en un formato estructurado.</li>
+        <li><strong>Retirar tu consentimiento:</strong> en cualquier momento, borrando tus datos; no afecta a lo
+            anterior.</li>
+    </ul>
+    <p>Si crees que no tratamos bien tus datos, puedes reclamar ante la Agencia Española de Protección de Datos
+        (AEPD, <a href="https://www.aepd.es" target="_blank" rel="noopener">www.aepd.es</a>).</p>
 
     <?php if ($user && !empty($user['consented'])): ?>
         <form method="post" onsubmit="return confirm('¿Seguro? Se borrarán tus datos y tus valoraciones, y dejarás de aparecer como mentor.');">

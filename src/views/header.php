@@ -32,7 +32,7 @@
         </nav>
         <div class="me">
             <?php if ($user['image_url']): ?>
-                <img src="<?= e($user['image_url']) ?>" alt="" class="avatar-sm">
+                <img src="<?= e($user['image_url']) ?>" alt="" referrerpolicy="no-referrer" class="avatar-sm">
             <?php endif; ?>
             <span><?= e($user['login']) ?></span>
             <form method="post" action="logout.php">

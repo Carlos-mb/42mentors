@@ -10,7 +10,7 @@ $cardProjects = $mentor['projects'] ?? [];
 ?>
 <a class="mentor-card" href="mentor.php?login=<?= e(rawurlencode($mentor['login'])) ?>">
     <?php if ($mentor['image_url']): ?>
-        <img src="<?= e($mentor['image_url']) ?>" alt="" class="avatar" loading="lazy">
+        <img src="<?= e($mentor['image_url']) ?>" alt="" referrerpolicy="no-referrer" class="avatar" loading="lazy">
     <?php else: ?>
         <span class="avatar placeholder"><?= e(strtoupper(substr($mentor['login'], 0, 1))) ?></span>
     <?php endif; ?>

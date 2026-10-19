@@ -8,7 +8,7 @@ const USER_RETENTION_MONTHS = 12;
 /**
  * Borra a los usuarios inactivos y todo lo suyo (proyectos, valoraciones emitidas y recibidas, caché de su perfil).
  * No hay cron en el hosting: se llama al iniciar sesión y solo trabaja una vez al día (marca en cache/).
- * La lista de la administración (roster) no depende de la actividad y no se toca.
+ * La lista de oficiales y manguitos (roster) no depende de la actividad y no se toca.
  */
 function purge_inactive_users(): void
 {

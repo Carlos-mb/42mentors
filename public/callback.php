@@ -9,6 +9,11 @@ if (isset($_GET['error'])) {
 $expectedState = $_SESSION['oauth_state'] ?? '';
 unset($_SESSION['oauth_state']);
 if ($expectedState === '' || !hash_equals($expectedState, (string) ($_GET['state'] ?? ''))) {
+    // La vuelta desde la intra a veces llega dos veces: si ya hay sesión, el login ya se hizo
+    if (current_user() !== null) {
+        header('Location: index.php');
+        exit;
+    }
     render_error('La petición de login no es válida (state incorrecto). Vuelve a intentarlo.', 400);
 }
 

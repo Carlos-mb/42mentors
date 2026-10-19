@@ -117,6 +117,8 @@ $retention = USER_RETENTION_MONTHS;
         <li>Las claves de la aplicación y de la base de datos están fuera de la parte pública del servidor y no se
             publican en el repositorio del código.</li>
         <li>Guardamos lo mínimo: lo que ves en «Qué datos guardamos».</li>
+        <li>El proveedor de alojamiento hace copias de seguridad automáticas del servidor. Si borras tus datos,
+            pueden seguir en esas copias hasta que el proveedor las sustituya por otras más recientes.</li>
     </ul>
     <p>Si hubiera una brecha de seguridad que afectara a datos personales, se avisaría a 42 y, cuando proceda, a las
         personas afectadas, y se revocarían las credenciales comprometidas.</p>

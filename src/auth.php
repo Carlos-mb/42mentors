@@ -19,7 +19,7 @@ function require_login(): array
 }
 
 /** Versión de la política de privacidad y condiciones de uso (privacy.php). Súbela cuando el texto cambie. */
-const PRIVACY_VERSION = 4;
+const PRIVACY_VERSION = 5;
 /** Última fecha de cambio de la política, tal como se muestra en privacy.php. */
 const PRIVACY_UPDATED = '19 de octubre de 2026';
 /**

@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 define('ROOT_DIR', dirname(__DIR__));
 // Versión del código desplegado (se ve en el pie): subir el número en cada despliegue, para saber qué código usa cada entorno
-define('APP_VERSION', '2026-10-19.9');
+define('APP_VERSION', '2026-10-19.10');
 
 /** Carga ROOT_DIR/.env en $_ENV (formato CLAVE=valor, # para comentarios). */
 function load_env(string $file): void

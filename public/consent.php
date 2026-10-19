@@ -96,7 +96,7 @@ render_header('Antes de empezar', $next === 'profile.php' ? 'profile' : (in_arra
             de uso</a> y acepto que se guarden estos datos.
         </label>
         <button type="submit" name="accept" value="1" class="btn">Acepto</button>
-        <button type="submit" name="accept" value="0" class="link">No, gracias</button>
+        <button type="submit" name="accept" value="0" formnovalidate class="link">No, gracias</button>
     </form>
 </section>
 <?php render_footer(); ?>

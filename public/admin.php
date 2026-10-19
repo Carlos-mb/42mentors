@@ -101,7 +101,7 @@ render_header('Administración', 'admin');
                         <?php if ($row['user_id'] === null): ?>
                             <span class="muted">Pendiente de aceptar</span>
                         <?php elseif ($row['role'] === 'mentor' && $row['available_now']): ?>
-                            <span class="status online">Disponible hasta las <?= e(substr((string) $row['available_until'], 11, 5)) ?></span>
+                            <span class="status online">Disponible hasta las <?= e(local_time((string) $row['available_until'])) ?></span>
                         <?php else: ?>
                             Ha aceptado
                         <?php endif; ?>

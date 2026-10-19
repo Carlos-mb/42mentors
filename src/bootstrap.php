@@ -38,6 +38,9 @@ function env(string $key, ?string $default = null): string
 
 load_env(ROOT_DIR . '/.env');
 
+// PHP y MySQL (db.php) trabajan en UTC; la zona del campus del usuario solo se usa para escribir y mostrar horas
+date_default_timezone_set('UTC');
+
 $debug = env('APP_DEBUG', '0') === '1';
 ini_set('display_errors', $debug ? '1' : '0');
 error_reporting(E_ALL);

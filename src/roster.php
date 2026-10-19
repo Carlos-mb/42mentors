@@ -7,8 +7,8 @@ const ROSTER_ROLE_LABELS = [
     'manguito' => 'Manguito',
 ];
 
-/** Horas que puede anunciar un mentor oficial que está disponible. */
-const AVAILABLE_HOURS = [1, 2, 3, 4];
+/** Máximo de horas que puede anunciar un mentor oficial que está disponible (para que no se quede un aviso olvidado). */
+const AVAILABLE_MAX_HOURS = 8;
 
 /** ¿Es administrador? Los logins están en ADMIN_LOGINS (.env), separados por comas. */
 function is_admin(string $login): bool

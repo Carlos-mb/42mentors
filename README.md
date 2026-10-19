@@ -42,7 +42,7 @@ La lista de proyectos de 42 es cada vez más larga y compleja. Cuando un estudia
 
    El propio mentor ve además un botón para editarla.
 6. **«Me ayudó»:** desde la ficha del mentor, el estudiante valora cuánto le ayudó con cada proyecto: «Un poco» (1 punto), «Bastante» (2) o «Mucho» (3). Los votos son **anónimos**: el mentor y los demás solo ven los totales. En **Mis valoraciones**, cada estudiante ve y cambia los suyos. Nadie puede votarse a sí mismo, y solo se vota a mentores del propio campus.
-7. **Mentores oficiales y manguitos** (42 Madrid): el administrador mantiene en `admin.php` una lista de mentores oficiales y de manguitos. Un mentor oficial puede avisar de que está **disponible durante 1 a 4 horas** y los manguitos (y los propios oficiales) ven en **Disponibles ahora** quién lo está, con su puesto en el cluster si está conectado. La disponibilidad caduca sola. Ser manguito solo lo ven la propia persona y la administración.
+7. **Mentores oficiales y manguitos** (42 Madrid): el administrador mantiene en `admin.php` una lista de mentores oficiales y de manguitos. Un mentor oficial puede avisar de que está **disponible hasta la hora que indique** (como mucho 8 horas seguidas) y los manguitos (y los propios oficiales) ven en **Disponibles ahora** quién lo está, con su puesto en el cluster si está conectado. La disponibilidad caduca sola. Ser manguito solo lo ven la propia persona y la administración.
 8. **Listas siempre útiles:** no salen los mentores «en pausa» ni los que llevan **más de 30 días sin entrar**. Siempre aparecen primero los conectados, luego los disponibles y después los ocupados.
 
 ## Así se ve

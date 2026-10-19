@@ -148,3 +148,18 @@ function safe_color(mixed $color): ?string
 {
     return is_string($color) && preg_match('/^#[0-9a-fA-F]{3,8}$/', $color) ? $color : null;
 }
+
+/** Zona horaria del campus del usuario (la da /v2/me al iniciar sesión); Madrid si no se conoce. */
+function user_timezone(): DateTimeZone
+{
+    return new DateTimeZone(current_user()['time_zone'] ?? 'Europe/Madrid');
+}
+
+/** Fecha UTC de la BD → "HH:MM" en la zona del campus del usuario. */
+function local_time(?string $utc): string
+{
+    if ($utc === null || $utc === '') {
+        return '';
+    }
+    return (new DateTimeImmutable($utc, new DateTimeZone('UTC')))->setTimezone(user_timezone())->format('H:i');
+}

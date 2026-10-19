@@ -40,6 +40,14 @@ if ($campusId === null && isset($me['campus'][0]['id'])) {
     $campusId = (int) $me['campus'][0]['id'];
 }
 
+// Zona horaria del campus (para escribir y mostrar horas); solo en la sesión
+$timeZone = null;
+foreach ($me['campus'] ?? [] as $campus) {
+    if ((int) ($campus['id'] ?? 0) === $campusId && in_array($campus['time_zone'] ?? '', timezone_identifiers_list(), true)) {
+        $timeZone = $campus['time_zone'];
+    }
+}
+
 // Cursus de piscina del usuario (C Piscine, C-Piscine-Reloaded…): su slug contiene «piscine»
 $piscineCursus = [];
 foreach ($me['cursus_users'] ?? [] as $cursusUser) {
@@ -75,6 +83,7 @@ $user = [
     'displayname' => (string) ($me['displayname'] ?? ''),
     'image_url'   => $me['image']['versions']['small'] ?? $me['image']['link'] ?? null,
     'campus_id'   => $campusId,
+    'time_zone'   => $timeZone,
 ];
 
 // Si ya dio su consentimiento, actualizar sus datos mínimos. Si no, NO se guarda nada.

@@ -82,7 +82,7 @@ $stmt = db()->prepare('UPDATE users SET login = ?, campus_id = ?, last_login_at 
 $stmt->execute([$user['login'], $user['campus_id'], $user['id']]);
 $user['consented'] = $stmt->rowCount() > 0 || user_has_consented($user['id']);
 // Rol en la lista del administrador (mentor oficial, manguito o ninguno): solo en la sesión
-$user['role'] = roster_role($user['login']);
+$user['role'] = user_role($user['login']);
 
 session_regenerate_id(true);
 $_SESSION['user'] = $user;

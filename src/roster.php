@@ -17,6 +17,18 @@ function is_admin(string $login): bool
     return in_array(strtolower($login), $admins, true);
 }
 
+/** MANGUITOS_ALL=True en .env: provisional, mientras no hay permiso de 42 Madrid, todo el mundo cuenta como manguito. */
+function manguitos_all(): bool
+{
+    return in_array(strtolower(env('MANGUITOS_ALL', '')), ['true', '1', 'yes', 'on'], true);
+}
+
+/** Rol de un usuario al iniciar sesión: el de la lista del administrador o, con MANGUITOS_ALL, manguito. */
+function user_role(string $login): ?string
+{
+    return roster_role($login) ?? (manguitos_all() ? 'manguito' : null);
+}
+
 /** Rol de un login en la lista del administrador: 'mentor', 'manguito' o null. */
 function roster_role(string $login): ?string
 {
@@ -29,7 +41,7 @@ function roster_role(string $login): ?string
 /** ¿Puede ver «Disponibles ahora»? Manguitos, mentores oficiales y administradores. */
 function can_see_available(array $user): bool
 {
-    return !empty($user['role']) || is_admin($user['login']);
+    return !empty($user['role']) || manguitos_all() || is_admin($user['login']);
 }
 
 /** Exige ser administrador. */

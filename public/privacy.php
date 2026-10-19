@@ -8,6 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $user) {
     csrf_check();
     // mentor_projects y votes (los que emitió y los que recibió) se borran en cascada
     db()->prepare('DELETE FROM users WHERE id = ?')->execute([$user['id']]);
+    // También sale de la lista de mentores oficiales y manguitos de la administración
+    db()->prepare('DELETE FROM roster WHERE login = ?')->execute([$user['login']]);
+    $_SESSION['user']['role'] = null;
     // La caché de ubicaciones puede contener su puesto: se descarta
     foreach (glob(ROOT_DIR . '/cache/locations_*.json') ?: [] as $file) {
         unlink($file);
@@ -39,8 +42,8 @@ render_header('Privacidad');
     </ul>
     <p>Además, la administración de 42 Madrid mantiene una lista de mentores oficiales y manguitos con el login y
         el rol de cada persona. Esa lista se guarda aunque no hayas aceptado nada y no se muestra a nadie hasta que
-        aceptas. Quien es manguito solo lo ven esa persona y la administración. Si borras tus datos, la
-        administración conserva tu login y tu rol; para quitarte de la lista, pídeselo.</p>
+        aceptas. Quien es manguito solo lo ven esa persona y la administración. Si borras tus datos, te quitamos
+        también de esa lista: la administración tendría que volver a añadirte.</p>
     <p>El nombre, la foto, el nivel, la coalición, el puesto en el cluster y las notas de los proyectos de la intra
         no se guardan en la base de datos: se consultan a la API de 42. Para no saturarla, se mantienen en una caché
         temporal del servidor, solo los de los mentores: los puestos se renuevan cada pocos minutos, y el resto,

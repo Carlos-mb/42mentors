@@ -56,6 +56,10 @@ render_header('Administración', 'admin');
         el consentimiento; hasta entonces figura como «pendiente». Los cambios de rol se aplican la próxima vez que
         la persona inicie sesión.</p>
 
+    <?php if (manguitos_all()): ?>
+        <p class="warn">MANGUITOS_ALL está activo: todos los usuarios ven «Disponibles ahora», estén o no en la lista.</p>
+    <?php endif; ?>
+
     <form method="post" class="stack">
         <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
         <input type="hidden" name="action" value="add">

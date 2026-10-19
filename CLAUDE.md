@@ -100,7 +100,8 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - un mentor oficial anuncia que está disponible 1–4 h desde `available.php` (`users.available_until`, que caduca sola). La página «Disponibles ahora» la ven manguitos, oficiales y admin: lista a los oficiales del mismo campus con consentimiento y `available_until > NOW()`, con su puesto en el cluster. Ver la página no exige consentimiento; anunciar la disponibilidad, sí;
   - un oficial puede no mentorizar ningún proyecto: `active_locations()` y `mentor.php` también lo admiten (`sql_is_official()`). No aparece en Proyectos ni en Mentores sin proyectos, y no hay insignia de «oficial» en lo existente;
   - **«manguito» solo lo ven la propia persona y el admin**: no sale en fichas ni listas, tampoco para los mentores;
-  - «Borrar mis datos» no quita la entrada de `roster` (es de la administración): lo explica `privacy.php`.
+  - **`MANGUITOS_ALL=True` (provisional, hasta tener el permiso de 42 Madrid):** todo el mundo cuenta como manguito y ve «Disponibles ahora», esté o no en `roster` (un oficial sigue siendo oficial). Se define en el `.env` de cada entorno; por defecto, desactivado;
+  - «Borrar mis datos» borra todo, también la entrada de `roster` (la administración tendría que volver a añadir a la persona).
 - Queda para más adelante: número de correcciones del proyecto (`scale_teams`, varias llamadas) y otras mejoras listadas en la sección «Mejoras futuras» del README.
 
 ## Repositorio y flujo de trabajo

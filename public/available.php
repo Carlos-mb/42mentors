@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($user['consented'])) {
         redirect('consent.php?next=available.php');
     }
+    // Solo cuenta si en la BD sigue figurando como mentor oficial (el administrador puede habérsela quitado)
     if (($_POST['action'] ?? '') === 'stop') {
         db()->prepare('UPDATE users SET available_until = NULL WHERE id = ?')->execute([$user['id']]);
         flash('Ya no apareces como disponible.');
@@ -33,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($until > $now->modify('+' . AVAILABLE_MAX_HOURS . ' hours')) {
             flash('Puedes anunciarte como mucho durante ' . AVAILABLE_MAX_HOURS . ' horas seguidas. Elige una hora más cercana.');
         } else {
-            db()->prepare('UPDATE users SET available_until = ? WHERE id = ?')
+            db()->prepare("UPDATE users SET available_until = ? WHERE id = ? AND manguito_role = 'mentor'")
                 ->execute([$until->setTimezone(new DateTimeZone('UTC'))->format('Y-m-d H:i:s'), $user['id']]);
             flash('Apareces como disponible hasta las ' . $until->format('H:i') . '.');
         }

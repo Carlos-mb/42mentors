@@ -52,7 +52,7 @@ En los pasos, `~/` es la carpeta personal de la cuenta del hosting, que contiene
 Cada dominio tiene su instalación (en producción, `~/42mentors.com/42mentors/`), con el `.env` dentro de esa carpeta. En los pasos, `42mentors` es esa carpeta.
 
 1. **Base de datos.** En phpMyAdmin, pestaña SQL, ejecutar **una sola vez** cada fichero nuevo de `sql/migrations/`, en orden. Cada fichero indica en su cabecera si se aplica **antes** de subir el código (añade columnas y no rompe la versión anterior) o **después** (quita columnas que el código anterior aún usa).
-   La migración 004 (mentores oficiales) y la 005 (versión del consentimiento) se aplican antes de subir el código. Además, para la 004 hay que añadir `ADMIN_LOGINS=login1,login2` al `.env` del servidor (mira `.env.example`) para que esos logins vean `admin.php`.
+   Las migraciones 004 (mentores oficiales), 005 (versión del consentimiento) y 006 (marca de mentor oficial o manguito) se aplican antes de subir el código; la **007 (borra `roster`) se aplica después**, cuando todo funciona. Además, en el `.env` del servidor hay que añadir `ADMIN_LOGINS=login1,login2` (para que esos logins vean `admin.php`) y los códigos `MENTOR_INVITE_CODE` y `MANGUITO_INVITE_CODE` (uno distinto para cada página; genéralos con `openssl rand -hex 16`; mira `.env.example`). Sin código, la página privada responde 404.
 2. Generar el paquete en local: `powershell -ExecutionPolicy Bypass -File tools\build-deploy.ps1` crea `deploy/42mentors.zip`, que contiene `public/`, `src/`, `sql/`, `cache/.htaccess` y `.env.example`, sin secretos. En macOS o Linux: `zip -r` de una carpeta `42mentors/` con esos mismos ficheros.
 3. En File Manager:
    - subir el ZIP a `~/`;
@@ -84,7 +84,8 @@ Cada dominio tiene su instalación (en producción, `~/42mentors.com/42mentors/`
 | `public/mentors.php` + `assets/mentors.js` | **Mentores**: directorio con buscador que filtra en el navegador. |
 | `public/mentor.php` | **Ficha pública** del mentor (`?login=`). |
 | `public/available.php` | **Disponibles ahora**: mentores oficiales disponibles; los oficiales anuncian aquí su disponibilidad. |
-| `public/admin.php`, `src/roster.php` | **Administración** de mentores oficiales y manguitos (`ADMIN_LOGINS` en `.env`). |
+| `public/mentor-manguito.php`, `public/soy-manguito.php`, `src/roster.php` | Páginas **privadas** (sin enlaces; exigen `?c=<código>` del `.env`) para marcarse mentor oficial o manguito. |
+| `public/admin.php` | **Administración**: enlaces privados y quitar/bloquear marcas (`ADMIN_LOGINS` en `.env`). |
 | `sql/schema.sql`, `sql/migrations/` | Esquema completo para instalaciones nuevas y cambios para bases de datos ya creadas. |
 
 Documentación de la API: carpeta `API-Docs/` (solo en local; empieza por `API-Docs/INDEX_ENDPOINTS.md`).

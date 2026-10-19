@@ -9,8 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $user) {
     csrf_check();
     // mentor_projects y votes (los que emitió y los que recibió) se borran en cascada
     db()->prepare('DELETE FROM users WHERE id = ?')->execute([$user['id']]);
-    // También sale de la lista de mentores oficiales y manguitos
-    db()->prepare('DELETE FROM roster WHERE login = ?')->execute([$user['login']]);
     $_SESSION['user']['role'] = null;
     // La caché de ubicaciones puede contener su puesto: se descarta
     foreach (glob(ROOT_DIR . '/cache/locations_*.json') ?: [] as $file) {
@@ -53,14 +51,13 @@ $retention = USER_RETENTION_MONTHS;
             ni cuándo.</li>
         <li>Registro de tu aceptación: la fecha («mentor desde») y la versión de esta política que aceptaste.</li>
         <li>Fecha del último acceso.</li>
-        <li>Si eres mentor oficial: hasta qué hora has dicho que estás disponible. La ven los manguitos de tu campus.</li>
     </ul>
-    <p>Además, el responsable de la web mantiene una lista de mentores «oficiales» y manguitos con el login y el rol
-        de cada persona. Esa lista no la ha pedido ni la gestiona 42 Madrid. Se guarda aunque no hayas aceptado nada,
-        por interés legítimo del responsable en organizar esa ayuda (art. 6.1.f del RGPD): es solo el login y el rol,
-        se añade a personas que han dicho que quieren estar, y no se muestra a nadie hasta que aceptas. Quien es
-        manguito solo lo ven esa persona y el responsable. Puedes pedir que te quiten escribiendo al contacto de arriba
-        o con «Borrar mis datos»; si te quitan, el responsable tendría que volver a añadirte.</p>
+    <p>Si te declaras mentor oficial o manguito de la Operación Manguito (con un enlace privado que da el responsable
+        de la web), guardamos esa marca, y la hora hasta la que dices que estás disponible si eres mentor. Un mentor
+        oficial lo ven los estudiantes de su campus que han iniciado sesión, en «Disponibles ahora», con su nombre,
+        su foto y su puesto en el cluster. Quien es manguito solo lo ven esa persona y el responsable. Esta marca no
+        la ha pedido ni la gestiona 42 Madrid. Puedes quitártela cuando quieras desde esa misma página, y el
+        responsable puede quitársela a quien haga un uso indebido.</p>
     <p>El nombre, la foto, el nivel, la coalición, el puesto en el cluster y las notas de los proyectos de la intra
         no se guardan en la base de datos: se consultan a la API de 42. Para no saturarla, se mantienen en una caché
         temporal del servidor, solo los de los mentores: los puestos se renuevan cada pocos minutos, y el resto,
@@ -74,7 +71,8 @@ $retention = USER_RETENTION_MONTHS;
 
     <h2>Base jurídica</h2>
     <p>Tu consentimiento (art. 6.1.a del RGPD). Lo das en la pantalla «Antes de guardar tus datos», marcando la
-        casilla y pulsando «Acepto»; queda registrado con su fecha y la versión de esta política. Los datos de la
+        casilla y pulsando «Acepto»; queda registrado con su fecha y la versión de esta política. Lo mismo vale para
+        marcarte como mentor oficial o manguito: solo puedes hacerlo después de aceptar. Los datos de la
         intra que se muestran de un mentor (nombre, foto, nivel…) solo se muestran si ese mentor ha dado su
         consentimiento. Puedes retirarlo en cualquier momento, sin que afecte a lo anterior.</p>
     <p>Si cambia de forma relevante lo que guardamos o cómo lo usamos, se te pedirá aceptar de nuevo la política.</p>
@@ -101,8 +99,7 @@ $retention = USER_RETENTION_MONTHS;
         <li>Caché de datos de la intra (nombre, foto, nivel…): se renueva con la intra como se explica arriba y se
             borra cuando se borran tus datos.</li>
         <li>Sesión: hasta que salgas o caduque tu token de acceso de 42 (normalmente a las 2 horas).</li>
-        <li>Lista de mentores «oficiales» y manguitos: hasta que el responsable te quite o borres tus datos.</li>
-        <li>Si cerramos el servicio, borraremos la base de datos.</li>
+                <li>Si cerramos el servicio, borraremos la base de datos.</li>
     </ul>
 
     <h2>Tus derechos</h2>

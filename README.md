@@ -42,7 +42,7 @@ La lista de proyectos de 42 es cada vez más larga y compleja. Cuando un estudia
 
    El propio mentor ve además un botón para editarla.
 6. **«Me ayudó»:** desde la ficha del mentor, el estudiante valora cuánto le ayudó con cada proyecto: «Un poco» (1 punto), «Bastante» (2) o «Mucho» (3). Los votos son **anónimos**: el mentor y los demás solo ven los totales. En **Mis valoraciones**, cada estudiante ve y cambia los suyos. Nadie puede votarse a sí mismo, y solo se vota a mentores del propio campus. Se puede apagar con `VOTES_ENABLED=False` en el `.env`: se oculta todo y los votos guardados se conservan.
-7. **Mentores oficiales y manguitos** (42 Madrid): el administrador mantiene en `admin.php` una lista de mentores oficiales y de manguitos. Un mentor oficial puede avisar de que está **disponible hasta la hora que indique** (como mucho 8 horas seguidas) y los manguitos (y los propios oficiales) ven en **Disponibles ahora** quién lo está, con su puesto en el cluster si está conectado. La disponibilidad caduca sola. Ser manguito solo lo ven la propia persona y la administración.
+7. **Mentores oficiales y manguitos** (Operación Manguito): cada persona se marca ella misma, después de aceptar el consentimiento, con un enlace privado que le manda el responsable (el administrador solo puede quitar la marca en `admin.php`). Un mentor oficial puede avisar de que está **disponible hasta la hora que indique** (como mucho 8 horas seguidas) y los manguitos (y los propios oficiales) ven en **Disponibles ahora** quién lo está, con su puesto en el cluster si está conectado. La disponibilidad caduca sola. Ser manguito solo lo ven la propia persona y el administrador.
 8. **Listas siempre útiles:** no salen los mentores «en pausa» ni los que llevan **más de 30 días sin entrar**. Siempre aparecen primero los conectados, luego los disponibles y después los ocupados.
 
 ## Así se ve
@@ -114,7 +114,7 @@ Para desarrollo en local con XAMPP y despliegue en el hosting, ver [DESARROLLO.m
 public/          Lo único accesible por web (páginas, CSS, JS, robots.txt)
 src/             Lógica: configuración, BD, cliente de la API, sesión, cachés, votos, vistas
 sql/schema.sql   Esquema completo de la base de datos (instalaciones nuevas)
-sql/migrations/  Cambios para bases de datos ya creadas (001–005)
+sql/migrations/  Cambios para bases de datos ya creadas (001–007)
 cache/           Caché temporal de ubicaciones y perfiles de mentores (no se versiona)
 tools/           Script que genera el paquete de despliegue (sin secretos)
 .github/         CI: sintaxis PHP y búsqueda de secretos

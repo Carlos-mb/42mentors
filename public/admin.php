@@ -1,5 +1,6 @@
 <?php
-// Administración: lista de mentores oficiales y manguitos. Solo para los logins de ADMIN_LOGINS (.env).
+// Administración: quién se ha marcado como mentor oficial o manguito y los enlaces privados para hacerlo.
+// Solo para los logins de ADMIN_LOGINS (.env). El administrador no da de alta a nadie: solo puede quitar la marca.
 require __DIR__ . '/../src/bootstrap.php';
 
 $user = require_admin();
@@ -7,86 +8,61 @@ $user = require_admin();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
     $action = is_string($_POST['action'] ?? null) ? $_POST['action'] : '';
+    $login = is_string($_POST['login'] ?? null) ? $_POST['login'] : '';
 
-    if ($action === 'add') {
-        $role = is_string($_POST['role'] ?? null) ? $_POST['role'] : '';
-        if (!isset(ROSTER_ROLE_LABELS[$role])) {
-            flash('Elige un rol válido.');
-            redirect('admin.php');
-        }
-        $logins = preg_split('/[\s,;]+/', strtolower(is_string($_POST['logins'] ?? null) ? $_POST['logins'] : ''), -1, PREG_SPLIT_NO_EMPTY);
-        $valid = array_unique(array_filter($logins, fn(string $l): bool => preg_match('/^[a-z0-9_-]{1,64}$/', $l) === 1));
-        $invalid = array_diff($logins, $valid);
-
-        $stmt = db()->prepare(
-            'INSERT INTO roster (login, role, added_at) VALUES (?, ?, NOW())
-             ON DUPLICATE KEY UPDATE role = VALUES(role)'
-        );
-        foreach ($valid as $login) {
-            $stmt->execute([$login, $role]);
-        }
-        $message = count($valid) . ' guardados como «' . ROSTER_ROLE_LABELS[$role] . '».';
-        if ($invalid) {
-            $message .= ' Logins no válidos: ' . implode(', ', array_slice($invalid, 0, 5)) . '.';
-        }
-        flash($message);
-    } elseif ($action === 'remove') {
-        $login = is_string($_POST['login'] ?? null) ? $_POST['login'] : '';
-        db()->prepare('DELETE FROM roster WHERE login = ?')->execute([$login]);
-        // Si era mentor oficial, deja de estar anunciado como disponible
-        db()->prepare('UPDATE users SET available_until = NULL WHERE login = ?')->execute([$login]);
-        flash('«' . $login . '» ya no está en la lista.');
+    if ($action === 'block') {
+        // Quita la marca y no deja que se la vuelva a poner; también deja de estar anunciado como disponible
+        db()->prepare('UPDATE users SET manguito_role = NULL, manguito_blocked = 1, available_until = NULL WHERE login = ?')
+            ->execute([$login]);
+        flash('«' . $login . '» ya no figura y no puede volver a marcarse. Lo verá la próxima vez que inicie sesión.');
+    } elseif ($action === 'unblock') {
+        db()->prepare('UPDATE users SET manguito_blocked = 0 WHERE login = ?')->execute([$login]);
+        flash('«' . $login . '» puede volver a marcarse.');
     }
     redirect('admin.php');
 }
 
 $rows = db()->query(
-    'SELECT r.login, r.role, r.added_at, u.id AS user_id, u.available_until,
-            (u.available_until > NOW()) AS available_now
-       FROM roster r
-       LEFT JOIN users u ON u.login = r.login
-      ORDER BY r.role, r.login'
+    'SELECT login, manguito_role, manguito_blocked, available_until, (available_until > NOW()) AS available_now
+       FROM users
+      WHERE manguito_role IS NOT NULL OR manguito_blocked = 1
+      ORDER BY manguito_blocked, manguito_role, login'
 )->fetchAll();
+
+$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$base = $scheme . '://' . ($_SERVER['HTTP_HOST'] ?? '');
 
 render_header('Administración', 'admin');
 ?>
 <section class="card">
     <h1>Administración</h1>
-    <p class="muted">Mentores oficiales y manguitos. Cada persona aparece en la web cuando inicia sesión y acepta
-        el consentimiento; hasta entonces figura como «pendiente». Los cambios de rol se aplican la próxima vez que
-        la persona inicie sesión.</p>
+    <p class="muted">Mentores oficiales y manguitos se marcan ellos mismos, con un enlace privado, después de aceptar
+        el consentimiento. Aquí puedes mandar esos enlaces y quitar la marca a quien haga un uso indebido.</p>
 
     <?php if (manguitos_all()): ?>
-        <p class="warn">MANGUITOS_ALL está activo: todos los usuarios ven «Disponibles ahora», estén o no en la lista.</p>
+        <p class="warn">MANGUITOS_ALL está activo: todos los usuarios ven «Disponibles ahora», se hayan marcado o no.</p>
     <?php endif; ?>
 
-    <form method="post" class="stack">
-        <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-        <input type="hidden" name="action" value="add">
+    <h2>Enlaces privados</h2>
+    <p class="muted small">No tienen enlaces desde la web: solo funcionan con el código. Si un enlace se filtra, cambia
+        su código en el <code>.env</code> (las marcas ya puestas se quitan abajo).</p>
+    <?php foreach (JOIN_PAGES as $role => $page): ?>
+        <?php $code = join_code($role); ?>
         <label class="field">
-            <span>Logins <span class="muted small">(uno por línea, o separados por comas)</span></span>
-            <textarea name="logins" rows="3" required placeholder="login1&#10;login2"></textarea>
+            <span><?= e(ROSTER_ROLE_LABELS[$role]) ?></span>
+            <?php if ($code === ''): ?>
+                <span class="warn">Desactivada: falta <?= e(JOIN_CODE_ENV[$role]) ?> en el .env.</span>
+            <?php else: ?>
+                <input type="text" readonly value="<?= e($base . '/' . $page . '?c=' . $code) ?>" onclick="this.select()">
+            <?php endif; ?>
         </label>
-        <fieldset class="field">
-            <legend>Rol</legend>
-            <?php foreach (ROSTER_ROLE_LABELS as $value => $label): ?>
-                <label class="radio">
-                    <input type="radio" name="role" value="<?= e($value) ?>" <?= $value === 'mentor' ? 'checked' : '' ?>>
-                    <?= e($label) ?>
-                </label>
-            <?php endforeach; ?>
-            <p class="muted small">Si el login ya está en la lista, se cambia su rol.</p>
-        </fieldset>
-        <div class="actions">
-            <button type="submit" class="btn">Añadir a la lista</button>
-        </div>
-    </form>
+    <?php endforeach; ?>
 </section>
 
 <section class="card">
-    <h2>Lista (<?= count($rows) ?>)</h2>
+    <h2>Marcados y bloqueados (<?= count($rows) ?>)</h2>
     <?php if (!$rows): ?>
-        <p class="muted">Todavía no hay nadie en la lista.</p>
+        <p class="muted">Todavía no se ha marcado nadie.</p>
     <?php else: ?>
         <table class="table">
             <thead>
@@ -96,22 +72,22 @@ render_header('Administración', 'admin');
             <?php foreach ($rows as $row): ?>
                 <tr>
                     <td><a href="<?= e(intra_profile_url($row['login'])) ?>" target="_blank" rel="noopener"><?= e($row['login']) ?></a></td>
-                    <td><?= e(ROSTER_ROLE_LABELS[$row['role']]) ?></td>
+                    <td><?= $row['manguito_role'] === null ? '—' : e(ROSTER_ROLE_LABELS[$row['manguito_role']]) ?></td>
                     <td>
-                        <?php if ($row['user_id'] === null): ?>
-                            <span class="muted">Pendiente de aceptar</span>
-                        <?php elseif ($row['role'] === 'mentor' && $row['available_now']): ?>
+                        <?php if ($row['manguito_blocked']): ?>
+                            <span class="muted">Bloqueado</span>
+                        <?php elseif ($row['manguito_role'] === 'mentor' && $row['available_now']): ?>
                             <span class="status online">Disponible hasta las <?= e(local_time((string) $row['available_until'])) ?></span>
                         <?php else: ?>
-                            Ha aceptado
+                            Marcado
                         <?php endif; ?>
                     </td>
                     <td>
-                        <form method="post" onsubmit="return confirm('¿Quitar a <?= e($row['login']) ?> de la lista?');">
+                        <form method="post" onsubmit="return confirm('<?= $row['manguito_blocked'] ? 'Dejar que' : 'Quitar la marca y no dejar que' ?> <?= e($row['login']) ?> vuelva a marcarse?');">
                             <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-                            <input type="hidden" name="action" value="remove">
+                            <input type="hidden" name="action" value="<?= $row['manguito_blocked'] ? 'unblock' : 'block' ?>">
                             <input type="hidden" name="login" value="<?= e($row['login']) ?>">
-                            <button type="submit" class="link">Quitar</button>
+                            <button type="submit" class="link"><?= $row['manguito_blocked'] ? 'Desbloquear' : 'Quitar y bloquear' ?></button>
                         </form>
                     </td>
                 </tr>

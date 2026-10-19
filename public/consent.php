@@ -7,7 +7,7 @@ $user = require_login();
 
 // Adónde volver después: solo páginas conocidas de la web
 $next = $_POST['next'] ?? $_GET['next'] ?? '';
-if (!is_string($next) || !preg_match('/^(profile\.php|ratings\.php|available\.php|mentor\.php\?login=[A-Za-z0-9_-]{1,64})$/', $next)) {
+if (!is_string($next) || !preg_match('/^(profile\.php|ratings\.php|available\.php|mentor-manguito\.php|soy-manguito\.php|mentor\.php\?login=[A-Za-z0-9_-]{1,64})$/', $next)) {
     $next = 'profile.php';
 }
 
@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         flash(match ($next) {
             'profile.php'   => 'Gracias. Ya puedes completar tu perfil y elegir qué proyectos mentorizas.',
             'available.php' => 'Gracias. Ya puedes anunciar cuándo estás disponible.',
+            'mentor-manguito.php', 'soy-manguito.php' => 'Gracias. Ya puedes confirmar tu marca.',
             default         => 'Gracias. Ya puedes valorar a los mentores que te ayuden.',
         });
         redirect($next);
@@ -42,7 +43,7 @@ if (!empty($user['consented'])) {
     redirect($next);
 }
 
-render_header('Antes de empezar', $next === 'profile.php' ? 'profile' : ($next === 'available.php' ? 'available' : ''));
+render_header('Antes de empezar', $next === 'profile.php' ? 'profile' : (in_array($next, ['available.php', 'mentor-manguito.php', 'soy-manguito.php'], true) ? 'available' : ''));
 ?>
 <section class="card">
     <h1>Antes de guardar tus datos</h1>
@@ -58,9 +59,12 @@ render_header('Antes de empezar', $next === 'profile.php' ? 'profile' : ($next =
             <li>Si valoras a un mentor con «Me ayudó»: a quién, por qué proyecto, los puntos (de 1 a 3) y la fecha.</li>
         <?php endif; ?>
     </ul>
-    <?php if (($user['role'] ?? null) === 'mentor'): ?>
-        <p>Como mentor oficial, también guardamos hasta qué hora has dicho que estás disponible. Esa hora la ven los
-            manguitos de tu campus en «Disponibles ahora».</p>
+    <?php if ($next === 'mentor-manguito.php' || ($user['role'] ?? null) === 'mentor'): ?>
+        <p>Como mentor oficial de la Operación Manguito, guardamos esa marca y hasta qué hora has dicho que estás
+            disponible. La ven los estudiantes de tu campus que hayan iniciado sesión, en «Disponibles ahora», junto
+            con tu nombre, tu foto y tu puesto en el cluster.</p>
+    <?php elseif ($next === 'soy-manguito.php'): ?>
+        <p>Si te marcas como manguito, guardamos esa marca. Solo la ven tú y el responsable de la web.</p>
     <?php endif; ?>
     <?php if (votes_enabled()): ?>
         <p>Las valoraciones son anónimas: los demás solo ven los puntos totales de cada mentor, nunca quién ha votado.

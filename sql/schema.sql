@@ -15,6 +15,8 @@ CREATE TABLE IF NOT EXISTS users (
     contact_pref  ENUM('cluster', 'slack', 'both')    NOT NULL DEFAULT 'cluster',  -- en Slack, el usuario es el login
     languages     VARCHAR(64)  NULL,                    -- códigos separados por comas, p. ej. "es,en"
     available_until DATETIME   NULL,                    -- mentor oficial: disponible hasta esta hora (caduca sola)
+    manguito_role ENUM('mentor', 'manguito') NULL,      -- marca que se pone la propia persona con el enlace privado (mentor oficial o manguito)
+    manguito_blocked TINYINT(1) NOT NULL DEFAULT 0,     -- el administrador le quitó la marca y no puede volver a ponérsela
     consented_at  DATETIME     NOT NULL,                -- prueba del consentimiento («mentor desde»)
     consent_version SMALLINT UNSIGNED NOT NULL DEFAULT 1,  -- versión de la política aceptada (PRIVACY_VERSION en src/auth.php)
     last_login_at DATETIME     NOT NULL
@@ -54,13 +56,4 @@ CREATE TABLE IF NOT EXISTS votes (
     CONSTRAINT fk_votes_voter   FOREIGN KEY (voter_id)   REFERENCES users (id)    ON DELETE CASCADE,
     CONSTRAINT fk_votes_mentor  FOREIGN KEY (mentor_id)  REFERENCES users (id)    ON DELETE CASCADE,
     CONSTRAINT fk_votes_project FOREIGN KEY (project_id) REFERENCES projects (id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Lista de mentores oficiales y manguitos, gestionada por el administrador (admin.php). Solo login y rol:
--- existe antes del consentimiento, pero no se muestra a nadie hasta que la persona acepta.
--- «manguito» solo lo ven la propia persona y el administrador.
-CREATE TABLE IF NOT EXISTS roster (
-    login    VARCHAR(64) NOT NULL PRIMARY KEY,
-    role     ENUM('mentor', 'manguito') NOT NULL,
-    added_at DATETIME    NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

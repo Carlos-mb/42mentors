@@ -96,8 +96,8 @@ try {
 } catch (Throwable $e) {
     error_log('purge_inactive_users: ' . $e->getMessage());
 }
-// Rol en la lista del administrador (mentor oficial, manguito o ninguno): solo en la sesión
-$user['role'] = user_role($user['login']);
+// Rol de la Operación Manguito (mentor oficial, manguito o ninguno): solo en la sesión
+$user['role'] = user_role($user['id']);
 
 session_regenerate_id(true);
 $_SESSION['user'] = $user;
@@ -105,4 +105,7 @@ $_SESSION['projects'] = $projects;
 $_SESSION['access_token'] = $token['access_token'];
 $_SESSION['token_expires_at'] = time() + (int) ($token['expires_in'] ?? 7200);
 
-redirect('index.php');
+// Si venía de una página privada de declaración (mentor-manguito.php, soy-manguito.php), vuelve a ella
+$return = $_SESSION['login_return'] ?? null;
+unset($_SESSION['login_return']);
+redirect(in_array($return, JOIN_PAGES, true) ? $return : 'index.php');

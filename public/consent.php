@@ -47,20 +47,26 @@ render_header('Antes de empezar', $next === 'profile.php' ? 'profile' : ($next =
         <li>Si te ofreces como mentor: los proyectos que marques como «puedo mentorizar» y lo que tú escribas en tu
             perfil, todo opcional (presentación, disponibilidad, cómo prefieres que te contacten, idiomas y notas
             sobre los proyectos).</li>
-        <li>Si valoras a un mentor con «Me ayudó»: a quién, por qué proyecto, los puntos (de 1 a 3) y la fecha.</li>
+        <?php if (votes_enabled()): ?>
+            <li>Si valoras a un mentor con «Me ayudó»: a quién, por qué proyecto, los puntos (de 1 a 3) y la fecha.</li>
+        <?php endif; ?>
     </ul>
     <?php if (($user['role'] ?? null) === 'mentor'): ?>
         <p>Como mentor oficial, también guardamos hasta qué hora has dicho que estás disponible. Esa hora la ven los
             manguitos de tu campus en «Disponibles ahora».</p>
     <?php endif; ?>
-    <p>Las valoraciones son anónimas: los demás solo ven los puntos totales de cada mentor, nunca quién ha votado.
-        Tú puedes ver y cambiar las tuyas en «Mis valoraciones».</p>
+    <?php if (votes_enabled()): ?>
+        <p>Las valoraciones son anónimas: los demás solo ven los puntos totales de cada mentor, nunca quién ha votado.
+            Tú puedes ver y cambiar las tuyas en «Mis valoraciones».</p>
+    <?php endif; ?>
     <p>Si te ofreces como mentor, los estudiantes de tu campus que hayan iniciado sesión con 42 verán en tu ficha:</p>
     <ul>
         <li>Lo que escribas en tu perfil y los proyectos que mentorizas.</li>
         <li>Tu nombre, tu foto, tu nivel, tu coalición, tu puesto en el cluster si estás conectado y la nota
             y la fecha de validación de los proyectos que mentorizas.</li>
-        <li>Los puntos «Me ayudó» que hayas recibido.</li>
+        <?php if (votes_enabled()): ?>
+            <li>Los puntos «Me ayudó» que hayas recibido.</li>
+        <?php endif; ?>
     </ul>
     <p>Esos datos de la intra se consultan a la API de 42 y no se guardan en la base de datos. Para no saturar
         la API, se guarda una copia en una caché temporal del servidor, que se actualiza con la intra como mucho

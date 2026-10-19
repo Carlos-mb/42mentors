@@ -3,6 +3,10 @@
 require __DIR__ . '/../src/bootstrap.php';
 
 $user = require_login();
+if (!votes_enabled()) {
+    flash('Las valoraciones están desactivadas por ahora.');
+    redirect('mentors.php');
+}
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirect('ratings.php');
 }

@@ -53,10 +53,11 @@ $stmt->execute([$mentorId]);
 $projects = $stmt->fetchAll();
 
 // «Me ayudó»: solo totales (anónimos) y, si no es mi ficha, mis propios votos
-$voteTotals = mentor_vote_totals($mentorId);
+$votesOn = votes_enabled();
+$voteTotals = $votesOn ? mentor_vote_totals($mentorId) : [];
 $points = array_sum(array_column($voteTotals, 'points'));
 $voteCount = array_sum(array_column($voteTotals, 'votes'));
-$myVotes = $isMe ? [] : my_votes_for($user['id'], $mentorId);
+$myVotes = $isMe || !$votesOn ? [] : my_votes_for($user['id'], $mentorId);
 
 // Datos de la intra: caché de perfiles (2 peticiones si ha caducado) + puesto (caché de ubicaciones del campus)
 $profile = [];
@@ -153,8 +154,10 @@ render_header($name, 'mentors');
         <?php endif; ?>
         <dt>Mentor desde</dt>
         <dd><?= e(month_year($mentor['consented_at'])) ?></dd>
-        <dt>«Me ayudó»</dt>
-        <dd><?= $voteCount ? e(points_text($points, $voteCount)) : '<span class="muted">Aún sin valoraciones</span>' ?></dd>
+        <?php if ($votesOn): ?>
+            <dt>«Me ayudó»</dt>
+            <dd><?= $voteCount ? e(points_text($points, $voteCount)) : '<span class="muted">Aún sin valoraciones</span>' ?></dd>
+        <?php endif; ?>
     </dl>
 
     <h2>Proyectos que mentoriza</h2>
@@ -186,7 +189,7 @@ render_header($name, 'mentors');
                     <?php if ($project['note']): ?>
                         <p class="note-text">«<?= e($project['note']) ?>»</p>
                     <?php endif; ?>
-                    <?php if (!$isMe): ?>
+                    <?php if (!$isMe && $votesOn): ?>
                         <div class="vote-row">
                             <span class="muted small">¿Te ayudó con este proyecto?</span>
                             <?= vote_form($mentorId, (int) $project['id'], $myVotes[(int) $project['id']] ?? null) ?>

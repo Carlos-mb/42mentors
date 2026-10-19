@@ -87,6 +87,7 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
 - **Directorio:** se carga la lista entera con nombres y fotos (`ft_users_by_ids`, una petición por cada 100) y se filtra en el navegador (`assets/mentors.js`) por texto (sin tildes), proyecto y «conectados ahora». Incluye al propio usuario («· tú»).
 - **Mentores inactivos:** se ocultan de Proyectos y Mentores tras 30 días sin `last_login_at` (`MENTOR_INACTIVE_DAYS`); la ficha por enlace sigue accesible. **Pendiente:** borrado definitivo de los inactivos (art. 4.5 de las condiciones de la API).
 - **«Me ayudó»:**
+  - **interruptor `VOTES_ENABLED`** en el `.env` (por defecto activo; `False`, `0`, `no` u `off` lo apagan, `votes_enabled()` en `src/votes.php`): apagado, se oculta todo (botones, puntos de las fichas, «Mis valoraciones»), `vote.php` y `ratings.php` redirigen con un aviso y los votos guardados se conservan en `votes`;
   - un voto de **1 a 3** por cada (estudiante, mentor, proyecto), que tiene que ser uno de los que mentoriza; nadie se vota a sí mismo y solo se vota a mentores del mismo campus;
   - se vota desde la ficha del mentor («Un poco», «Bastante», «Mucho»); `vote.php` guarda y `ratings.php` muestra «Mis valoraciones»;
   - el voto se puede cambiar, pero **no quitar** (si se quitara y se volviera a votar, cambiaría `created_at` y se haría trampa en el ranking). Solo «Borrar mis datos» los elimina;

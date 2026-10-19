@@ -9,6 +9,12 @@ const VOTE_LABELS = [
     3 => 'Mucho',
 ];
 
+/** ¿Está activo el sistema de valoraciones? VOTES_ENABLED=False (o 0, no, off) en .env lo oculta; los votos guardados se conservan. */
+function votes_enabled(): bool
+{
+    return !in_array(strtolower(env('VOTES_ENABLED', 'True')), ['false', '0', 'no', 'off'], true);
+}
+
 /** Puntos y número de votos que ha recibido un mentor, por proyecto: [project_id => ['points' => n, 'votes' => n]]. */
 function mentor_vote_totals(int $mentorId): array
 {

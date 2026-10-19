@@ -3,6 +3,10 @@
 require __DIR__ . '/../src/bootstrap.php';
 
 $user = require_login();
+if (!votes_enabled()) {
+    flash('Las valoraciones están desactivadas por ahora.');
+    redirect('index.php');
+}
 
 $stmt = db()->prepare(
     'SELECT v.mentor_id, v.project_id, v.value, u.login, p.name AS project_name,

@@ -51,6 +51,11 @@ render_header('Privacidad');
         hasta que borres tus datos: al borrarlos se borra también tu caché. El token de acceso de 42 solo vive en tu sesión
         y desaparece al salir.</p>
 
+    <?php if (!votes_enabled()): ?>
+        <p>Las valoraciones «Me ayudó» están desactivadas ahora. Las que ya estaban guardadas se conservan sin mostrarse
+            y se borran con «Borrar mis datos».</p>
+    <?php endif; ?>
+
     <h2>Para qué</h2>
     <p>Únicamente para que estudiantes de 42 encuentren mentores para sus proyectos. Los datos solo son visibles
         para usuarios que han iniciado sesión con 42. No se ceden ni se usan con fines comerciales.</p>

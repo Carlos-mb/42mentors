@@ -21,6 +21,12 @@
             <a href="mentors.php" class="<?= $active === 'mentors' ? 'active' : '' ?>">Mentores</a>
             <a href="profile.php" class="<?= $active === 'profile' ? 'active' : '' ?>">Mi perfil</a>
             <a href="ratings.php" class="<?= $active === 'ratings' ? 'active' : '' ?>">Mis valoraciones</a>
+            <?php if (can_see_available($user)): ?>
+                <a href="available.php" class="<?= $active === 'available' ? 'active' : '' ?>">Disponibles ahora</a>
+            <?php endif; ?>
+            <?php if (is_admin($user['login'])): ?>
+                <a href="admin.php" class="<?= $active === 'admin' ? 'active' : '' ?>">Administración</a>
+            <?php endif; ?>
         </nav>
         <div class="me">
             <?php if ($user['image_url']): ?>

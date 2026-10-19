@@ -7,7 +7,7 @@ $user = require_login();
 
 // Adónde volver después: solo páginas conocidas de la web
 $next = $_POST['next'] ?? $_GET['next'] ?? '';
-if (!is_string($next) || !preg_match('/^(profile\.php|ratings\.php|mentor\.php\?login=[A-Za-z0-9_-]{1,64})$/', $next)) {
+if (!is_string($next) || !preg_match('/^(profile\.php|ratings\.php|available\.php|mentor\.php\?login=[A-Za-z0-9_-]{1,64})$/', $next)) {
     $next = 'profile.php';
 }
 
@@ -21,9 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
         $stmt->execute([$user['id'], $user['login'], $user['campus_id']]);
         $_SESSION['user']['consented'] = true;
-        flash($next === 'profile.php'
-            ? 'Gracias. Ya puedes completar tu perfil y elegir qué proyectos mentorizas.'
-            : 'Gracias. Ya puedes valorar a los mentores que te ayuden.');
+        flash(match ($next) {
+            'profile.php'   => 'Gracias. Ya puedes completar tu perfil y elegir qué proyectos mentorizas.',
+            'available.php' => 'Gracias. Ya puedes anunciar cuándo estás disponible.',
+            default         => 'Gracias. Ya puedes valorar a los mentores que te ayuden.',
+        });
         redirect($next);
     }
     redirect('index.php');
@@ -33,7 +35,7 @@ if (!empty($user['consented'])) {
     redirect($next);
 }
 
-render_header('Antes de empezar', $next === 'profile.php' ? 'profile' : '');
+render_header('Antes de empezar', $next === 'profile.php' ? 'profile' : ($next === 'available.php' ? 'available' : ''));
 ?>
 <section class="card">
     <h1>Antes de guardar tus datos</h1>
@@ -47,6 +49,10 @@ render_header('Antes de empezar', $next === 'profile.php' ? 'profile' : '');
             sobre los proyectos).</li>
         <li>Si valoras a un mentor con «Me ayudó»: a quién, por qué proyecto, los puntos (de 1 a 3) y la fecha.</li>
     </ul>
+    <?php if (($user['role'] ?? null) === 'mentor'): ?>
+        <p>Como mentor oficial, también guardamos hasta qué hora has dicho que estás disponible. Esa hora la ven los
+            manguitos de tu campus en «Disponibles ahora».</p>
+    <?php endif; ?>
     <p>Las valoraciones son anónimas: los demás solo ven los puntos totales de cada mentor, nunca quién ha votado.
         Tú puedes ver y cambiar las tuyas en «Mis valoraciones».</p>
     <p>Si te ofreces como mentor, los estudiantes de tu campus que hayan iniciado sesión con 42 verán en tu ficha:</p>

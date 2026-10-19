@@ -6,14 +6,15 @@ $user = require_login();
 $login = is_string($_GET['login'] ?? null) ? $_GET['login'] : '';
 $validLogin = preg_match('/^[a-z0-9_-]{1,64}$/i', $login) === 1;
 
-// Solo mentores de mi campus con algún proyecto (o yo mismo). Quien solo vota también está en users, pero no es mentor.
+// Solo mentores de mi campus con algún proyecto o mentores oficiales (o yo mismo). Quien solo vota también está en users, pero no es mentor.
 $mentor = false;
 if ($validLogin) {
     $stmt = db()->prepare(
         'SELECT id, login, campus_id, bio, availability, contact_pref, languages, consented_at
            FROM users u
           WHERE login = ?
-            AND (id = ? OR (campus_id <=> ? AND EXISTS (SELECT 1 FROM mentor_projects mp WHERE mp.user_id = u.id)))'
+            AND (id = ? OR (campus_id <=> ? AND (EXISTS (SELECT 1 FROM mentor_projects mp WHERE mp.user_id = u.id)
+                                                 OR ' . sql_is_official() . ')))'
     );
     $stmt->execute([$login, $user['id'], $user['campus_id']]);
     $mentor = $stmt->fetch();

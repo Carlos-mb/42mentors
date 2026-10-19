@@ -94,6 +94,13 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - tabla `votes (voter_id, mentor_id, project_id, value, created_at, updated_at)`, con clave primaria en las tres primeras columnas, `value` entre 1 y 3 y claves foráneas `ON DELETE CASCADE` a `users`;
   - guardar quién vota exige el **consentimiento del estudiante** (si no lo ha dado, `consent.php?next=…` y vuelve a la ficha). Un votante sin proyectos de mentor no sale en ningún sitio.
 - **Pendiente (ranking):** mentores del campus ordenados por la suma de puntos de los votos con `created_at` en la franja (semana, mes, 3 meses, año y siempre). Empates: más votos y, después, login. Solo mentores con algún voto en la franja. Con pocos votos en una franja corta se podría deducir quién votó; es aceptable porque solo se muestran totales.
+- **Mentores oficiales y manguitos (42 Madrid), 2026-10-19:**
+  - los gestiona el administrador en `admin.php` (logins en `ADMIN_LOGINS` del `.env`), en la tabla `roster (login, role, added_at)` con `role` = `mentor` o `manguito`. Es lo único que se guarda antes del consentimiento (solo login y rol); no se muestra a nadie hasta que la persona acepta;
+  - el rol se lee al iniciar sesión y va a la sesión (`$user['role']`): los cambios del admin se aplican en el siguiente login;
+  - un mentor oficial anuncia que está disponible 1–4 h desde `available.php` (`users.available_until`, que caduca sola). La página «Disponibles ahora» la ven manguitos, oficiales y admin: lista a los oficiales del mismo campus con consentimiento y `available_until > NOW()`, con su puesto en el cluster. Ver la página no exige consentimiento; anunciar la disponibilidad, sí;
+  - un oficial puede no mentorizar ningún proyecto: `active_locations()` y `mentor.php` también lo admiten (`sql_is_official()`). No aparece en Proyectos ni en Mentores sin proyectos, y no hay insignia de «oficial» en lo existente;
+  - **«manguito» solo lo ven la propia persona y el admin**: no sale en fichas ni listas, tampoco para los mentores;
+  - «Borrar mis datos» no quita la entrada de `roster` (es de la administración): lo explica `privacy.php`.
 - Queda para más adelante: número de correcciones del proyecto (`scale_teams`, varias llamadas) y otras mejoras listadas en la sección «Mejoras futuras» del README.
 
 ## Repositorio y flujo de trabajo

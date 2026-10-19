@@ -167,6 +167,11 @@ ul.projects { display: flex; flex-direction: column; gap: 10px; }
 .chip { font-size: .78rem; padding: 2px 8px; border: 1px solid var(--border); border-radius: 999px; color: var(--text); font-weight: 600; }
 .chip-color { background: var(--accent); border-color: transparent; color: var(--accent-ink); }
 
+/* Tabla de la administración */
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+.table form { margin: 0; }
+
 /* Tarjeta de mentor (listas de proyecto y directorio) */
 ul.mentors { display: flex; flex-direction: column; gap: 10px; }
 .mentor-card {

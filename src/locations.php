@@ -6,7 +6,7 @@ declare(strict_types=1);
  * Ubicaciones activas de los MENTORES de un campus: [user_id => host].
  * Se pide a la API una vez para todo el campus y se cachea LOCATIONS_CACHE_TTL segundos
  * en cache/, en lugar de hacer una petición por mentor (límite de la API: 1200 peticiones/hora).
- * Solo se cachean mentores con consentimiento y algún proyecto (quien solo vota también está en users).
+ * Solo se cachean mentores con consentimiento y algún proyecto, o mentores oficiales (quien solo vota también está en users).
  */
 function active_locations(int $campusId, string $token): array
 {
@@ -22,7 +22,7 @@ function active_locations(int $campusId, string $token): array
 
     $stmt = db()->prepare(
         'SELECT id FROM users u
-          WHERE campus_id = ? AND EXISTS (SELECT 1 FROM mentor_projects mp WHERE mp.user_id = u.id)'
+          WHERE campus_id = ? AND (EXISTS (SELECT 1 FROM mentor_projects mp WHERE mp.user_id = u.id) OR ' . sql_is_official() . ')'
     );
     $stmt->execute([$campusId]);
     $consented = array_flip(array_map('intval', $stmt->fetchAll(PDO::FETCH_COLUMN)));

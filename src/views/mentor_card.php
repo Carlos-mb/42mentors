@@ -2,7 +2,8 @@
 /**
  * Tarjeta de un mentor (se incluye dentro de un <li>) que enlaza a su ficha.
  * Espera $mentor con: login, displayname, image_url, host, availability
- * y, opcionalmente: note (nota para un proyecto), bio, projects ([id => nombre]) e is_me.
+ * y, opcionalmente: note (nota para un proyecto), bio, projects ([id => nombre]), is_me
+ * y until_label (mentor oficial disponible: «hasta las 18:30»).
  * @var array $mentor
  */
 $cardProjects = $mentor['projects'] ?? [];
@@ -39,5 +40,8 @@ $cardProjects = $mentor['projects'] ?? [];
             <span class="status">No conectado</span>
         <?php endif; ?>
         <?= availability_badge($mentor['availability']) ?>
+        <?php if (!empty($mentor['until_label'])): ?>
+            <span class="badge badge-available"><?= e($mentor['until_label']) ?></span>
+        <?php endif; ?>
     </span>
 </a>

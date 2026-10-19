@@ -42,9 +42,9 @@ function render_footer(): void
 function render_error(string $message, int $status = 500): never
 {
     http_response_code($status);
-    render_header('Error');
-    echo '<section class="card"><h1>Algo ha fallado</h1><p>' . e($message) . '</p>'
-        . '<p><a class="btn" href="index.php">Volver al inicio</a></p></section>';
+    render_header(__('Error'));
+    echo '<section class="card"><h1>' . e(__('Algo ha fallado')) . '</h1><p>' . e($message) . '</p>'
+        . '<p><a class="btn" href="index.php">' . e(__('Volver al inicio')) . '</a></p></section>';
     render_footer();
     exit;
 }

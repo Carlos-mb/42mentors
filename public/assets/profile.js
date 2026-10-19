@@ -16,7 +16,7 @@
         if (typeof dialog.showModal === 'function') {
             dialog.showModal();
         } else {
-            alert('Cambios guardados.');
+            alert(dialog.querySelector('h2').textContent); // «Cambios guardados», ya traducido
         }
     }
 

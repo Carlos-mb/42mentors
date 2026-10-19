@@ -23,7 +23,7 @@ $stmt = db()->prepare(
 $stmt->execute([$user['id']]);
 $me = $stmt->fetch();
 if (!$me) {
-    flash('No tenemos ningún dato tuyo guardado.');
+    flash(__('No tenemos ningún dato tuyo guardado.'));
     redirect('privacy.php');
 }
 
@@ -66,8 +66,7 @@ $votesReceived = array_map(fn(array $v): array => [
 ], $stmt->fetchAll());
 
 $data = [
-    'about' => 'Datos que 42mentors guarda sobre ti. Las fechas están en UTC. No incluye los datos de la intra '
-        . '(nombre, foto, nivel…), que no se guardan, ni quién te ha valorado, porque esas valoraciones son anónimas.',
+    'about' => __('Datos que 42mentors guarda sobre ti. Las fechas están en UTC. No incluye los datos de la intra (nombre, foto, nivel…), que no se guardan, ni quién te ha valorado, porque esas valoraciones son anónimas.'),
     'generated_at' => gmdate('Y-m-d\TH:i:s\Z'),
     'account' => [
         'id'                   => (int) $me['id'],
@@ -92,6 +91,6 @@ $data = [
 ];
 
 header('Content-Type: application/json; charset=utf-8');
-header('Content-Disposition: attachment; filename="42mentors-mis-datos-' . $me['login'] . '-' . gmdate('Y-m-d') . '.json"');
+header('Content-Disposition: attachment; filename="42mentors-' . __('mis-datos') . '-' . $me['login'] . '-' . gmdate('Y-m-d') . '.json"');
 header('Cache-Control: no-store');
 echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR), "\n";

@@ -4,7 +4,7 @@ require __DIR__ . '/../src/bootstrap.php';
 
 $user = require_login();
 if (!votes_enabled()) {
-    flash('Las valoraciones están desactivadas por ahora.');
+    flash(__('Las valoraciones están desactivadas por ahora.'));
     redirect('index.php');
 }
 
@@ -21,16 +21,15 @@ $stmt = db()->prepare(
 $stmt->execute([$user['campus_id'], $user['id']]);
 $votes = $stmt->fetchAll();
 
-render_header('Mis valoraciones', 'ratings');
+render_header(__('Mis valoraciones'), 'ratings');
 ?>
 <section class="card">
-    <h1>Mis valoraciones</h1>
-    <p class="muted">Los mentores a los que has dicho «Me ayudó». Nadie más ve quién ha votado: tus valoraciones solo
-        suman puntos a sus totales. Puedes cambiarlas cuando quieras.</p>
+    <h1><?= e(__('Mis valoraciones')) ?></h1>
+    <p class="muted"><?= e(__('Los mentores a los que has dicho «Me ayudó». Nadie más ve quién ha votado: tus valoraciones solo suman puntos a sus totales. Puedes cambiarlas cuando quieras.')) ?></p>
 
     <?php if (!$votes): ?>
-        <p>Todavía no has valorado a nadie. Hazlo desde la ficha del mentor, junto a cada proyecto.</p>
-        <p><a class="btn" href="mentors.php">Ver mentores</a></p>
+        <p><?= e(__('Todavía no has valorado a nadie. Hazlo desde la ficha del mentor, junto a cada proyecto.')) ?></p>
+        <p><a class="btn" href="mentors.php"><?= e(__('Ver mentores')) ?></a></p>
     <?php else: ?>
         <ul class="ratings">
             <?php foreach ($votes as $vote): ?>
@@ -43,7 +42,7 @@ render_header('Mis valoraciones', 'ratings');
                         <?= vote_form((int) $vote['mentor_id'], (int) $vote['project_id'], (int) $vote['value'], 'ratings') ?>
                     <?php else: ?>
                         <span class="muted small">
-                            <?= e(VOTE_LABELS[(int) $vote['value']] ?? '') ?> · ya no ofrece ayuda con este proyecto
+                            <?= e(isset(VOTE_LABELS[(int) $vote['value']]) ? __(VOTE_LABELS[(int) $vote['value']]) : '') ?> · <?= e(__('ya no ofrece ayuda con este proyecto')) ?>
                         </span>
                     <?php endif; ?>
                 </li>

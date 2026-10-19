@@ -16,7 +16,7 @@ $cardProjects = $mentor['projects'] ?? [];
     <?php endif; ?>
     <span class="who">
         <strong><?= e($mentor['displayname'] ?: $mentor['login']) ?></strong>
-        <span class="muted"><?= e($mentor['login']) ?><?= !empty($mentor['is_me']) ? ' · tú' : '' ?></span>
+        <span class="muted"><?= e($mentor['login']) ?><?= !empty($mentor['is_me']) ? ' · ' . e(__('tú')) : '' ?></span>
         <?php if (!empty($mentor['note'])): ?>
             <span class="note-text">«<?= e($mentor['note']) ?>»</span>
         <?php elseif (!empty($mentor['bio'])): ?>
@@ -35,9 +35,9 @@ $cardProjects = $mentor['projects'] ?? [];
     </span>
     <span class="side">
         <?php if ($mentor['host']): ?>
-            <span class="status online">En el cluster · <?= e($mentor['host']) ?></span>
+            <span class="status online"><?= e(__('En el cluster')) ?> · <?= e($mentor['host']) ?></span>
         <?php else: ?>
-            <span class="status">No conectado</span>
+            <span class="status"><?= e(__('No conectado')) ?></span>
         <?php endif; ?>
         <?= availability_badge($mentor['availability']) ?>
         <?php if (!empty($mentor['until_label'])): ?>

@@ -3,7 +3,7 @@
 require __DIR__ . '/../src/bootstrap.php';
 
 if (isset($_GET['error'])) {
-    render_error('Has cancelado el acceso o la intra ha devuelto un error: ' . (string) $_GET['error'], 400);
+    render_error(__('Has cancelado el acceso o la intra ha devuelto un error: {error}', ['error' => (string) $_GET['error']]), 400);
 }
 
 $expectedState = $_SESSION['oauth_state'] ?? '';
@@ -14,19 +14,19 @@ if ($expectedState === '' || !hash_equals($expectedState, (string) ($_GET['state
         header('Location: index.php');
         exit;
     }
-    render_error('La petición de login no es válida (state incorrecto). Vuelve a intentarlo.', 400);
+    render_error(__('La petición de login no es válida (state incorrecto). Vuelve a intentarlo.'), 400);
 }
 
 $code = (string) ($_GET['code'] ?? '');
 if ($code === '') {
-    render_error('Falta el código de autorización.', 400);
+    render_error(__('Falta el código de autorización.'), 400);
 }
 
 try {
     $token = ft_exchange_code($code);
     $me = ft_get('/v2/me', $token['access_token']);
 } catch (FtApiException $ex) {
-    render_error('No se pudo completar el login con la intra: ' . $ex->getMessage(), 502);
+    render_error(__('No se pudo completar el login con la intra: {error}', ['error' => $ex->getMessage()]), 502);
 }
 
 // Campus principal del usuario

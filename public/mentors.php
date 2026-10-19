@@ -42,29 +42,31 @@ foreach ($mentors as &$mentor) {
 unset($mentor);
 sort_mentors($mentors);
 
-render_header('Mentores', 'mentors');
+render_header(__('Mentores'), 'mentors');
 ?>
 <section class="card">
-    <h1>Mentores de tu campus</h1>
-    <p class="muted">Compañeros que se ofrecen a ayudar. Busca por nombre o login, o filtra por proyecto.</p>
+    <h1><?= e(__('Mentores de tu campus')) ?></h1>
+    <p class="muted"><?= e(__('Compañeros que se ofrecen a ayudar. Busca por nombre o login, o filtra por proyecto.')) ?></p>
     <?php if (!$apiOk): ?>
-        <p class="warn">No se ha podido consultar la intra ahora mismo: faltan nombres, fotos o ubicaciones.</p>
+        <p class="warn"><?= e(__('No se ha podido consultar la intra ahora mismo: faltan nombres, fotos o ubicaciones.')) ?></p>
     <?php endif; ?>
 
     <?php if (!$mentors): ?>
-        <p>Todavía no hay mentores en tu campus. <a href="profile.php">¿Quieres ser el primero?</a></p>
+        <p><?= e(__('Todavía no hay mentores en tu campus.')) ?> <a href="profile.php"><?= e(__('¿Quieres ser el primero?')) ?></a></p>
     <?php else: ?>
         <div class="filters">
-            <input type="search" id="q" class="filter" placeholder="Buscar por nombre o login…" autocomplete="off">
-            <select id="project" aria-label="Filtrar por proyecto">
-                <option value="">Todos los proyectos</option>
+            <input type="search" id="q" class="filter" placeholder="<?= e(__('Buscar por nombre o login…')) ?>" autocomplete="off">
+            <select id="project" aria-label="<?= e(__('Filtrar por proyecto')) ?>">
+                <option value=""><?= e(__('Todos los proyectos')) ?></option>
                 <?php foreach ($allProjects as $projectId => $projectName): ?>
                     <option value="<?= (int) $projectId ?>"><?= e($projectName) ?></option>
                 <?php endforeach; ?>
             </select>
-            <label class="check"><input type="checkbox" id="online"> Solo conectados ahora</label>
+            <label class="check"><input type="checkbox" id="online"> <?= e(__('Solo conectados ahora')) ?></label>
         </div>
-        <p class="muted small" id="mentor-count"><?= count($mentors) ?> mentores</p>
+        <?php // mentors.js cambia el número al filtrar, con los textos de data-one y data-many ?>
+        <p class="muted small" id="mentor-count" data-one="<?= e(__('{n} mentor')) ?>" data-many="<?= e(__('{n} mentores')) ?>">
+            <?= e(__(count($mentors) === 1 ? '{n} mentor' : '{n} mentores', ['n' => count($mentors)])) ?></p>
 
         <ul class="mentors" id="mentor-list">
             <?php foreach ($mentors as $mentor): ?>
@@ -75,8 +77,8 @@ render_header('Mentores', 'mentors');
                 </li>
             <?php endforeach; ?>
         </ul>
-        <p class="muted" id="mentor-empty" hidden>Ningún mentor coincide con la búsqueda.</p>
+        <p class="muted" id="mentor-empty" hidden><?= e(__('Ningún mentor coincide con la búsqueda.')) ?></p>
     <?php endif; ?>
 </section>
-<script src="assets/mentors.js"></script>
+<script src="assets/mentors.js?v=<?= e(APP_VERSION) ?>"></script>
 <?php render_footer(); ?>

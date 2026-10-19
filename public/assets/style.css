@@ -66,6 +66,16 @@ h2 { margin-top: 28px; }
 .me { margin-left: auto; display: flex; align-items: center; gap: 8px; color: var(--text); font-weight: 700; }
 .me form { margin: 0; }
 
+/* Selector de idioma: a la derecha de la barra (dentro de .me con sesión) */
+.topbar > .lang, .me .lang { margin-left: auto; }
+.lang { display: flex; gap: 2px; font-size: .85rem; }
+.lang a {
+    text-decoration: none; color: var(--muted); font-weight: 700;
+    padding: 2px 8px; border-radius: 999px; border: 2px solid transparent;
+}
+.lang a:hover { border-color: var(--border); }
+.lang a[aria-current] { color: var(--accent-ink); background: var(--accent-soft); border-color: var(--accent); }
+
 /* Bloques */
 .card {
     background: var(--card); border: 2px solid var(--border); border-radius: var(--radius);

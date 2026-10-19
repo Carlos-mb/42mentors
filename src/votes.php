@@ -3,6 +3,7 @@
 // Los votos son anónimos: fuera de «Mis valoraciones» solo se muestran totales, nunca quién votó ni cuándo.
 declare(strict_types=1);
 
+// Etiquetas en español: se traducen con __() al mostrarlas
 const VOTE_LABELS = [
     1 => 'Un poco',
     2 => 'Bastante',
@@ -47,8 +48,8 @@ function my_votes_for(int $voterId, int $mentorId): array
 /** "7 puntos · 3 valoraciones" */
 function points_text(int $points, int $votes): string
 {
-    return $points . ($points === 1 ? ' punto' : ' puntos') . ' · '
-        . $votes . ($votes === 1 ? ' valoración' : ' valoraciones');
+    return __($points === 1 ? '{n} punto' : '{n} puntos', ['n' => $points]) . ' · '
+        . __($votes === 1 ? '{n} valoración' : '{n} valoraciones', ['n' => $votes]);
 }
 
 /** Botones «Un poco / Bastante / Mucho» (HTML). $back: adónde vuelve vote.php ('mentor' o 'ratings'). */
@@ -61,10 +62,11 @@ function vote_form(int $mentorId, int $projectId, ?int $current, string $back = 
         . '<input type="hidden" name="back" value="' . e($back) . '">';
     foreach (VOTE_LABELS as $value => $label) {
         $pressed = $current === $value;
+        $label = __($label);
         $html .= '<button type="submit" name="value" value="' . $value . '"'
             . ' class="vote-btn' . ($pressed ? ' active' : '') . '"'
             . ' aria-pressed="' . ($pressed ? 'true' : 'false') . '"'
-            . ' title="' . e('Me ayudó: ' . $label . ' (' . $value . ($value === 1 ? ' punto' : ' puntos') . ')') . '">'
+            . ' title="' . e(__('Me ayudó') . ': ' . $label . ' (' . __($value === 1 ? '{n} punto' : '{n} puntos', ['n' => $value]) . ')') . '">'
             . e($label) . '</button>';
     }
     return $html . '</form>';

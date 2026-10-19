@@ -32,26 +32,26 @@ foreach ($stmt->fetchAll() as $row) {
 usort($projects, fn(array $a, array $b): int =>
     [$b['in_progress'], strtolower($a['name'])] <=> [$a['in_progress'], strtolower($b['name'])]);
 
-render_header('Proyectos', 'projects');
+render_header(__('Proyectos'), 'projects');
 ?>
 <section class="card">
-    <h1>Busca ayuda por proyecto</h1>
-    <p class="muted">Proyectos que aún no has validado y para los que hay compañeros de tu campus dispuestos a ayudar.
-        ¿Buscas a alguien en concreto? <a href="mentors.php">Ver todos los mentores</a>.</p>
+    <h1><?= e(__('Busca ayuda por proyecto')) ?></h1>
+    <p class="muted"><?= e(__('Proyectos que aún no has validado y para los que hay compañeros de tu campus dispuestos a ayudar.')) ?>
+        <?= e(__('¿Buscas a alguien en concreto?')) ?> <a href="mentors.php"><?= e(__('Ver todos los mentores')) ?></a>.</p>
 
     <?php if (!$projects): ?>
-        <p>Todavía no hay mentores para proyectos que te falten. ¡Anima a tus compañeros a apuntarse en «Mi perfil»!</p>
+        <p><?= e(__('Todavía no hay mentores para proyectos que te falten. ¡Anima a tus compañeros a apuntarse en «Mi perfil»!')) ?></p>
     <?php else: ?>
-        <input type="search" class="filter" placeholder="Filtrar proyectos…" data-filter="#project-list">
+        <input type="search" class="filter" placeholder="<?= e(__('Filtrar proyectos…')) ?>" data-filter="#project-list">
         <ul class="projects" id="project-list">
             <?php foreach ($projects as $project): ?>
                 <li data-name="<?= e(strtolower($project['name'])) ?>">
                     <a href="project.php?id=<?= (int) $project['id'] ?>">
                         <span class="name"><?= e($project['name']) ?></span>
                         <?php if ($project['in_progress']): ?>
-                            <span class="badge">En curso</span>
+                            <span class="badge"><?= e(__('En curso')) ?></span>
                         <?php endif; ?>
-                        <span class="count"><?= (int) $project['mentors'] ?> mentor<?= $project['mentors'] == 1 ? '' : 'es' ?></span>
+                        <span class="count"><?= e(__($project['mentors'] == 1 ? '{n} mentor' : '{n} mentores', ['n' => (int) $project['mentors']])) ?></span>
                     </a>
                 </li>
             <?php endforeach; ?>

@@ -37,7 +37,7 @@ function ft_http(string $method, string $url, ?array $form = null, ?string $toke
         curl_close($ch);
 
         if ($body === false) {
-            throw new FtApiException('No se pudo conectar con la API de 42: ' . $error, 0);
+            throw new FtApiException(__('No se pudo conectar con la API de 42: {error}', ['error' => $error]), 0);
         }
         if ($status === 429 && $attempt < 2) {
             sleep(1);
@@ -47,11 +47,11 @@ function ft_http(string $method, string $url, ?array $form = null, ?string $toke
     }
 
     if ($status >= 400) {
-        throw new FtApiException("La API de 42 respondió con el código $status", $status);
+        throw new FtApiException(__('La API de 42 respondió con el código {status}', ['status' => $status]), $status);
     }
     $data = json_decode($body, true);
     if (!is_array($data)) {
-        throw new FtApiException('Respuesta no válida de la API de 42', $status);
+        throw new FtApiException(__('Respuesta no válida de la API de 42'), $status);
     }
     return $data;
 }

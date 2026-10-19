@@ -14,10 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Quita la marca y no deja que se la vuelva a poner; también deja de estar anunciado como disponible
         db()->prepare('UPDATE users SET manguito_role = NULL, manguito_blocked = 1, available_until = NULL WHERE login = ?')
             ->execute([$login]);
-        flash('«' . $login . '» ya no figura y no puede volver a marcarse. Lo verá la próxima vez que inicie sesión.');
+        flash(__('«{login}» ya no figura y no puede volver a marcarse. Lo verá la próxima vez que inicie sesión.', ['login' => $login]));
     } elseif ($action === 'unblock') {
         db()->prepare('UPDATE users SET manguito_blocked = 0 WHERE login = ?')->execute([$login]);
-        flash('«' . $login . '» puede volver a marcarse.');
+        flash(__('«{login}» puede volver a marcarse.', ['login' => $login]));
     }
     redirect('admin.php');
 }
@@ -32,26 +32,24 @@ $rows = db()->query(
 $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
 $base = $scheme . '://' . ($_SERVER['HTTP_HOST'] ?? '');
 
-render_header('Administración', 'admin');
+render_header(__('Administración'), 'admin');
 ?>
 <section class="card">
-    <h1>Administración</h1>
-    <p class="muted">Mentores oficiales y manguitos se marcan ellos mismos, con un enlace privado, después de aceptar
-        el consentimiento. Aquí puedes mandar esos enlaces y quitar la marca a quien haga un uso indebido.</p>
+    <h1><?= e(__('Administración')) ?></h1>
+    <p class="muted"><?= e(__('Mentores oficiales y manguitos se marcan ellos mismos, con un enlace privado, después de aceptar el consentimiento. Aquí puedes mandar esos enlaces y quitar la marca a quien haga un uso indebido.')) ?></p>
 
     <?php if (manguitos_all()): ?>
-        <p class="warn">MANGUITOS_ALL está activo: todos los usuarios ven «Disponibles ahora», se hayan marcado o no.</p>
+        <p class="warn"><?= e(__('MANGUITOS_ALL está activo: todos los usuarios ven «Disponibles ahora», se hayan marcado o no.')) ?></p>
     <?php endif; ?>
 
-    <h2>Enlaces privados</h2>
-    <p class="muted small">No tienen enlaces desde la web: solo funcionan con el código. Si un enlace se filtra, cambia
-        su código en el <code>.env</code> (las marcas ya puestas se quitan abajo).</p>
+    <h2><?= e(__('Enlaces privados')) ?></h2>
+    <p class="muted small"><?= _h('No tienen enlaces desde la web: solo funcionan con el código. Si un enlace se filtra, cambia su código en el {env} (las marcas ya puestas se quitan abajo).', [], ['env' => '<code>.env</code>']) ?></p>
     <?php foreach (JOIN_PAGES as $role => $page): ?>
         <?php $code = join_code($role); ?>
         <label class="field">
-            <span><?= e(ROSTER_ROLE_LABELS[$role]) ?></span>
+            <span><?= e(__(ROSTER_ROLE_LABELS[$role])) ?></span>
             <?php if ($code === ''): ?>
-                <span class="warn">Desactivada: falta <?= e(JOIN_CODE_ENV[$role]) ?> en el .env.</span>
+                <span class="warn"><?= e(__('Desactivada: falta {var} en el .env.', ['var' => JOIN_CODE_ENV[$role]])) ?></span>
             <?php else: ?>
                 <input type="text" readonly value="<?= e($base . '/' . $page . '?c=' . $code) ?>" onclick="this.select()">
             <?php endif; ?>
@@ -60,34 +58,39 @@ render_header('Administración', 'admin');
 </section>
 
 <section class="card">
-    <h2>Marcados y bloqueados (<?= count($rows) ?>)</h2>
+    <h2><?= e(__('Marcados y bloqueados')) ?> (<?= count($rows) ?>)</h2>
     <?php if (!$rows): ?>
-        <p class="muted">Todavía no se ha marcado nadie.</p>
+        <p class="muted"><?= e(__('Todavía no se ha marcado nadie.')) ?></p>
     <?php else: ?>
         <table class="table">
             <thead>
-                <tr><th>Login</th><th>Rol</th><th>Estado</th><th></th></tr>
+                <tr><th>Login</th><th><?= e(__('Rol')) ?></th><th><?= e(__('Estado')) ?></th><th></th></tr>
             </thead>
             <tbody>
             <?php foreach ($rows as $row): ?>
+                <?php
+                $confirm = $row['manguito_blocked']
+                    ? __('¿Dejar que {login} vuelva a marcarse?', ['login' => $row['login']])
+                    : __('¿Quitar la marca y no dejar que {login} vuelva a marcarse?', ['login' => $row['login']]);
+                ?>
                 <tr>
                     <td><a href="<?= e(intra_profile_url($row['login'])) ?>" target="_blank" rel="noopener"><?= e($row['login']) ?></a></td>
-                    <td><?= $row['manguito_role'] === null ? '—' : e(ROSTER_ROLE_LABELS[$row['manguito_role']]) ?></td>
+                    <td><?= $row['manguito_role'] === null ? '—' : e(__(ROSTER_ROLE_LABELS[$row['manguito_role']])) ?></td>
                     <td>
                         <?php if ($row['manguito_blocked']): ?>
-                            <span class="muted">Bloqueado</span>
+                            <span class="muted"><?= e(__('Bloqueado')) ?></span>
                         <?php elseif ($row['manguito_role'] === 'mentor' && $row['available_now']): ?>
-                            <span class="status online">Disponible hasta las <?= e(local_time((string) $row['available_until'])) ?></span>
+                            <span class="status online"><?= e(__('Disponible hasta las')) ?> <?= e(local_time((string) $row['available_until'])) ?></span>
                         <?php else: ?>
-                            Marcado
+                            <?= e(__('Marcado')) ?>
                         <?php endif; ?>
                     </td>
                     <td>
-                        <form method="post" onsubmit="return confirm('<?= $row['manguito_blocked'] ? 'Dejar que' : 'Quitar la marca y no dejar que' ?> <?= e($row['login']) ?> vuelva a marcarse?');">
+                        <form method="post" onsubmit="return confirm(<?= e(json_encode($confirm, JSON_UNESCAPED_UNICODE)) ?>);">
                             <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
                             <input type="hidden" name="action" value="<?= $row['manguito_blocked'] ? 'unblock' : 'block' ?>">
                             <input type="hidden" name="login" value="<?= e($row['login']) ?>">
-                            <button type="submit" class="link"><?= $row['manguito_blocked'] ? 'Desbloquear' : 'Quitar y bloquear' ?></button>
+                            <button type="submit" class="link"><?= e($row['manguito_blocked'] ? __('Desbloquear') : __('Quitar y bloquear')) ?></button>
                         </form>
                     </td>
                 </tr>

@@ -28,7 +28,8 @@
             li.hidden = !visible;
             if (visible) shown++;
         });
-        count.textContent = shown === 1 ? '1 mentor' : shown + ' mentores';
+        // Textos traducidos en data-one y data-many ({n} = número)
+        count.textContent = (shown === 1 ? count.dataset.one : count.dataset.many).replace('{n}', shown);
         empty.hidden = shown !== 0;
     }
 

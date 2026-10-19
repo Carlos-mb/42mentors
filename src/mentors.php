@@ -2,6 +2,7 @@
 // Mentores: campos del perfil, datos de la API (nunca se guardan) y utilidades de presentación.
 declare(strict_types=1);
 
+// Etiquetas en español: se traducen con __() al mostrarlas
 const AVAILABILITY_LABELS = [
     'available' => 'Disponible',
     'busy'      => 'Ocupado',
@@ -14,6 +15,7 @@ const CONTACT_LABELS = [
     'both'    => 'En persona o por Slack',
 ];
 
+// Cada idioma en su propio idioma: no se traducen
 const LANGUAGE_LABELS = [
     'es' => 'Español',
     'en' => 'English',
@@ -103,7 +105,7 @@ function availability_badge(string $availability, bool $showAvailable = false): 
     if ($availability === 'available' && !$showAvailable) {
         return '';
     }
-    $label = AVAILABILITY_LABELS[$availability] ?? $availability;
+    $label = isset(AVAILABILITY_LABELS[$availability]) ? __(AVAILABILITY_LABELS[$availability]) : $availability;
     return '<span class="badge badge-' . e($availability) . '">' . e($label) . '</span>';
 }
 
@@ -122,13 +124,15 @@ function main_cursus(array $profile): ?array
     return $best;
 }
 
-/** 7.4219 → "7,42" */
+/** 7.4219 → "7,42" (en inglés, "7.42") */
 function format_level(mixed $level): string
 {
-    return number_format((float) $level, 2, ',', '.');
+    return current_lang() === 'en'
+        ? number_format((float) $level, 2, '.', ',')
+        : number_format((float) $level, 2, ',', '.');
 }
 
-/** Fecha de la API o de la BD → "mar 2025" (null si no hay fecha válida). */
+/** Fecha de la API o de la BD → "mar 2025" / "Mar 2025" (null si no hay fecha válida). */
 function month_year(?string $date): ?string
 {
     if ($date === null || $date === '') {
@@ -139,7 +143,9 @@ function month_year(?string $date): ?string
     } catch (Exception $ex) {
         return null;
     }
-    $months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+    $months = current_lang() === 'en'
+        ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        : ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
     return $months[(int) $parsed->format('n') - 1] . ' ' . $parsed->format('Y');
 }
 

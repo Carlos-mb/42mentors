@@ -3,6 +3,7 @@
 // La marca va en users.manguito_role y solo existe tras aceptar el consentimiento. El administrador solo puede quitarla (admin.php).
 declare(strict_types=1);
 
+// Etiquetas en español: se traducen con __() al mostrarlas
 const ROSTER_ROLE_LABELS = [
     'mentor'   => 'Mentor oficial',
     'manguito' => 'Manguito',
@@ -48,7 +49,7 @@ function require_admin(): array
 {
     $user = require_login();
     if (!is_admin($user['login'])) {
-        render_error('Esta página es solo para administradores.', 403);
+        render_error(__('Esta página es solo para administradores.'), 403);
     }
     return $user;
 }
@@ -82,10 +83,10 @@ function join_page(string $role): never
             $_SESSION[$flag] = true;
             redirect($page);
         }
-        render_error('Página no encontrada.', 404);
+        render_error(__('Página no encontrada.'), 404);
     }
     if ($code === '' || empty($_SESSION[$flag])) {
-        render_error('Página no encontrada.', 404);
+        render_error(__('Página no encontrada.'), 404);
     }
 
     // Sin sesión (o con el token caducado) se inicia sesión y se vuelve aquí; no se usa relogin() para no perder la marca
@@ -102,6 +103,7 @@ function join_page(string $role): never
     $row = $stmt->fetch() ?: ['manguito_role' => null, 'manguito_blocked' => 0];
     $blocked = (bool) $row['manguito_blocked'];
     $current = $row['manguito_role'];
+    $roleName = mb_strtolower(__(ROSTER_ROLE_LABELS[$role]));
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         csrf_check();
@@ -111,11 +113,11 @@ function join_page(string $role): never
         if (($_POST['action'] ?? '') === 'leave') {
             db()->prepare('UPDATE users SET manguito_role = NULL, available_until = NULL WHERE id = ?')->execute([$user['id']]);
             $_SESSION['user']['role'] = manguitos_all() ? 'manguito' : null;
-            flash('Ya no estás marcado como ' . mb_strtolower(ROSTER_ROLE_LABELS[$role]) . '.');
+            flash(__('Ya no estás marcado como {role}.', ['role' => $roleName]));
             redirect('index.php');
         }
         if ($blocked) {
-            render_error('No puedes marcarte ahora mismo. Si crees que es un error, escribe al contacto de la página de privacidad.', 403);
+            render_error(__('No puedes marcarte ahora mismo. Si crees que es un error, escribe al contacto de la página de privacidad.'), 403);
         }
         // Un solo rol a la vez: marcarse como uno quita el otro (y el aviso de disponibilidad si lo hubiera)
         db()->prepare(
@@ -124,44 +126,40 @@ function join_page(string $role): never
         )->execute([$role, $role, $user['id']]);
         $_SESSION['user']['role'] = $role;
         unset($_SESSION[$flag]);
-        flash('Hecho: ahora figuras como ' . mb_strtolower(ROSTER_ROLE_LABELS[$role]) . ' de la Operación Manguito.');
+        flash(__('Hecho: ahora figuras como {role} de la Operación Manguito.', ['role' => $roleName]));
         redirect('available.php');
     }
 
-    render_header('Operación Manguito', 'available');
+    render_header(__('Operación Manguito'), 'available');
     ?>
     <section class="card">
         <?php if ($role === 'mentor'): ?>
-            <h1>Mentor de la Operación Manguito</h1>
-            <p>Si eres uno de los mentores de la Operación Manguito, márcalo aquí. Podrás anunciar desde «Manguito» hasta
-                qué hora estás disponible, y los estudiantes de tu campus que hayan iniciado sesión verán tu nombre, tu
-                foto y tu puesto en el cluster en «Disponibles ahora».</p>
+            <h1><?= e(__('Mentor de la Operación Manguito')) ?></h1>
+            <p><?= e(__('Si eres uno de los mentores de la Operación Manguito, márcalo aquí. Podrás anunciar desde «Manguito» hasta qué hora estás disponible, y los estudiantes de tu campus que hayan iniciado sesión verán tu nombre, tu foto y tu puesto en el cluster en «Disponibles ahora».')) ?></p>
         <?php else: ?>
-            <h1>Manguito</h1>
-            <p>Si eres manguito, márcalo aquí para ver «Disponibles ahora»: los mentores de tu campus que pueden
-                ayudarte en este momento. Que eres manguito solo lo ven tú y el responsable de la web.</p>
+            <h1><?= e(__('Manguito')) ?></h1>
+            <p><?= e(__('Si eres manguito, márcalo aquí para ver «Disponibles ahora»: los mentores de tu campus que pueden ayudarte en este momento. Que eres manguito solo lo ven tú y el responsable de la web.')) ?></p>
         <?php endif; ?>
 
         <?php if ($blocked): ?>
-            <p class="warn">Ahora mismo no puedes marcarte. Si crees que es un error, escribe al contacto de la
-                <a href="privacy.php">página de privacidad</a>.</p>
+            <p class="warn"><?= _h('Ahora mismo no puedes marcarte. Si crees que es un error, escribe al contacto de la {link}.', [], ['link' => '<a href="privacy.php">' . e(__('página de privacidad')) . '</a>']) ?></p>
         <?php elseif (!$consented): ?>
-            <p>Antes necesitamos que aceptes cómo tratamos tus datos, porque guardamos esa marca.</p>
-            <p class="actions"><a class="btn" href="consent.php?next=<?= e(rawurlencode($page)) ?>">Continuar</a></p>
+            <p><?= e(__('Antes necesitamos que aceptes cómo tratamos tus datos, porque guardamos esa marca.')) ?></p>
+            <p class="actions"><a class="btn" href="consent.php?next=<?= e(rawurlencode($page)) ?>"><?= e(__('Continuar')) ?></a></p>
         <?php elseif ($current === $role): ?>
-            <p>Ya figuras como <strong><?= e(mb_strtolower(ROSTER_ROLE_LABELS[$role])) ?></strong>.</p>
+            <p><?= _h('Ya figuras como {role}.', [], ['role' => '<strong>' . e($roleName) . '</strong>']) ?></p>
             <form method="post" class="actions">
                 <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-                <button type="submit" name="action" value="leave" class="link">Dejar de figurar así</button>
-                <a href="available.php">Ir a «Manguito»</a>
+                <button type="submit" name="action" value="leave" class="link"><?= e(__('Dejar de figurar así')) ?></button>
+                <a href="available.php"><?= e(__('Ir a «Manguito»')) ?></a>
             </form>
         <?php else: ?>
             <form method="post" class="actions">
                 <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-                <button type="submit" name="action" value="join" class="btn">Soy <?= e(mb_strtolower(ROSTER_ROLE_LABELS[$role])) ?></button>
+                <button type="submit" name="action" value="join" class="btn"><?= e(__('Soy {role}', ['role' => $roleName])) ?></button>
             </form>
             <?php if ($current !== null): ?>
-                <p class="muted small">Ahora figuras como <?= e(mb_strtolower(ROSTER_ROLE_LABELS[(string) $current])) ?>: al marcarte aquí, dejas de serlo.</p>
+                <p class="muted small"><?= e(__('Ahora figuras como {role}: al marcarte aquí, dejas de serlo.', ['role' => mb_strtolower(__(ROSTER_ROLE_LABELS[(string) $current]))])) ?></p>
             <?php endif; ?>
         <?php endif; ?>
     </section>

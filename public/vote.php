@@ -4,7 +4,7 @@ require __DIR__ . '/../src/bootstrap.php';
 
 $user = require_login();
 if (!votes_enabled()) {
-    flash('Las valoraciones están desactivadas por ahora.');
+    flash(__('Las valoraciones están desactivadas por ahora.'));
     redirect('mentors.php');
 }
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -30,7 +30,7 @@ if ($mentorId && $projectId && $value) {
     $mentorLogin = $stmt->fetchColumn();
 }
 if ($mentorLogin === false) {
-    flash('No se ha podido guardar la valoración: ese mentor ya no ofrece ayuda con ese proyecto.');
+    flash(__('No se ha podido guardar la valoración: ese mentor ya no ofrece ayuda con ese proyecto.'));
     redirect($toRatings ? 'ratings.php' : 'mentors.php');
 }
 
@@ -39,7 +39,7 @@ $mentorPage = 'mentor.php?login=' . rawurlencode($mentorLogin);
 // Guardar quién vota exige su consentimiento (se mira en la BD: pudo borrar sus datos desde otro dispositivo)
 if (!user_has_consented($user['id'])) {
     $_SESSION['user']['consented'] = false;
-    flash('Para guardar tu valoración necesitamos antes tu permiso. Después, vuelve a pulsarla.');
+    flash(__('Para guardar tu valoración necesitamos antes tu permiso. Después, vuelve a pulsarla.'));
     redirect('consent.php?next=' . rawurlencode($toRatings ? 'ratings.php' : $mentorPage));
 }
 
@@ -50,5 +50,5 @@ db()->prepare(
      ON DUPLICATE KEY UPDATE value = VALUES(value), updated_at = NOW()'
 )->execute([$user['id'], $mentorId, $projectId, $value]);
 
-flash('Valoración guardada. ¡Gracias!');
+flash(__('Valoración guardada. ¡Gracias!'));
 redirect($toRatings ? 'ratings.php#vote-' . $mentorId . '-' . $projectId : $mentorPage . '#project-' . $projectId);

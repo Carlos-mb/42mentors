@@ -9,7 +9,7 @@ $stmt = db()->prepare('SELECT id, name, slug FROM projects WHERE id = ?');
 $stmt->execute([$projectId]);
 $project = $stmt->fetch();
 if (!$project) {
-    render_error('Ese proyecto no existe o no tiene mentores.', 404);
+    render_error(__('Ese proyecto no existe o no tiene mentores.'), 404);
 }
 
 $stmt = db()->prepare(
@@ -27,14 +27,14 @@ sort_mentors($mentors);
 render_header($project['name'], 'projects');
 ?>
 <section class="card">
-    <p><a href="projects.php">← Volver a proyectos</a></p>
+    <p><a href="projects.php">← <?= e(__('Volver a proyectos')) ?></a></p>
     <h1><?= e($project['name']) ?></h1>
     <?php if (!$apiOk): ?>
-        <p class="warn">No se ha podido consultar la intra ahora mismo: faltan nombres, fotos o ubicaciones.</p>
+        <p class="warn"><?= e(__('No se ha podido consultar la intra ahora mismo: faltan nombres, fotos o ubicaciones.')) ?></p>
     <?php endif; ?>
 
     <?php if (!$mentors): ?>
-        <p>Ahora mismo no hay mentores de tu campus para este proyecto.</p>
+        <p><?= e(__('Ahora mismo no hay mentores de tu campus para este proyecto.')) ?></p>
     <?php else: ?>
         <ul class="mentors">
             <?php foreach ($mentors as $mentor): ?>

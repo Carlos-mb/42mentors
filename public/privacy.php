@@ -77,6 +77,10 @@ $retention = USER_RETENTION_MONTHS;
         consentimiento. Puedes retirarlo en cualquier momento, sin que afecte a lo anterior.</p>
     <p>Si cambia de forma relevante lo que guardamos o cómo lo usamos, se te pedirá aceptar de nuevo la política.</p>
 
+    <h2>Quién puede usar la web</h2>
+    <p>Cualquier persona con una cuenta de la red de 42 puede iniciar sesión con ella. Cada persona solo ve mentores
+        y estudiantes de su campus principal. Quien no tiene cuenta de 42 no puede entrar.</p>
+
     <h2>Condiciones de uso</h2>
     <ul>
         <li>Es para quienes forman parte de la red de 42 y han iniciado sesión con su cuenta de 42.</li>
@@ -100,6 +104,37 @@ $retention = USER_RETENTION_MONTHS;
             borra cuando se borran tus datos.</li>
         <li>Sesión: hasta que salgas o caduque tu token de acceso de 42 (normalmente a las 2 horas).</li>
                 <li>Si cerramos el servicio, borraremos la base de datos.</li>
+    </ul>
+
+    <h2>Seguridad</h2>
+    <ul>
+        <li>La conexión va cifrada (HTTPS, con HSTS).</li>
+        <li>El token de acceso de 42 solo vive en tu sesión en el servidor: no se guarda en la base de datos y
+            desaparece al salir o al caducar.</li>
+        <li>La cookie de sesión es <code>Secure</code>, <code>HttpOnly</code> y <code>SameSite</code>.</li>
+        <li>Todas las páginas con datos exigen haber iniciado sesión con 42, y los formularios llevan protección
+            contra peticiones falsas (CSRF).</li>
+        <li>Las claves de la aplicación y de la base de datos están fuera de la parte pública del servidor y no se
+            publican en el repositorio del código.</li>
+        <li>Guardamos lo mínimo: lo que ves en «Qué datos guardamos».</li>
+    </ul>
+    <p>Si hubiera una brecha de seguridad que afectara a datos personales, se avisaría a 42 y, cuando proceda, a las
+        personas afectadas, y se revocarían las credenciales comprometidas.</p>
+
+    <h2>Cookies y almacenamiento local</h2>
+    <p>Solo usamos una cookie, la de sesión (<code>ft_mentors</code>), necesaria para mantener tu sesión iniciada: se
+        borra al cerrar el navegador o al salir. No usamos cookies de analítica ni de publicidad, ni rastreadores de
+        terceros, ni guardamos nada más en tu navegador (<code>localStorage</code>).</p>
+
+    <h2>Terceros</h2>
+    <p>No se ceden datos a terceros. Solo intervienen estos:</p>
+    <ul>
+        <li>La API de 42 (la intra), con la que inicias sesión y de la que consultamos los datos que se explican
+            arriba, según las condiciones de 42.</li>
+        <li><code>cdn.intra.42.fr</code>, la CDN de 42: las fotos de perfil se cargan desde ahí, así que tu navegador
+            le envía datos técnicos de conexión (como tu IP) al pedirlas.</li>
+        <li>El proveedor de alojamiento del servidor, que trata datos técnicos de conexión (IP y cabeceras de las
+            peticiones) en sus registros.</li>
     </ul>
 
     <h2>Tus derechos</h2>

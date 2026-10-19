@@ -108,4 +108,9 @@ $_SESSION['token_expires_at'] = time() + (int) ($token['expires_in'] ?? 7200);
 // Si venía de una página privada de declaración (mentor-manguito.php, soy-manguito.php), vuelve a ella
 $return = $_SESSION['login_return'] ?? null;
 unset($_SESSION['login_return']);
-redirect(in_array($return, JOIN_PAGES, true) ? $return : 'index.php');
+$return = in_array($return, JOIN_PAGES, true) ? $return : 'index.php';
+// Quien ya tiene datos guardados pero aceptó una versión anterior de la política tiene que aceptar la nueva ya
+if (!$user['consented'] && user_has_outdated_consent($user['id'])) {
+    redirect('consent.php?next=' . rawurlencode($return));
+}
+redirect($return);

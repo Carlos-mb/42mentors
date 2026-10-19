@@ -41,6 +41,14 @@ function user_has_consented(int $userId): bool
     return (bool) $stmt->fetchColumn();
 }
 
+/** ¿Está en la BD, pero con una versión de la política anterior a la mínima? (hay que pedirle que acepte de nuevo) */
+function user_has_outdated_consent(int $userId): bool
+{
+    $stmt = db()->prepare('SELECT 1 FROM users WHERE id = ? AND consent_version < ?');
+    $stmt->execute([$userId, consent_min_version()]);
+    return (bool) $stmt->fetchColumn();
+}
+
 /** Exige consentimiento para las páginas que guardan datos; si no lo hay, lo pide. */
 function require_consent(): array
 {

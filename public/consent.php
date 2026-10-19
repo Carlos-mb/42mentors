@@ -7,7 +7,7 @@ $user = require_login();
 
 // Adónde volver después: solo páginas conocidas de la web
 $next = $_POST['next'] ?? $_GET['next'] ?? '';
-if (!is_string($next) || !preg_match('/^(profile\.php|ratings\.php|available\.php|mentor-manguito\.php|soy-manguito\.php|mentor\.php\?login=[A-Za-z0-9_-]{1,64})$/', $next)) {
+if (!is_string($next) || !preg_match('/^(index\.php|profile\.php|ratings\.php|available\.php|mentor-manguito\.php|soy-manguito\.php|mentor\.php\?login=[A-Za-z0-9_-]{1,64})$/', $next)) {
     $next = 'profile.php';
 }
 
@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$user['id'], $user['login'], $user['campus_id'], PRIVACY_VERSION]);
         $_SESSION['user']['consented'] = true;
         flash(match ($next) {
+            'index.php'     => 'Gracias. Has aceptado la política de privacidad actualizada.',
             'profile.php'   => 'Gracias. Ya puedes completar tu perfil y elegir qué proyectos mentorizas.',
             'available.php' => 'Gracias. Ya puedes anunciar cuándo estás disponible.',
             'mentor-manguito.php', 'soy-manguito.php' => 'Gracias. Ya puedes confirmar tu marca.',

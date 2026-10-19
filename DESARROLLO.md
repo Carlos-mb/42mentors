@@ -85,6 +85,7 @@ Cada dominio tiene su instalación (en producción, `~/42mentors.com/42mentors/`
 | `public/mentor.php` | **Ficha pública** del mentor (`?login=`). |
 | `public/available.php` | **Disponibles ahora**: mentores oficiales disponibles; los oficiales anuncian aquí su disponibilidad. |
 | `public/mentor-manguito.php`, `public/soy-manguito.php`, `src/roster.php` | Páginas **privadas** (sin enlaces; exigen `?c=<código>` del `.env`) para marcarse mentor oficial o manguito. |
+| `public/download.php` | «Descargar mis datos» (acceso y portabilidad): JSON con lo que se guarda de la persona. |
 | `public/admin.php` | **Administración**: enlaces privados y quitar/bloquear marcas (`ADMIN_LOGINS` en `.env`). |
 | `sql/schema.sql`, `sql/migrations/` | Esquema completo para instalaciones nuevas y cambios para bases de datos ya creadas. |
 

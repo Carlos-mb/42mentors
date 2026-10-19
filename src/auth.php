@@ -19,7 +19,7 @@ function require_login(): array
 }
 
 /** Versión de la política de privacidad y condiciones de uso (privacy.php). Súbela cuando el texto cambie. */
-const PRIVACY_VERSION = 6;
+const PRIVACY_VERSION = 7;
 /** Última fecha de cambio de la política, tal como se muestra en privacy.php. */
 const PRIVACY_UPDATED = '19 de octubre de 2026';
 
@@ -38,6 +38,14 @@ function user_has_consented(int $userId): bool
 {
     $stmt = db()->prepare('SELECT 1 FROM users WHERE id = ? AND consent_version >= ?');
     $stmt->execute([$userId, consent_min_version()]);
+    return (bool) $stmt->fetchColumn();
+}
+
+/** ¿Tenemos datos suyos guardados? (aunque su consentimiento sea de una versión antigua) */
+function user_has_data(int $userId): bool
+{
+    $stmt = db()->prepare('SELECT 1 FROM users WHERE id = ?');
+    $stmt->execute([$userId]);
     return (bool) $stmt->fetchColumn();
 }
 

@@ -145,11 +145,11 @@ $retention = USER_RETENTION_MONTHS;
     </ul>
 
     <h2>Tus derechos</h2>
-    <p>Puedes ejercer los derechos de los arts. 15 a 22 del RGPD escribiendo al contacto de arriba, y varios los tienes
-        a mano en la web:</p>
+    <p>Puedes ejercer los derechos de los arts. 15 a 22 del RGPD. Los de acceso, portabilidad, rectificación y
+        supresión los tienes a mano en la web; para cualquier otro, escribe al contacto de arriba.</p>
     <ul>
-        <li><strong>Acceso:</strong> saber qué datos tuyos tenemos y pedir una copia, en un formato legible, por
-            correo.</li>
+        <li><strong>Acceso:</strong> con el botón «Descargar mis datos» de abajo obtienes una copia de todo lo que
+            guardamos sobre ti.</li>
         <li><strong>Rectificación:</strong> lo que escribiste lo cambias en <a href="profile.php">Mi perfil</a>; los
             datos que vienen de la intra se corrigen allí. Tus valoraciones las ves y cambias en
             <a href="ratings.php">Mis valoraciones</a>.</li>
@@ -157,18 +157,26 @@ $retention = USER_RETENTION_MONTHS;
             hayas hecho y las que hayas recibido.</li>
         <li><strong>Limitación y oposición:</strong> puedes ponerte «en pausa» para no aparecer en las búsquedas, o
             desmarcar todos los proyectos. Si quieres algo más, escríbenos.</li>
-        <li><strong>Portabilidad:</strong> te damos tus datos, por correo, en un formato estructurado.</li>
+        <li><strong>Portabilidad:</strong> esa misma descarga es un fichero JSON, un formato estructurado y de uso
+            común. Incluye lo que guardamos de ti; no incluye los datos de la intra, que no se guardan, ni quién te ha
+            valorado, porque esas valoraciones son anónimas (solo los puntos totales).</li>
         <li><strong>Retirar tu consentimiento:</strong> en cualquier momento, borrando tus datos; no afecta a lo
             anterior.</li>
     </ul>
     <p>Si crees que no tratamos bien tus datos, puedes reclamar ante la Agencia Española de Protección de Datos
         (AEPD, <a href="https://www.aepd.es" target="_blank" rel="noopener">www.aepd.es</a>).</p>
 
-    <?php if ($user && !empty($user['consented'])): ?>
-        <form method="post" onsubmit="return confirm('¿Seguro? Se borrarán tus datos y tus valoraciones, y dejarás de aparecer como mentor.');">
-            <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-            <button type="submit" class="btn btn-danger">Borrar mis datos</button>
-        </form>
+    <?php if ($user && user_has_data($user['id'])): ?>
+        <div class="actions">
+            <form method="post" action="download.php">
+                <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
+                <button type="submit" class="btn">Descargar mis datos</button>
+            </form>
+            <form method="post" onsubmit="return confirm('¿Seguro? Se borrarán tus datos y tus valoraciones, y dejarás de aparecer como mentor.');">
+                <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
+                <button type="submit" class="btn btn-danger">Borrar mis datos</button>
+            </form>
+        </div>
     <?php elseif ($user): ?>
         <p class="muted">No tenemos ningún dato tuyo guardado.</p>
     <?php else: ?>

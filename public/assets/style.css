@@ -196,10 +196,11 @@ ul.mentors { display: flex; flex-direction: column; gap: 10px; }
 .avatar-sm { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
 .avatar-lg { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
 .avatar, .avatar-lg { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
-.avatar.placeholder, .avatar-lg.placeholder {
+.avatar.placeholder, .avatar-sm.placeholder, .avatar-lg.placeholder {
     display: inline-flex; align-items: center; justify-content: center;
     background: var(--border); font-weight: 700; font-size: 1.4rem;
 }
+.avatar-sm.placeholder { font-size: 0.9rem; flex-shrink: 0; }
 .avatar-lg.placeholder { font-size: 3rem; }
 
 /* Ficha del mentor */

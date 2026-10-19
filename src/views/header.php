@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
     <title><?= e($title) ?> · 42 Mentors</title>
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/style.css?v=<?= e(APP_VERSION) ?>">
     <?php if ($user): ?>
-        <link rel="stylesheet" href="assets/session.css">
+        <link rel="stylesheet" href="assets/session.css?v=<?= e(APP_VERSION) ?>">
     <?php endif; ?>
 </head>
 <body<?= $user ? ' class="session"' : '' ?>>
@@ -32,7 +32,7 @@
         </nav>
         <div class="me">
             <?php if ($user['image_url']): ?>
-                <img src="<?= e($user['image_url']) ?>" alt="" referrerpolicy="no-referrer" class="avatar-sm">
+                <img src="<?= e($user['image_url']) ?>" alt="" referrerpolicy="no-referrer" class="avatar-sm" data-initial="<?= e(strtoupper(substr($user['login'], 0, 1))) ?>">
             <?php endif; ?>
             <span><?= e($user['login']) ?></span>
             <form method="post" action="logout.php">

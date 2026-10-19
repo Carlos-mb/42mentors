@@ -28,6 +28,7 @@ Nació en el Hackathon 42442 (octubre de 2026), con Carlos (`cmelero-`, GitHub `
 - **Paginación y límites:** ver `md/guides/specification.md`. Respuestas paginadas: por defecto 30, y `page[size]` o `per_page` hasta 100 en casi todos los endpoints. Límite por app de **2 peticiones/segundo y 1200/hora**, así que **hay que cachear**.
 - La API no guarda qué proyectos mentoriza cada alumno, así que **hay BD propia** (user_id/login ↔ project_id).
 - Ficha de la intra de un usuario: `https://profile.intra.42.fr/users/<login>`.
+- **Fotos (`cdn.intra.42.fr`), 2026-10-19:** el CDN devolvió 500 y luego 403 a las fotos incrustadas en la web, aunque la URL abierta directamente en el navegador sí cargaba. También da 403 a `curl` y al servidor del hosting con cualquier cabecera, así que un proxy en `photo.php` no sirvió y se retiró. Quitar el `Referer` (`referrerpolicy`) tampoco lo arregló. Mientras no se aclare con 42, `public/assets/avatars.js` sustituye la foto rota por un círculo con la inicial (`data-initial`).
 
 ## Condiciones de uso de la API (GTU 08.01.2025 + API User Charter)
 Leídas el 2026-10-02. Requisitos que nos afectan:
@@ -105,6 +106,8 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
   - **`MANGUITOS_ALL=True` (provisional, hasta tener el permiso de 42 Madrid):** todo el mundo cuenta como manguito y ve «Disponibles ahora», esté o no en `roster` (un oficial sigue siendo oficial). Se define en el `.env` de cada entorno; por defecto, desactivado;
   - «Borrar mis datos» borra todo, también la entrada de `roster` (la administración tendría que volver a añadir a la persona).
 - Queda para más adelante: número de correcciones del proyecto (`scale_teams`, varias llamadas) y otras mejoras listadas en la sección «Mejoras futuras» del README.
+
+- **Versión del código:** `APP_VERSION` en `src/bootstrap.php` (fecha y contador del día) se ve en el pie de página y como `?v=` en los CSS/JS propios (evita la caché de 7 días del servidor). **Subir el número en cada despliegue**, para saber qué código usa cada entorno.
 
 ## Repositorio y flujo de trabajo
 - Se trabaja en solitario y **directamente en `main`**, sin ramas ni PR obligatorias. `main` es lo que se despliega en producción, que puede llevar cambios hechos solo en el servidor (ver `CLAUDE.local.md`). La rama `develop` queda como histórico del hackathon.

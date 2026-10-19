@@ -93,7 +93,7 @@ render_header($name, 'mentors');
 
     <div class="profile-head">
         <?php if ($image): ?>
-            <img src="<?= e($image) ?>" alt="" referrerpolicy="no-referrer" class="avatar-lg">
+            <img src="<?= e($image) ?>" alt="" referrerpolicy="no-referrer" class="avatar-lg" data-initial="<?= e(strtoupper(substr($mentor['login'], 0, 1))) ?>">
         <?php else: ?>
             <span class="avatar-lg placeholder"><?= e(strtoupper(substr($mentor['login'], 0, 1))) ?></span>
         <?php endif; ?>

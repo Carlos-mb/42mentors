@@ -19,9 +19,9 @@ function require_login(): array
 }
 
 /** Versión de la política de privacidad y condiciones de uso (privacy.php). Súbela cuando el texto cambie. */
-const PRIVACY_VERSION = 7;
-/** Última fecha de cambio de la política, tal como se muestra en privacy.php. */
-const PRIVACY_UPDATED = '19 de octubre de 2026';
+const PRIVACY_VERSION = 8;
+/** Última fecha de cambio de la política (AAAA-MM-DD; privacy.php la muestra en el idioma de la página). */
+const PRIVACY_UPDATED = '2026-10-19';
 
 /**
  * Versión mínima aceptada (CONSENT_MIN_VERSION en .env, por defecto 1): quien aceptó una anterior tiene que volver
@@ -98,6 +98,6 @@ function csrf_check(): void
 {
     if (!hash_equals($_SESSION['csrf'] ?? '', (string) ($_POST['csrf'] ?? ''))) {
         http_response_code(400);
-        exit('Petición no válida. Recarga la página e inténtalo de nuevo.');
+        exit(__('Petición no válida. Recarga la página e inténtalo de nuevo.'));
     }
 }

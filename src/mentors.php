@@ -39,6 +39,26 @@ function sql_mentor_visible(string $alias = 'u'): string
     return "$alias.availability <> 'paused' AND $alias.last_login_at >= (NOW() - INTERVAL $days DAY)";
 }
 
+/** Examen (Exam Rank 02…): no se mentoriza ni sale en «Proyectos». */
+function is_exam_project(string $name): bool
+{
+    return stripos($name, 'Exam ') === 0;
+}
+
+/**
+ * Guarda a qué cursus pertenece cada proyecto (cursus_ids de los projects_users de la sesión).
+ * Solo toca proyectos que ya están en projects (los que mentoriza alguien) y no guarda de quién viene.
+ */
+function learn_project_cursus(array $projects): void
+{
+    $stmt = db()->prepare('INSERT IGNORE INTO project_cursus (project_id, cursus_id) SELECT id, ? FROM projects WHERE id = ?');
+    foreach ($projects as $project) {
+        foreach ($project['cursus_ids'] ?? [] as $cursusId) {
+            $stmt->execute([(int) $cursusId, (int) $project['id']]);
+        }
+    }
+}
+
 /** Idiomas guardados ("es,en") → códigos válidos, en el orden de LANGUAGE_LABELS. */
 function parse_languages(?string $value): array
 {

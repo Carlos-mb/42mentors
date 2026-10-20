@@ -74,12 +74,16 @@ return [
 
     // Proyectos
     'Busca ayuda por proyecto' => 'Find help by project',
-    'Proyectos que aún no has validado y para los que hay compañeros de tu campus dispuestos a ayudar.' => 'Projects you have not validated yet and for which peers on your campus are willing to help.',
+    'Proyectos de tu camino que estás haciendo o que te quedan por hacer, con compañeros de tu campus dispuestos a ayudar.' => 'Projects on your path that you are working on or still have to do, with peers on your campus willing to help.',
     '¿Buscas a alguien en concreto?' => 'Looking for someone in particular?',
     'Ver todos los mentores' => 'See all mentors',
     'Todavía no hay mentores para proyectos que te falten. ¡Anima a tus compañeros a apuntarse en «Mi perfil»!' => 'There are no mentors yet for the projects you still have to do. Encourage your peers to sign up in “My profile”!',
     'Filtrar proyectos…' => 'Filter projects…',
     'En curso' => 'In progress',
+    'Validado' => 'Validated',
+    'Ver también los que ya has validado' => 'Also show the ones you have already validated',
+    'Ocultar los que ya has validado' => 'Hide the ones you have already validated',
+    'La lista se deduce de los datos que envía la API de 42, así que puede tener algún error (por ejemplo, con proyectos que tienen dos versiones).' => 'This list is inferred from the data sent by the 42 API, so it may contain some mistakes (for example, with projects that have two versions).',
     'Ese proyecto no existe o no tiene mentores.' => 'That project does not exist or has no mentors.',
     'Volver a proyectos' => 'Back to projects',
     'Ahora mismo no hay mentores de tu campus para este proyecto.' => 'There are no mentors from your campus for this project right now.',

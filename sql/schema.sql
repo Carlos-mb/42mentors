@@ -29,6 +29,15 @@ CREATE TABLE IF NOT EXISTS projects (
     slug VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- A qué cursus pertenece cada proyecto: «Proyectos» muestra solo los del camino del alumno.
+-- Se aprende de los projects_users de los mentores con consentimiento (no son datos personales).
+CREATE TABLE IF NOT EXISTS project_cursus (
+    project_id INT UNSIGNED NOT NULL,
+    cursus_id  INT UNSIGNED NOT NULL,
+    PRIMARY KEY (project_id, cursus_id),
+    CONSTRAINT fk_pc_project FOREIGN KEY (project_id) REFERENCES projects (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Qué proyectos se ofrece a mentorizar cada usuario
 CREATE TABLE IF NOT EXISTS mentor_projects (
     user_id    INT UNSIGNED NOT NULL,

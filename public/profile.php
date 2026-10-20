@@ -4,10 +4,11 @@ require __DIR__ . '/../src/bootstrap.php';
 
 $user = require_consent();
 
-// Proyectos terminados y validados, sin los de la piscina (datos de /v2/me tomados al iniciar sesión)
+// Proyectos terminados y validados, sin los de la piscina ni exámenes (datos de /v2/me tomados al iniciar sesión)
 $finished = array_filter(
     user_projects(),
     fn(array $p): bool => $p['validated'] && $p['status'] === 'finished' && empty($p['piscine'])
+        && !is_exam_project($p['name'])
 );
 uasort($finished, fn(array $a, array $b): int => strcasecmp($a['name'], $b['name']));
 
@@ -57,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $upsertProject->execute([$project['id'], $project['name'], $project['slug']]);
             $insertMentor->execute([$user['id'], $project['id'], $note !== '' ? $note : null]);
         }
+        learn_project_cursus(array_intersect_key($finished, array_flip($selected)));
         $pdo->commit();
     } catch (Throwable $ex) {
         $pdo->rollBack();

@@ -48,11 +48,15 @@ foreach ($me['campus'] ?? [] as $campus) {
     }
 }
 
-// Cursus de piscina del usuario (C Piscine, C-Piscine-Reloaded…): su slug contiene «piscine»
+// Cursus de piscina del usuario (C Piscine, C-Piscine-Reloaded…): su slug contiene «piscine».
+// El resto son su camino de aprendizaje (42cursus…): «Proyectos» solo muestra los de esos cursus.
 $piscineCursus = [];
+$pathCursus = [];
 foreach ($me['cursus_users'] ?? [] as $cursusUser) {
     if (str_contains((string) ($cursusUser['cursus']['slug'] ?? ''), 'piscine')) {
         $piscineCursus[(int) $cursusUser['cursus']['id']] = true;
+    } elseif (isset($cursusUser['cursus']['id'])) {
+        $pathCursus[] = (int) $cursusUser['cursus']['id'];
     }
 }
 
@@ -67,12 +71,13 @@ foreach ($me['projects_users'] ?? [] as $projectUser) {
     $cursusIds = array_map('intval', $projectUser['cursus_ids'] ?? []);
     $piscine = $cursusIds && !array_diff_key(array_flip($cursusIds), $piscineCursus);
     $projects[(int) $project['id']] = [
-        'id'        => (int) $project['id'],
-        'name'      => (string) $project['name'],
-        'slug'      => (string) $project['slug'],
-        'status'    => (string) ($projectUser['status'] ?? ''),
-        'validated' => ($projectUser['validated?'] ?? null) === true,
-        'piscine'   => $piscine,
+        'id'         => (int) $project['id'],
+        'name'       => (string) $project['name'],
+        'slug'       => (string) $project['slug'],
+        'status'     => (string) ($projectUser['status'] ?? ''),
+        'validated'  => ($projectUser['validated?'] ?? null) === true,
+        'piscine'    => $piscine,
+        'cursus_ids' => $cursusIds,
     ];
 }
 
@@ -84,12 +89,21 @@ $user = [
     'image_url'   => $me['image']['versions']['small'] ?? $me['image']['link'] ?? null,
     'campus_id'   => $campusId,
     'time_zone'   => $timeZone,
+    'cursus_ids'  => $pathCursus,
 ];
 
 // Si ya dio su consentimiento, actualizar sus datos mínimos. Si no, NO se guarda nada.
 $stmt = db()->prepare('UPDATE users SET login = ?, campus_id = ?, last_login_at = NOW() WHERE id = ?');
 $stmt->execute([$user['login'], $user['campus_id'], $user['id']]);
 $user['consented'] = user_has_consented($user['id']);
+// A qué cursus pertenecen los proyectos que ya mentoriza alguien (sin datos personales)
+if ($user['consented']) {
+    try {
+        learn_project_cursus($projects);
+    } catch (Throwable $e) {
+        error_log('learn_project_cursus: ' . $e->getMessage());
+    }
+}
 // Borra de la BD a quien lleva más de USER_RETENTION_MONTHS sin entrar (como mucho una vez al día)
 try {
     purge_inactive_users();

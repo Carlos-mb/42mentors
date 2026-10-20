@@ -72,7 +72,12 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
 ## Decisiones de producto
 - Login: `/v2/me` una sola vez. El usuario y sus proyectos (sin subproyectos, `parent_id`) van a la sesión; el token solo en la sesión.
 - **Proyecto terminado** = `validated? == true`.
-- «Proyectos que puede hacer» = proyectos con mentores de su campus que el estudiante no ha validado; los «en curso» primero. Se ocultan los de la piscina. `/projects_users/registration` queda como mejora.
+- **«Proyectos» (2026-10-20)** = proyectos con mentores de su campus que son de **su camino** (sus cursus que no son de piscina, `$user['cursus_ids']`):
+  - primero los que tiene empezados y sin validar («En curso», cualquier estado), después los que no ha empezado y, solo con `projects.php?past=1` («Ver también los que ya has validado»), los validados («Validado»);
+  - hay proyectos con dos versiones (distinto id, mismo nombre; p. ej. Born2beroot): si el alumno tiene una, la otra cuenta como suya (se compara por nombre, prefiriendo la validada). Al pie, un aviso de que la lista se deduce de la API y puede tener errores;
+  - se ocultan los de la piscina y los **exámenes** (nombre que empieza por «Exam »; `is_exam_project()` en `src/mentors.php`), que tampoco se pueden marcar en «Mi perfil»;
+  - la API no dice a qué cursus pertenece un proyecto que el alumno aún no ha empezado, así que se aprende de los mentores: tabla `project_cursus` (project_id, cursus_id; migración 008), que `learn_project_cursus()` rellena con los `cursus_ids` de `projects_users` al guardar el perfil y al iniciar sesión (solo con consentimiento y solo para proyectos que ya están en `projects`). No guarda de quién viene: no son datos personales. Un proyecto sin cursus conocido se muestra (los mentores visibles entran al menos cada 30 días, así que se completa solo);
+  - la API no tiene ranks ni círculos: ordenar por rank necesitaría una tabla fija o probar `project_data` (holy graph). `/projects_users/registration` también queda como mejora.
 - **Mentores solo del mismo campus**; los conectados primero. Orden en todas las listas: conectados, luego disponibles antes que ocupados, luego login.
 - **Privacidad (cumple las condiciones de la API):**
   - la BD solo guarda id, login, campus_id, consented_at, last_login_at, los proyectos que mentoriza, lo que escribe el propio mentor y los votos, y solo tras `consent.php`;

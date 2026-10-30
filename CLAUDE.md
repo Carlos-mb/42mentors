@@ -129,3 +129,4 @@ Leídas el 2026-10-02. Requisitos que nos afectan:
 - Se trabaja en solitario y **directamente en `main`**, sin ramas ni PR obligatorias. `main` es lo que se despliega en producción, que puede llevar cambios hechos solo en el servidor (ver `CLAUDE.local.md`). La rama `develop` queda como histórico del hackathon.
 - La protección de ramas de GitHub no hace falta.
 - Fuera del repo (`.gitignore`): `API-Docs/`, `.env`, `config.php`, `hosting-tests/`, `deploy/`, `datos.txt`, PDF de las bases del hackathon y `CLAUDE.local.md`.
+- **README de cara a reclutadores (2026-10-30):** explica que el proyecto se hizo con vibe coding coordinado por GitHub, para que un reclutador vea el uso de la IA, la gestión de tareas y GitHub. No quitar esa sección al recortar el README. Sus cifras se comprobaron con `gh` y `git log --all`.

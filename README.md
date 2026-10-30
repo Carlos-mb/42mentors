@@ -4,6 +4,8 @@ Web para que los estudiantes de 42 encuentren a compañeros de su campus que ya 
 
 Desplegado en **https://42mentors.com**. Por las condiciones de uso de la API de 42, todo el contenido está detrás del login con 42.
 
+Hecho con **vibe coding** por un equipo de tres personas, cada una con su IA, coordinadas a través de GitHub ([cómo trabajamos](#vibe-coding-coordinado-por-github)).
+
 ## Origen
 
 Nació en el **Hackathon 42442** (42 Madrid, octubre de 2026). Hoy lo mantiene Carlos.
@@ -15,6 +17,23 @@ Nació en el **Hackathon 42442** (42 Madrid, octubre de 2026). Hoy lo mantiene C
 | `lucaroma` | [`lucas-rcv`](https://github.com/lucas-rcv) | Lucas |
 
 Algunos commits aparecen con otro autor en git (`ThisWeekapp` es Lucas y `Florentin Vasilica Camasa` es Florentin).
+
+## Vibe coding coordinado por GitHub
+
+El proyecto se hizo con **vibe coding**: las personas decidían qué construir y revisaban el resultado, y la IA escribía el código, los textos y los comandos de git. Carlos coordinaba las tareas con su IA (Claude Code); Florentin y Lucas usaban las suyas (Lucas, Cursor) para descargarse sus tareas de GitHub y avanzar de forma sincronizada.
+
+GitHub era lo único que compartían las tres IA: lo que no estuviera allí, las demás no lo veían.
+
+1. **Planificar.** Cada tarea era una [issue](https://github.com/Carlos-mb/42mentors/issues?q=is%3Aissue) con etiquetas (`prioridad alta`, `en curso`, `bloqueada` y el tipo), responsable y un criterio «Terminado cuando». Carlos aprobaba el reparto y los cambios de criterio.
+2. **Coger tarea.** Cada persona preguntaba a su IA «¿qué hago ahora?». Con `gh`, la IA miraba las PR por revisar y las issues asignadas, y recomendaba una.
+3. **Avanzar.** Una rama por issue (`feature/17-me-ayudo`) y, al parar, un comentario con lo hecho, lo que faltaba y la rama, para que otra IA pudiera retomarlo ([ejemplo](https://github.com/Carlos-mb/42mentors/issues/17)).
+4. **Integrar.** Pull Request a `develop`, que tenía que aprobar otra persona ([ejemplo](https://github.com/Carlos-mb/42mentors/pull/34)).
+
+**Reglas comunes.** Un solo fichero, [`AGENTS.md`](https://github.com/Carlos-mb/42mentors/blob/d4d3a852bd3269280d5a7e2e19185adfdc48bfeb/AGENTS.md) (versión del hackathon), valía para cualquier herramienta: cómo coordinarse, reglas de git y lo que la IA tenía prohibido, como subir secretos, escribir directamente en `main` o `develop`, o aprobar y fusionar PR. Además, [GitHub Actions](.github/workflows/ci.yml) comprueba la sintaxis PHP y busca secretos con gitleaks.
+
+**Resultado.** 30 issues con 57 comentarios, 32 Pull Requests (todas aprobadas por otra persona antes de fusionarse) y 61 commits que acreditan a la IA con `Co-Authored-By`.
+
+**Después del hackathon**, Carlos mantiene el proyecto con Claude Code, directamente en `main`. [`CLAUDE.md`](CLAUDE.md) guarda las decisiones para que la IA las tenga en cada sesión, y [`AGENTS.md`](AGENTS.md), sus reglas actuales.
 
 ## Qué hace
 
